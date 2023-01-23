@@ -29,6 +29,9 @@ Add CSS styles to any page and have it load only on that page. Unlike with simil
 - Follow [@kevinbatdorf](https://twitter.com/kevinbatdorf) on Twitter
 - View on [GitHub](https://github.com/KevinBatdorf/per-page-css)
 
+= Tips =
+- Use `!important` to override some of your theme styles (Use sparingly)
+
 = Includes Vendor Prefixes ===
 `::placeholder {
   color: gray;
