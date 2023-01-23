@@ -6,7 +6,6 @@ import { PluginDocumentSettingPanel } from '@wordpress/edit-post';
 import { store as editorStore } from '@wordpress/editor';
 import { useEffect, useState, useMemo, useCallback } from '@wordpress/element';
 import { escapeHTML } from '@wordpress/escape-html';
-import browserslist from 'browserslist';
 import init, { transform, Warning as CssWarning } from 'lightningcss-wasm';
 import { mainIcon } from '../icons';
 import { CodeEditor } from './CodeEditor';
@@ -85,16 +84,27 @@ export const PluginDocumentSettingPanelDemo = () => {
                 'iframe[name="editor-canvas"]',
             ) as HTMLIFrameElement
         )?.contentWindow as Window;
-        if (!frame) return;
-        const existing = frame.document.getElementById('ppc-styles-editor');
+
+        const parent = frame
+            ? frame.document
+            : document.querySelector('.editor-styles-wrapper');
+
+        // if no parent then not sure where we are TODO - clean this up
+        if (!parent) return;
+
+        const existing = parent?.querySelector('#ppc-styles-editor');
         if (existing) {
             existing.innerHTML = compiled;
             return;
         }
-        const style = frame.document.createElement('style');
+        const style = frame
+            ? frame.document.createElement('style')
+            : document.createElement('style');
         style.id = 'ppc-styles-editor';
         style.innerHTML = compiled;
-        frame.document.head.appendChild(style);
+        frame
+            ? frame.document.head.appendChild(style)
+            : parent.appendChild(style);
     }, [compiled, hasPermission, ready]);
 
     useEffect(() => {
