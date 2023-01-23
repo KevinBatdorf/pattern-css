@@ -7,8 +7,9 @@ delete colors['blueGray'];
 
 // See postcss.config.js for more parsing options.
 module.exports = {
-    // Tnis should match the namespace you use in your css styles.
-    important: '.rust-starter',
+    // This plugin only uses css in the editor
+    important: '.per-page-css-editor',
+    content: ['./src/**/*.{ts,tsx}'],
     theme: {
         screens: {
             xxs: '280px',
@@ -21,6 +22,9 @@ module.exports = {
             '2xl': '1440px',
             '3xl': '1600px',
             '4xl': '1920px',
+        },
+        fontFamily: {
+            'jetbrains-mono': ['ppc-jetbrains-mono', 'monospace'],
         },
         colors: {
             ...colors,
