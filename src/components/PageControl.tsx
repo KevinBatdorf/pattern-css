@@ -7,7 +7,7 @@ import { store as editorStore } from '@wordpress/editor';
 import { useEffect, useState, useMemo, useCallback } from '@wordpress/element';
 import { escapeHTML } from '@wordpress/escape-html';
 import init, { transform, Warning as CssWarning } from 'lightningcss-wasm';
-import { mainIcon } from '../icons';
+import { boltIcon } from '../icons';
 import { CodeEditor } from './CodeEditor';
 import { CodePreview } from './CodePreview';
 
@@ -37,46 +37,42 @@ export const PluginDocumentSettingPanelDemo = () => {
     const hasPermission = useMemo(() => window?.perPageCss?.canEditCss, []);
     const { editPost } = useDispatch(editorStore);
 
-    const handleChange = useCallback(
-        (value: string) => {
-            if (!ready || !hasPermission) return;
-            const css = escapeHTML(value);
-            setWarnings([]);
-            setCss(css);
+    const handleChange = useCallback((value: string) => {
+        const css = escapeHTML(value);
+        setWarnings([]);
+        setCss(css);
 
-            const transformed = transform({
-                filename: 'raw.css',
-                code: new TextEncoder().encode(css),
-                minify: true,
-                errorRecovery: true,
-            });
-            if (transformed.warnings.length > 0) {
-                setWarnings(transformed.warnings);
-                return;
-            }
-            setTransformed(transformed.code);
-        },
-        [ready, hasPermission],
-    );
-
-    useEffect(() => {
-        init().then(() => setReady(true));
+        const transformed = transform({
+            filename: 'raw.css',
+            code: new TextEncoder().encode(css),
+            minify: true,
+            errorRecovery: true,
+        });
+        if (transformed.warnings.length > 0) {
+            setWarnings(transformed.warnings);
+            return;
+        }
+        setTransformed(transformed.code);
     }, []);
 
     useEffect(() => {
-        if (!ready || !hasPermission || !initialCss) return;
-        handleChange(initialCss);
-    }, [ready, hasPermission, handleChange, initialCss]);
+        if (!hasPermission) return;
+        init().then(() => setReady(true));
+    }, [hasPermission]);
 
     useEffect(() => {
-        if (!ready || !hasPermission) return;
+        if (!ready || !initialCss) return;
+        handleChange(initialCss);
+    }, [ready, handleChange, initialCss]);
+
+    useEffect(() => {
+        if (!ready) return;
         if (transformed === undefined) return;
         setCompiled(new TextDecoder().decode(transformed));
-    }, [transformed, hasPermission, ready]);
+    }, [transformed, ready]);
 
     useEffect(() => {
-        if (!ready || !hasPermission) return;
-        if (compiled === undefined) return;
+        if (!ready || compiled === undefined) return;
 
         // Append css to iframe
         const frame = (
@@ -105,10 +101,10 @@ export const PluginDocumentSettingPanelDemo = () => {
         frame
             ? frame.document.head.appendChild(style)
             : parent.appendChild(style);
-    }, [compiled, hasPermission, ready]);
+    }, [compiled, ready]);
 
     useEffect(() => {
-        if (!ready || !hasPermission) return;
+        if (!ready) return;
         editPost({
             meta: {
                 ppc_additional_css: css,
@@ -117,19 +113,19 @@ export const PluginDocumentSettingPanelDemo = () => {
     }, [css, editPost, hasPermission, ready]);
 
     useEffect(() => {
-        if (!ready || !hasPermission) return;
+        if (!ready) return;
         editPost({
             meta: {
                 ppc_additional_css_compiled: compiled,
             },
         });
-    }, [compiled, editPost, hasPermission, ready]);
+    }, [compiled, editPost, ready]);
 
     return (
         <PluginDocumentSettingPanel
             name="per-page-css"
-            title="Per Page CSS"
-            icon={mainIcon}
+            title="Additional CSS"
+            icon={boltIcon}
             className="per-page-css-editor">
             {/* TODO: Snippet manager inside block and more menu item slot area */}
             {hasPermission ? (

@@ -1,7 +1,7 @@
 import { registerPlugin } from '@wordpress/plugins';
 import { PluginDocumentSettingPanelDemo } from './components/PageControl';
 import './editor.css';
-import { mainIcon } from './icons';
+import { codeIcon } from './icons';
 
 // Do the same for templates ?
 // Do it per block too ?
@@ -10,5 +10,5 @@ import { mainIcon } from './icons';
 
 registerPlugin('plugin-sidebar-test', {
     render: PluginDocumentSettingPanelDemo,
-    icon: () => mainIcon,
+    icon: () => codeIcon,
 });
