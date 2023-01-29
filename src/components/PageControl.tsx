@@ -7,11 +7,10 @@ import { store as editorStore } from '@wordpress/editor';
 import { useEffect, useState, useMemo, useCallback } from '@wordpress/element';
 import { escapeHTML } from '@wordpress/escape-html';
 import init, { transform, Warning as CssWarning } from 'lightningcss-wasm';
-import { boltIcon } from '../icons';
 import { CodeEditor } from './CodeEditor';
 import { CodePreview } from './CodePreview';
 
-export const PluginDocumentSettingPanelDemo = () => {
+export const PageControl = () => {
     const [ready, setReady] = useState(false);
     const [warnings, setWarnings] = useState<CssWarning[]>([]);
     const { initialCss, compiledCss } = useSelect((select) => {
@@ -73,7 +72,6 @@ export const PluginDocumentSettingPanelDemo = () => {
 
     useEffect(() => {
         if (!ready || compiled === undefined) return;
-
         // Append css to iframe
         const frame = (
             document.querySelector(
@@ -88,7 +86,8 @@ export const PluginDocumentSettingPanelDemo = () => {
         // if no parent then not sure where we are TODO - clean this up
         if (!parent) return;
 
-        const existing = parent?.querySelector('#ppc-styles-editor');
+        const id = 'ppc-styles-editor';
+        const existing = parent?.querySelector(`#${id}`);
         if (existing) {
             existing.innerHTML = compiled;
             return;
@@ -96,7 +95,7 @@ export const PluginDocumentSettingPanelDemo = () => {
         const style = frame
             ? frame.document.createElement('style')
             : document.createElement('style');
-        style.id = 'ppc-styles-editor';
+        style.id = id;
         style.innerHTML = compiled;
         frame
             ? frame.document.head.appendChild(style)
@@ -110,7 +109,7 @@ export const PluginDocumentSettingPanelDemo = () => {
                 ppc_additional_css: css,
             },
         });
-    }, [css, editPost, hasPermission, ready]);
+    }, [css, editPost, ready]);
 
     useEffect(() => {
         if (!ready) return;
@@ -125,7 +124,6 @@ export const PluginDocumentSettingPanelDemo = () => {
         <PluginDocumentSettingPanel
             name="per-page-css"
             title="Additional CSS"
-            icon={boltIcon}
             className="per-page-css-editor">
             {/* TODO: Snippet manager inside block and more menu item slot area */}
             {hasPermission ? (

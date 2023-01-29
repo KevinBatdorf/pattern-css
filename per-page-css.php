@@ -40,3 +40,4 @@ add_action('enqueue_block_editor_assets', function () {
 });
 
 include_once(__DIR__ . '/php/post.php');
+include_once(__DIR__ . '/php/block.php');
