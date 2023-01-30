@@ -99,6 +99,21 @@ export const addBlock = (slug) => {
         win.wp.data.dispatch('core/block-editor').insertBlock(block);
     });
 };
+export const addBlocks = ({ slug, attributes }, children) => {
+    let block;
+    cy.window().then((win) => {
+        block = win.wp.blocks.createBlock(
+            slug,
+            attributes,
+            children.map(({ slug, attributes }) =>
+                win.wp.blocks.createBlock(slug, attributes),
+            ),
+        );
+        win.wp.data.dispatch('core/block-editor').insertBlock(block);
+    });
+    return block;
+};
+
 export const wpDataSelect = (store, selector, ...parameters) => {
     cy.window().then((win) => {
         return win.wp.data.select(store)[selector](...parameters);

@@ -1,6 +1,7 @@
 import { BLOCK_CONTAINER } from '../constants';
 import {
     addBlock,
+    addBlocks,
     closeWelcomeGuide,
     openBlockInserter,
     closeBlockInserter,
@@ -48,6 +49,9 @@ Cypress.Commands.add('openBlockSettingsSideBar', () =>
 );
 Cypress.Commands.add('openSideBarPanel', (label) => openSideBarPanel(label));
 Cypress.Commands.add('addBlock', (slug) => addBlock(slug));
+Cypress.Commands.add('addBlocks', (block, children) =>
+    addBlocks(block, children),
+);
 Cypress.Commands.add('setPostContent', (content) => setPostContent(content));
 Cypress.Commands.add('getPostContent', (addon = '') => {
     return cy.get(`${BLOCK_CONTAINER} ${addon}`);
