@@ -13,10 +13,6 @@ import { PageControl } from './components/PageControl';
 import './editor.css';
 import { codeIcon } from './icons';
 
-// Do the same for templates ?
-// Can I do it per pattern or anytihng like that ?
-// TODO: Add browser list feature
-
 registerPlugin('ppc-page-control', {
     render: PageControl,
     icon: () => codeIcon,
