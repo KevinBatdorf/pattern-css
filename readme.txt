@@ -18,12 +18,15 @@ Add CSS styles to any page and have it load only on that page. Unlike with simil
 - Auto adds vendor prefixes as needed (removes redundant ones too)
 - Combines adjacent rules (to decrease size)
 - Minifies colors and math functions to simplify according to spec
+- Works on blocks too, and scopes the styles to the block
 
 = More features coming =
-- Add CSS per page, per template, or site-wide
+- Block theme directive helpers
+- Add CSS per template, or site-wide
+- Pattern matching to load dynamically
 - Larger editor
 - Snippet manager
-- Pattern matching to load dynamically
+- PostCSS-like helpers
 
 = More Info =
 - Follow [@kevinbatdorf](https://twitter.com/kevinbatdorf) on Twitter
