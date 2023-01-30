@@ -106,7 +106,7 @@ context('Per Block Css', () => {
                 'color',
                 'rgb(255, 0, 0)',
             );
-            // Second block p tag should not be red
+            // Second block p tag should be blue
             cy.get(`.${className2} p`).should(
                 'have.css',
                 'color',
@@ -122,7 +122,7 @@ context('Per Block Css', () => {
                 'color',
                 'rgb(255, 0, 0)',
             );
-            // Second block p tag should not be red
+            // Second block p tag should be blue
             cy.get(`.${className2} p`).should(
                 'have.css',
                 'color',
