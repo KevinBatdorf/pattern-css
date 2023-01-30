@@ -128,3 +128,15 @@ export const previewCurrentPage = () => {
     });
     cy.get('body').should('not.be.empty');
 };
+
+export const selectBlockById = (clientId) => {
+    cy.window().then((win) => {
+        cy.wrap(null).then(() =>
+            win.wp.data.dispatch('core/block-editor').selectBlock(clientId),
+        );
+        cy.get(`[data-block="${clientId}"]`).should(
+            'have.class',
+            'is-selected',
+        );
+    });
+};

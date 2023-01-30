@@ -1,4 +1,5 @@
 import { BLOCK_CONTAINER } from '../constants';
+import { addCodeToCurrentBlock } from './features/blocks';
 import {
     addBlock,
     addBlocks,
@@ -11,6 +12,7 @@ import {
     setPostContent,
     wpDataSelect,
     previewCurrentPage,
+    selectBlockById,
 } from './gutenberg';
 import { login, logout } from './login-logout';
 import {
@@ -52,6 +54,9 @@ Cypress.Commands.add('addBlock', (slug) => addBlock(slug));
 Cypress.Commands.add('addBlocks', (block, children) =>
     addBlocks(block, children),
 );
+Cypress.Commands.add('selectBlockById', (clientId) =>
+    selectBlockById(clientId),
+);
 Cypress.Commands.add('setPostContent', (content) => setPostContent(content));
 Cypress.Commands.add('getPostContent', (addon = '') => {
     return cy.get(`${BLOCK_CONTAINER} ${addon}`);
@@ -75,3 +80,8 @@ Cypress.Commands.add('resetDatabase', () => resetDatabase());
 // Manage plugins
 Cypress.Commands.add('installPlugin', (slug) => installPlugin(slug));
 Cypress.Commands.add('uninstallPlugin', (slug) => uninstallPlugin(slug));
+
+// Block css
+Cypress.Commands.add('addCodeToCurrentBlock', (code) =>
+    addCodeToCurrentBlock(code),
+);
