@@ -1,6 +1,12 @@
 import { InspectorControls } from '@wordpress/block-editor';
 import { PanelBody } from '@wordpress/components';
-import { useEffect, useState, useMemo, useCallback } from '@wordpress/element';
+import {
+    useLayoutEffect,
+    useEffect,
+    useState,
+    useMemo,
+    useCallback,
+} from '@wordpress/element';
 import { escapeHTML } from '@wordpress/escape-html';
 import { sprintf, __ } from '@wordpress/i18n';
 import init, { transform, Warning as CssWarning } from 'lightningcss-wasm';
@@ -118,7 +124,7 @@ export const BlockControl = (
         );
     }, [compiled, setAttributes, ready, compiledCss]);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!ready || compiled === undefined) return;
         // Append css to iframe
         const frame = (
@@ -134,6 +140,7 @@ export const BlockControl = (
         // if no parent then not sure where we are TODO - clean this up
         if (!parent) return;
 
+        // TODO: can I abstract this more since it's simliar to per-page?
         // eslint-disable-next-line
         const id = `ppc-styles-block-${ppcClassId}`;
         const existing = parent?.querySelector(`#${id}`);
@@ -174,6 +181,7 @@ export const BlockControl = (
                             </p>
                             <CodeEditor
                                 value={css}
+                                data-cy="ppc-editor-block"
                                 onChange={handleChange}
                                 lineOptions={warnings.map(({ loc }) => ({
                                     line: loc.line,

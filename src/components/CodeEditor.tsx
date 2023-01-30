@@ -9,12 +9,9 @@ type CodeEditorProps = {
     onChange: (value: string) => void;
     lineOptions: LineOption[];
 };
-export const CodeEditor = ({
-    value,
-    onChange,
-    lineOptions = [],
-}: CodeEditorProps) => {
+export const CodeEditor = (props: CodeEditorProps) => {
     const textAreaRef = useRef<HTMLDivElement>(null);
+    const { value, onChange, lineOptions = [], ...remainingProps } = props;
     const {
         highlighter,
         error: editorError,
@@ -33,6 +30,7 @@ export const CodeEditor = ({
                 value={decodeEntities(value)}
                 className="font-jetbrains-mono border border-gray-600 wp-focus"
                 onValueChange={onChange}
+                {...remainingProps}
                 padding={{
                     top: 6,
                     bottom: 6,

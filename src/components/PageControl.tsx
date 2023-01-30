@@ -4,7 +4,13 @@ import { PluginDocumentSettingPanel } from '@wordpress/edit-post';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore-next-line - TODO
 import { store as editorStore } from '@wordpress/editor';
-import { useEffect, useState, useMemo, useCallback } from '@wordpress/element';
+import {
+    useEffect,
+    useLayoutEffect,
+    useState,
+    useMemo,
+    useCallback,
+} from '@wordpress/element';
 import { escapeHTML } from '@wordpress/escape-html';
 import init, { transform, Warning as CssWarning } from 'lightningcss-wasm';
 import { CodeEditor } from './CodeEditor';
@@ -70,7 +76,7 @@ export const PageControl = () => {
         setCompiled(new TextDecoder().decode(transformed));
     }, [transformed, ready]);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!ready || compiled === undefined) return;
         // Append css to iframe
         const frame = (
