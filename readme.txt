@@ -64,7 +64,7 @@ becomes:
   padding-right: 4px;
 }`
 
-becomes
+becomes:
 
 `.foo{padding:1px 4px 3px 2px}`
 
