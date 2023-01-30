@@ -12,6 +12,7 @@ import {
     useCallback,
 } from '@wordpress/element';
 import { escapeHTML } from '@wordpress/escape-html';
+import { __ } from '@wordpress/i18n';
 import init, { transform, Warning as CssWarning } from 'lightningcss-wasm';
 import { CodeEditor } from './CodeEditor';
 import { CodePreview } from './CodePreview';
@@ -133,14 +134,23 @@ export const PageControl = () => {
             className="per-page-css-editor">
             {/* TODO: Snippet manager inside block and more menu item slot area */}
             {hasPermission ? (
-                <CodeEditor
-                    value={css}
-                    onChange={handleChange}
-                    lineOptions={warnings.map(({ loc }) => ({
-                        line: loc.line,
-                        classes: ['line-error'],
-                    }))}
-                />
+                <>
+                    <p className="m-0 my-2 text-gray-700 text-xs">
+                        {__(
+                            'Styles that you add here will load on this page only.',
+                            'per-page-css',
+                        )}
+                    </p>
+                    <CodeEditor
+                        value={css}
+                        data-cy="ppc-editor-page"
+                        onChange={handleChange}
+                        lineOptions={warnings.map(({ loc }) => ({
+                            line: loc.line,
+                            classes: ['line-error'],
+                        }))}
+                    />
+                </>
             ) : (
                 <CodePreview value={css} />
             )}

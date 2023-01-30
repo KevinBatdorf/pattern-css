@@ -1,5 +1,6 @@
 import { BLOCK_CONTAINER } from '../constants';
 import { addCodeToCurrentBlock } from './features/blocks';
+import { addCodeToCurrentPage } from './features/page';
 import {
     addBlock,
     addBlocks,
@@ -50,7 +51,9 @@ Cypress.Commands.add('openBlockSettingsSideBar', () =>
     openBlockSettingsSideBar(),
 );
 Cypress.Commands.add('openSideBarPanel', (label) => openSideBarPanel(label));
-Cypress.Commands.add('addBlock', (slug) => addBlock(slug));
+Cypress.Commands.add('addBlock', (slug, attributes) =>
+    addBlock(slug, attributes),
+);
 Cypress.Commands.add('addBlocks', (block, children) =>
     addBlocks(block, children),
 );
@@ -84,4 +87,8 @@ Cypress.Commands.add('uninstallPlugin', (slug) => uninstallPlugin(slug));
 // Block css
 Cypress.Commands.add('addCodeToCurrentBlock', (code) =>
     addCodeToCurrentBlock(code),
+);
+// Page css
+Cypress.Commands.add('addCodeToCurrentPage', (code) =>
+    addCodeToCurrentPage(code),
 );

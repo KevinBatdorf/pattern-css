@@ -93,10 +93,17 @@ export const openSideBarPanel = (label) => {
             }
         });
 };
-export const addBlock = (slug) => {
+export const addBlock = (slug, attributes) => {
     cy.window().then((win) => {
-        const block = win.wp.blocks.createBlock(slug);
+        const block = win.wp.blocks.createBlock(slug, attributes);
         win.wp.data.dispatch('core/block-editor').insertBlock(block);
+        cy.get(`[data-type="${slug}"]`).should('exist');
+        if (attributes?.content) {
+            cy.getPostContent(`.wp-block-${slug.split('/')[1]}`).should(
+                'have.text',
+                attributes.content,
+            );
+        }
     });
 };
 export const addBlocks = ({ slug, attributes }, children) => {
