@@ -49,7 +49,7 @@
     "dependencies": {
         "@wordpress/block-editor": "^11.2.0",
         "@wordpress/blocks": "^12.2.0",
-        "@wordpress/edit-post": "^7.2.0",
+        "@wordpress/edit-post": "^7.5.0",
         "@wordpress/editor": "^13.2.0",
         "@wordpress/element": "^5.2.0",
         "@wordpress/i18n": "^4.25.0",
