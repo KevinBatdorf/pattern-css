@@ -3,6 +3,13 @@ const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     ...defaultConfig,
+    resolve: {
+        ...defaultConfig.resolve,
+        fallback: {
+            ...defaultConfig.resolve.fallback,
+            fs: false,
+        },
+    },
     plugins: [
         ...defaultConfig.plugins,
         new CopyPlugin({
