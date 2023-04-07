@@ -18,7 +18,7 @@ jobs:
             fail-fast: false
             matrix:
                 wp-version: [null, 'Next']
-                spec: spec: ['per-block', 'per-page']
+                spec: ['per-block', 'per-page']
         steps:
             - name: Clone repo
               uses: actions/checkout@v3
