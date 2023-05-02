@@ -55,7 +55,7 @@
         "@wordpress/i18n": "^4.30.0",
         "@wordpress/plugins": "^5.7.0",
         "browserlist": "^1.0.1",
-        "lightningcss": "1.19.0",
+        "lightningcss": "1.20.0",
         "lightningcss-wasm": "1.19.0",
         "react-simple-code-editor": "^0.13.1",
         "shiki": "^0.14.1",
