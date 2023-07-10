@@ -1,6 +1,6 @@
 === Per Page CSS ===
 Contributors:      kbat82
-Tags:              css, styles, stylesheet, inline styles, custom css
+Tags:              pattern, css, styles, stylesheet, inline styles, custom css
 Tested up to:      6.2
 Stable tag:        0.1.0
 License:           GPL-2.0-or-later
@@ -78,6 +78,11 @@ becomes:
 1. An example showing the live updates.
 
 == Changelog ==
+
+- Feature: Now supports reusable blocks/patterns
+- Improvement: Removed the public className attribute requirement from the Additional Settings area
+- Improvement: Instead of saving as meta on a post, it now pulls from the attribute directly during page load (via the pre_render_block filter).
+- Fix: Now it will only show on post types with the public setting set to true
 
 = 0.1.0 - 2022-01-22
 * Initial release

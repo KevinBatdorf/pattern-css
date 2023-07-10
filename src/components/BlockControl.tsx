@@ -108,20 +108,13 @@ export const BlockControl = (
         setAttributes({
             ppcAdditionalCss: css,
             ppcClassId,
-            className: [
-                ...new Set([...(existingClassNames ?? []), ppcClassId]),
-            ].join(' '),
         });
-    }, [css, setAttributes, ready, ppcClassId, existingClassNames]);
+    }, [css, setAttributes, ready, ppcClassId]);
 
     useEffect(() => {
         if (!ready) return;
         if (compiled === compiledCss) return;
         setAttributes({ ppcAdditionalCssCompiled: compiled });
-        // This will trigger to save all the custom styles to the database
-        window.dispatchEvent(
-            new CustomEvent('kevinbatdorf::ppc-editing-block'),
-        );
     }, [compiled, setAttributes, ready, compiledCss]);
 
     useLayoutEffect(() => {

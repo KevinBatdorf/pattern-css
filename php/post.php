@@ -6,6 +6,7 @@ $ppcSchema = [
     'auth_callback' => function () {
         return current_user_can('edit_css');
     },
+    'sanitize_callback' => 'sanitize_textarea_field',
     'show_in_rest' => [
         'schema' => [
             'type'  => 'string',
