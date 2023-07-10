@@ -20,6 +20,20 @@ import { CodePreview } from './CodePreview';
 export const PageControl = () => {
     const [ready, setReady] = useState(false);
     const [warnings, setWarnings] = useState<CssWarning[]>([]);
+
+    // Only show on public post types
+    const isPublicPostType = useSelect((select) => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore-next-line - not typed in core
+        const { getEditedPostAttribute } = select(editorStore);
+        const postType = getEditedPostAttribute('type');
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore-next-line - not typed in core
+        const { getPostType } = select(coreStore);
+        const { viewable } = getPostType?.(postType) || {};
+        return viewable ?? false;
+    }, []);
+
     const { initialCss, compiledCss } = useSelect((select) => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore-next-line - TODO
@@ -62,9 +76,9 @@ export const PageControl = () => {
     }, []);
 
     useEffect(() => {
-        if (!hasPermission) return;
+        if (!hasPermission || !isPublicPostType) return;
         init().then(() => setReady(true));
-    }, [hasPermission]);
+    }, [hasPermission, isPublicPostType]);
 
     useEffect(() => {
         if (!ready || !initialCss) return;
@@ -126,6 +140,8 @@ export const PageControl = () => {
             },
         });
     }, [compiled, editPost, ready]);
+
+    if (!ready) return null;
 
     return (
         <PluginDocumentSettingPanel

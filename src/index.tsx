@@ -1,11 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore-next-line - TODO
-import { store as blockEditorStore } from '@wordpress/block-editor';
-import { dispatch, select } from '@wordpress/data';
-import domReady from '@wordpress/dom-ready';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore-next-line - TODO
-import { store as editorStore } from '@wordpress/editor';
 import { addFilter } from '@wordpress/hooks';
 import { registerPlugin } from '@wordpress/plugins';
 import { BlockControl } from './components/BlockControl';
@@ -18,27 +10,51 @@ registerPlugin('ppc-page-control', {
     icon: () => codeIcon,
 });
 
+// Both are unexpected objects with any properties types
+// eslint-disable-next-line
+const addSaveProps = (props: any, _blockType: null, attributes: any) => {
+    const classes = new Set(props.className?.split(' '));
+    const { ppcClassId } = attributes;
+
+    if (!ppcClassId || classes.has(ppcClassId)) return props;
+    classes.add(ppcClassId);
+    return {
+        ...props,
+        className: [...classes].join(' '),
+    };
+};
+
 addFilter(
     'blocks.registerBlockType',
     'kevinbatdorf/ppc-block-settings',
-    (settings) => ({
-        ...settings,
-        attributes: {
-            ...settings.attributes,
-            ppcAdditionalCss: {
-                type: 'string',
-                default: '',
+    (settings) => {
+        // This pattern is found in the Gutenberg source code
+        const existingGetEditWrapperProps = settings.getEditWrapperProps;
+        // Attributes can be any type
+        // eslint-disable-next-line
+        settings.getEditWrapperProps = (attributes: { [key: string]: any }) => {
+            const props = existingGetEditWrapperProps?.(attributes) ?? {};
+            return addSaveProps(props, null, attributes);
+        };
+        return {
+            ...settings,
+            attributes: {
+                ...settings.attributes,
+                ppcAdditionalCss: {
+                    type: 'string',
+                    default: '',
+                },
+                ppcAdditionalCssCompiled: {
+                    type: 'string',
+                    default: '',
+                },
+                ppcClassId: {
+                    type: 'string',
+                    default: '',
+                },
             },
-            ppcAdditionalCssCompiled: {
-                type: 'string',
-                default: '',
-            },
-            ppcClassId: {
-                type: 'string',
-                default: '',
-            },
-        },
-    }),
+        };
+    },
 );
 addFilter(
     'editor.BlockEdit',
@@ -52,36 +68,5 @@ addFilter(
 addFilter(
     'blocks.getSaveContent.extraProps',
     'kevinbatdorf/ppc-add-save-props',
-    (props, blockType, attributes) => {
-        const classes = props.className?.split(' ');
-        if (classes?.includes(attributes?.ppcClassId)) {
-            return props;
-        }
-        return {
-            ...props,
-            className: classes
-                ? [...classes, attributes?.ppcClassId ?? ''].join(' ')
-                : attributes?.ppcClassId,
-        };
-    },
+    addSaveProps,
 );
-
-domReady(() => {
-    // This will concat all the block styles into one unit
-    window.addEventListener('kevinbatdorf::ppc-editing-block', () => {
-        const ppc_additional_css_block_compiled = select(blockEditorStore)
-            .getBlocks()
-            .reduce(
-                // eslint-disable-next-line
-                (acc: any[], block: any) => {
-                    if (!block.attributes.ppcAdditionalCssCompiled) return acc;
-                    return [...acc, block.attributes.ppcAdditionalCssCompiled];
-                },
-                [] as string[],
-            )
-            .join('');
-        dispatch(editorStore).editPost({
-            meta: { ppc_additional_css_block_compiled },
-        });
-    });
-});
