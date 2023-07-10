@@ -27,7 +27,8 @@ add_action(
         }
         wp_register_style('ppc-inline-styles-post', false, [], 123);
         wp_enqueue_style('ppc-inline-styles-post');
-        // See: https://github.com/WordPress/WordPress/blob/master/wp-includes/theme.php#L1880-L1893
+        // WP style of safe echoing inline styles
+        // See: https://github.com/WordPress/WordPress/blob/9ecfdd8e5a42ed4b66ffecb88321242717c89831/wp-includes/theme.php#L1920
         wp_add_inline_style('ppc-inline-styles-post', wp_strip_all_tags($ppc_additional_css));
     }
 );

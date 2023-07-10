@@ -13,20 +13,13 @@ Lightening Fast, Safe, In-editor CSS Optimization and Minification Tool.
 Add CSS styles to any page and have it load only on that page. Unlike with similar tools, your css will be optimized, minified, and inlined directly into the head of the page.
 
 = Features =
-- It's fast. Likely faster than your development build tool.
+- It's fast. Likely faster than your development build tool
+- Scopes styles to the block, removing the need to manage class naming
+- Supports reusable patterns
 - See changes on the page as you make them
 - Auto adds vendor prefixes as needed (removes redundant ones too)
 - Combines adjacent rules (to decrease size)
 - Minifies colors and math functions to simplify according to spec
-- Works on blocks too, and scopes the styles to the block
-
-= More features coming =
-- Block theme directive helpers
-- Add CSS per template, or site-wide
-- Pattern matching to load dynamically
-- Larger editor
-- Snippet manager
-- PostCSS-like helpers
 
 = More Info =
 - Follow [@kevinbatdorf](https://twitter.com/kevinbatdorf) on Twitter
@@ -80,6 +73,8 @@ becomes:
 == Changelog ==
 
 - Feature: Now supports reusable blocks/patterns
+- Improvement: Added the option to update the CSS selector used for scoping (useful for duplicating blocks)
+- Improvement: Added some examples when no CSS is present
 - Improvement: Removed the public className attribute requirement from the Additional Settings area
 - Improvement: Instead of saving as meta on a post, it now pulls from the attribute directly during page load (via the pre_render_block filter).
 - Fix: Now it will only show on post types with the public setting set to true

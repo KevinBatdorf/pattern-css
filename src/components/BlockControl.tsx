@@ -1,5 +1,8 @@
-import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody } from '@wordpress/components';
+import {
+    InspectorAdvancedControls,
+    InspectorControls,
+} from '@wordpress/block-editor';
+import { PanelBody, BaseControl, TextControl } from '@wordpress/components';
 import {
     useLayoutEffect,
     useEffect,
@@ -21,22 +24,34 @@ export const BlockControl = (
 ) => {
     const [ready, setReady] = useState(false);
     const [warnings, setWarnings] = useState<CssWarning[]>([]);
-    // eslint-disable-next-line
+    // TODO
+    /* eslint-disable react/prop-types */
     const { attributes, setAttributes, clientId } = props;
-    // eslint-disable-next-line
-    const initialCss = attributes?.ppcAdditionalCss;
-    // eslint-disable-next-line
-    const compiledCss = attributes?.ppcAdditionalCssCompiled;
-    // eslint-disable-next-line
-    const existingClassNames = attributes?.className?.split(' ');
-    const ppcClassId =
-        // eslint-disable-next-line
-        attributes?.ppcClassId || `ppc-${clientId?.split('-')[0]}`;
+    const {
+        ppcClassId,
+        ppcAdditionalCss: initialCss,
+        ppcAdditionalCssCompiled: compiledCss,
+    } = attributes;
+    /* eslint-enable react/prop-types */
 
-    const [css, setCss] = useState(initialCss || '');
+    const [css, setCss] = useState(initialCss);
     const [transformed, setTransformed] = useState<Uint8Array>();
     const [compiled, setCompiled] = useState(compiledCss || '');
     const hasPermission = useMemo(() => window?.perPageCss?.canEditCss, []);
+
+    const stringOne = __('Examples', 'per-page-css');
+
+    /* translators: "An example of css that will focus on the block itself" */
+    const stringTwo = __('Target the block', 'per-page-css');
+
+    /* translators: "An example of css that will select items inside the block" */
+    const stringThree = __('Inside the block', 'per-page-css');
+    const defaultCssExample = sprintf(
+        '/* %1$s */\n\n/* %2$s */\n[block] {\n  color: gray;\n}\n\n/* %3$s */\np {\n  color: blue;\n}',
+        stringOne,
+        stringTwo,
+        stringThree,
+    );
 
     const handleChange = useCallback(
         (value: string) => {
@@ -107,9 +122,10 @@ export const BlockControl = (
         if (!ready) return;
         setAttributes({
             ppcAdditionalCss: css,
-            ppcClassId,
+            // eslint-disable-next-line react/prop-types
+            ppcClassId: ppcClassId || `ppc-${clientId?.split('-')[0]}`,
         });
-    }, [css, setAttributes, ready, ppcClassId]);
+    }, [css, setAttributes, ready, ppcClassId, clientId]);
 
     useEffect(() => {
         if (!ready) return;
@@ -163,17 +179,8 @@ export const BlockControl = (
                     {/* TODO: Snippet manager inside block and more menu item slot area */}
                     {hasPermission ? (
                         <>
-                            <p className="m-0 my-2 text-gray-700 text-xs">
-                                {sprintf(
-                                    __(
-                                        'This CSS will be scoped to this block only. Use %s (without quotes) to target the block itself.',
-                                        'per-page-css',
-                                    ),
-                                    '`[block]`',
-                                )}
-                            </p>
                             <CodeEditor
-                                value={css}
+                                value={css ?? defaultCssExample}
                                 data-cy="ppc-editor-block"
                                 onChange={handleChange}
                                 lineOptions={warnings.map(({ loc }) => ({
@@ -181,12 +188,44 @@ export const BlockControl = (
                                     classes: ['line-error'],
                                 }))}
                             />
+                            <p className="m-0 my-2 text-gray-700 text-xs">
+                                {sprintf(
+                                    __(
+                                        'Styles will be scoped to this block only.',
+                                        'per-page-css',
+                                    ),
+                                    '`[block]`',
+                                )}
+                            </p>
                         </>
                     ) : (
                         <CodePreview value={css} />
                     )}
                 </PanelBody>
             </InspectorControls>
+            <InspectorAdvancedControls>
+                <BaseControl id="ppc-css-id-setting">
+                    <TextControl
+                        spellCheck={false}
+                        autoComplete="off"
+                        data-cy="class-id"
+                        type="string"
+                        label={__(
+                            'Scoped CSS Selector (Per Page CSS)',
+                            'per-page-css',
+                        )}
+                        help={__(
+                            "Edit this if you duplicated a block, or have a conflict with another block's CSS styles.",
+                            'per-page-css',
+                        )}
+                        placeholder={'0'}
+                        onChange={(ppcClassId: string) => {
+                            setAttributes({ ppcClassId });
+                        }}
+                        value={ppcClassId}
+                    />
+                </BaseControl>
+            </InspectorAdvancedControls>
         </>
     );
 };

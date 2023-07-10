@@ -42,7 +42,6 @@ addFilter(
                 ...settings.attributes,
                 ppcAdditionalCss: {
                     type: 'string',
-                    default: '',
                 },
                 ppcAdditionalCssCompiled: {
                     type: 'string',
