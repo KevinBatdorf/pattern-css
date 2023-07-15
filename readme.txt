@@ -1,25 +1,25 @@
 === Pattern CSS ===
 Contributors:      kbat82
-Tags:              pattern, css, styles, stylesheet, inline styles, custom css
-Tested up to:      6.2
+Tags:              pattern, sync, css, styles, stylesheet, inline styles, custom css
+Tested up to:      6.3
 Stable tag:        0.1.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
-Lightening Fast, Safe, In-editor CSS Optimization and Minification Tool.
+Lightening Fast, Reusable, Safe, In-editor CSS Optimization and Minification Tool.
 
 == Description ==
 
-Add CSS styles to any page and have it load only on that page. Unlike with similar tools, your css will be optimized, minified, and inlined directly into the head of the page.
+Add custom CSS directly to any block, including reusable synced patterns. Unlike with similar tools, your css will be optimized, minified, and inlined directly into the head of the page where the block is used.
 
 = Features =
 - It's fast. Likely faster than your development build tool
 - Scopes styles to the block, removing the need to manage class naming
-- Supports reusable patterns
+- Supports reusable (synced or not-synced) patterns
 - See changes on the page as you make them
-- Auto adds vendor prefixes as needed (removes redundant ones too)
 - Combines adjacent rules (to decrease size)
 - Minifies colors and math functions to simplify according to spec
+- Coming soon: Use theme.json decorators.
 
 = More Info =
 - Follow [@kevinbatdorf](https://twitter.com/kevinbatdorf) on Twitter
@@ -28,17 +28,8 @@ Add CSS styles to any page and have it load only on that page. Unlike with simil
 = Tips =
 - Use `!important` to override some of your theme styles (Use sparingly)
 
-= Includes Vendor Prefixes ===
-`::placeholder {
-  color: gray;
-}`
-
-becomes:
-
-`::-webkit-input-placeholder{color:gray}::-ms-input-placeholder{color:gray}::placeholder{color:gray}`
-
 = Combines Rules =
-`.foo {
+`[block] {
   color: red;
 }
 .bar {
@@ -47,19 +38,19 @@ becomes:
 
 becomes:
 
-`.foo,.bar{color:red}`
+`.pcss-3aa0f0fc,.pcss-3aa0f0fc .bar{color:red}`
 
 = Fixes redundant properties =
-`.foo {
-  padding-top: 1px;
-  padding-left: 2px;
-  padding-bottom: 3px;
-  padding-right: 4px;
+`[block] {
+  padding-top: 5px;
+  padding-left: 50px;
+  padding-bottom: 15px;
+  padding-right: 5px;
 }`
 
 becomes:
 
-`.foo{padding:1px 4px 3px 2px}`
+`.pcss-3aa0f0fc{padding:5px 5px 15px 50px}`
 
 
 == Installation ==
@@ -68,16 +59,14 @@ becomes:
 
 == Screenshots ==
 
-1. An example showing the live updates.
+1. An example showing the safety mechanism, and live editor updates.
 
 == Changelog ==
 
 - Feature: Now supports reusable blocks/patterns
+- Update: Removed the "per page" functionality to limit the scope of this plugin to blocks and reusable patterns only
 - Improvement: Added the option to update the CSS selector used for scoping (useful for duplicating blocks)
 - Improvement: Added some examples when no CSS is present
 - Improvement: Removed the public className attribute requirement from the Additional Settings area
 - Improvement: Instead of saving as meta on a post, it now pulls from the attribute directly during page load (via the pre_render_block filter).
 - Fix: Now it will only show on post types with the public setting set to true
-
-= 0.1.0 - 2022-01-22
-* Initial release
