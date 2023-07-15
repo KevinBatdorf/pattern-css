@@ -6,7 +6,7 @@ Safely add custom CSS to any WordPress block, including synced reusable blocks.
 
 ![alt text](.wordpress-org/screenshot-1.gif 'Example')
 
-Demo showing some typo notification and live updating. This was added to a reusable pattern, which would load the css anywhere that pattern is used.
+> Demo showing some typo notification and live updating. This was added to a reusable pattern, which would load the css anywhere that pattern is used.
 
 ### Features
 - It's fast. Likely faster than your development build tool
