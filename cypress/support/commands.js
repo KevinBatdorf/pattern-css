@@ -1,5 +1,8 @@
 import { BLOCK_CONTAINER } from '../constants';
-import { addCodeToCurrentBlock } from './features/blocks';
+import {
+    addCodeToCurrentBlock,
+    clearCodeFromCurrentBlock,
+} from './features/blocks';
 import {
     addBlock,
     addBlocks,
@@ -20,8 +23,7 @@ import {
     visitAdminPage,
     visitToLoginPage,
 } from './navigate-pages';
-import { installPlugin, uninstallPlugin } from './plugins';
-import { resetDatabase } from './wp-cli';
+import { installPlugin, uninstallPlugin, resetDatabase } from './wp-cli';
 
 // Port more commands from WP here:
 // https://github.com/WordPress/gutenberg/tree/trunk/packages/e2e-test-utils/src
@@ -84,6 +86,9 @@ Cypress.Commands.add('installPlugin', (slug) => installPlugin(slug));
 Cypress.Commands.add('uninstallPlugin', (slug) => uninstallPlugin(slug));
 
 // Block css
+Cypress.Commands.add('clearCodeFromCurrentBlock', (code) =>
+    clearCodeFromCurrentBlock(code),
+);
 Cypress.Commands.add('addCodeToCurrentBlock', (code) =>
     addCodeToCurrentBlock(code),
 );
