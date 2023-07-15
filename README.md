@@ -6,7 +6,7 @@ Safely add custom CSS to any block, including reusable blocks.
 
 ![alt text](.wordpress-org/screenshot-1.gif 'Example')
 
-= Features =
+### Features
 - It's fast. Likely faster than your development build tool
 - Scopes styles to the block, removing the need to manage class naming
 - Supports reusable (synced or not-synced) patterns
@@ -15,10 +15,10 @@ Safely add custom CSS to any block, including reusable blocks.
 - Minifies colors and math functions to simplify according to spec
 - Coming soon: Use theme.json decorators.
 
-= Tips =
+### Tips
 - Use `!important` to override some of your theme styles (Use sparingly)
 
-= Combines Rules =
+### Combines Rules
 ```css
 [block] {
   color: red;
@@ -30,16 +30,22 @@ Safely add custom CSS to any block, including reusable blocks.
 
 becomes:
 
-`.pcss-3aa0f0fc,.pcss-3aa0f0fc .bar{color:red}`
+```css
+.pcss-3aa0f0fc,.pcss-3aa0f0fc .bar{color:red}
+```
 
-= Fixes redundant properties =
-`[block] {
+### Fixes redundant properties
+```css
+[block] {
   padding-top: 5px;
   padding-left: 50px;
   padding-bottom: 15px;
   padding-right: 5px;
-}`
+}
+```
 
 becomes:
 
-`.pcss-3aa0f0fc{padding:5px 5px 15px 50px}`
+```css
+.pcss-3aa0f0fc{padding:5px 5px 15px 50px}
+```
