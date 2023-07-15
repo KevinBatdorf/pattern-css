@@ -14,14 +14,14 @@ export const useTheme = ({ theme, lang, ready = true }: Params) => {
     const [wasmLoaded, setWasmFileLoaded] = useState(false);
     if (!once) {
         once = true;
-        setCDN(window.perPageCss?.pluginUrl + 'build/shiki/');
+        setCDN(window.patternCss?.pluginUrl + 'build/shiki/');
     }
     const { data: highlighter, error } = useSWRImmutable(
         { theme, lang, ready: ready && wasmLoaded },
         fetcher,
     );
     useEffect(() => {
-        const assetDir = window.perPageCss?.pluginUrl + 'build/shiki/';
+        const assetDir = window.patternCss?.pluginUrl + 'build/shiki/';
         fetch(assetDir + 'dist/onig.wasm')
             .then((res) => res.arrayBuffer())
             .then((wasmBuffer) => {

@@ -1,4 +1,4 @@
-=== Per Page CSS ===
+=== Pattern CSS ===
 Contributors:      kbat82
 Tags:              pattern, css, styles, stylesheet, inline styles, custom css
 Tested up to:      6.2
@@ -23,7 +23,7 @@ Add CSS styles to any page and have it load only on that page. Unlike with simil
 
 = More Info =
 - Follow [@kevinbatdorf](https://twitter.com/kevinbatdorf) on Twitter
-- View on [GitHub](https://github.com/KevinBatdorf/per-page-css)
+- View on [GitHub](https://github.com/KevinBatdorf/pattern-css)
 
 = Tips =
 - Use `!important` to override some of your theme styles (Use sparingly)

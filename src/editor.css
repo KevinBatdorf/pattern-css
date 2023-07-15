@@ -1,4 +1,4 @@
-.per-page-css-editor {
+.pattern-css-editor {
     --tw-ring-inset: var(--tw-empty, /*!*/ /*!*/);
     --tw-ring-offset-width: 0px;
     --tw-ring-offset-color: transparent;
@@ -11,9 +11,9 @@
     --tw-scale-x: 1;
     --tw-scale-y: 1;
 }
-.per-page-css-editor *,
-.per-page-css-editor *:after,
-.per-page-css-editor *:before {
+.pattern-css-editor *,
+.pattern-css-editor *:after,
+.pattern-css-editor *:before {
     box-sizing: border-box;
     border: 0 solid transparent;
 }
@@ -21,32 +21,32 @@
 @tailwind components;
 @tailwind utilities;
 /* Add more styles here specific to the editor only */
-.per-page-css-editor pre,
-.per-page-css-editor pre * {
+.pattern-css-editor pre,
+.pattern-css-editor pre * {
     font-family: inherit !important;
     font-size: inherit !important;
     line-height: inherit !important;
 }
-.per-page-css-editor textarea,
-.per-page-css-editor pre {
+.pattern-css-editor textarea,
+.pattern-css-editor pre {
     @apply m-0 text-left focus:outline-none rounded-none focus:rounded-none text-sm;
     direction: ltr !important;
 }
-.per-page-css-editor .code-preview code {
+.pattern-css-editor .code-preview code {
     @apply m-0 text-left text-sm w-full bg-transparent;
     direction: ltr !important;
 }
-.per-page-css-editor pre .line-error::after {
+.pattern-css-editor pre .line-error::after {
     content: '';
     @apply absolute left-0 right-0 bg-red-500 text-sm h-5 bg-opacity-30;
 }
-.per-page-css-editor .wp-focus:focus-within {
+.pattern-css-editor .wp-focus:focus-within {
     border-color: var(--wp-components-color-accent, var(--wp-admin-theme-color, #007cba));
     box-shadow: 0 0 0 calc( 1.5px - 1px ) var(--wp-components-color-accent, var(--wp-admin-theme-color, #007cba));
     outline: 2px solid transparent;
 }
 
 @font-face {
-    font-family: 'ppc-jetbrains-mono';
-    src: url('./fonts/ppc-jetbrains-mono.woff2') format('woff2');
+    font-family: 'pcss-jetbrains-mono';
+    src: url('./fonts/pcss-jetbrains-mono.woff2') format('woff2');
 }

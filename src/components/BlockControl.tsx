@@ -28,24 +28,24 @@ export const BlockControl = (
     /* eslint-disable react/prop-types */
     const { attributes, setAttributes, clientId } = props;
     const {
-        ppcClassId,
-        ppcAdditionalCss: initialCss,
-        ppcAdditionalCssCompiled: compiledCss,
+        pcssClassId,
+        pcssAdditionalCss: initialCss,
+        pcssAdditionalCssCompiled: compiledCss,
     } = attributes;
     /* eslint-enable react/prop-types */
 
     const [css, setCss] = useState(initialCss);
     const [transformed, setTransformed] = useState<Uint8Array>();
     const [compiled, setCompiled] = useState(compiledCss || '');
-    const hasPermission = useMemo(() => window?.perPageCss?.canEditCss, []);
+    const hasPermission = useMemo(() => window?.patternCss?.canEditCss, []);
 
-    const stringOne = __('Examples', 'per-page-css');
+    const stringOne = __('Examples', 'pattern-css');
 
     /* translators: "An example of css that will focus on the block itself" */
-    const stringTwo = __('Target the block', 'per-page-css');
+    const stringTwo = __('Target the block', 'pattern-css');
 
     /* translators: "An example of css that will select items inside the block" */
-    const stringThree = __('Inside the block', 'per-page-css');
+    const stringThree = __('Inside the block', 'pattern-css');
     const defaultCssExample = sprintf(
         '/* %1$s */\n\n/* %2$s */\n[block] {\n  color: gray;\n}\n\n/* %3$s */\np {\n  color: blue;\n}',
         stringOne,
@@ -66,7 +66,7 @@ export const BlockControl = (
                 errorRecovery: true,
                 visitor: {
                     Selector(selector) {
-                        // If the selector is [block] then just swap it with ppcClassId
+                        // If the selector is [block] then just swap it with pcssClassId
                         if (
                             selector[0]?.type === 'attribute' &&
                             selector[0]?.name === 'block'
@@ -75,7 +75,7 @@ export const BlockControl = (
                                 {
                                     type: 'class',
                                     // eslint-disable-next-line
-                                    name: ppcClassId,
+                                    name: pcssClassId,
                                 },
                                 ...selector.slice(1),
                             ];
@@ -85,7 +85,7 @@ export const BlockControl = (
                             {
                                 type: 'class',
                                 // eslint-disable-next-line
-                                name: ppcClassId,
+                                name: pcssClassId,
                             },
                             { type: 'combinator', value: 'descendant' },
                             ...selector,
@@ -99,7 +99,7 @@ export const BlockControl = (
             }
             setTransformed(transformed.code);
         },
-        [ppcClassId],
+        [pcssClassId],
     );
 
     useEffect(() => {
@@ -121,16 +121,16 @@ export const BlockControl = (
     useEffect(() => {
         if (!ready) return;
         setAttributes({
-            ppcAdditionalCss: css,
+            pcssAdditionalCss: css,
             // eslint-disable-next-line react/prop-types
-            ppcClassId: ppcClassId || `ppc-${clientId?.split('-')[0]}`,
+            pcssClassId: pcssClassId || `pcss-${clientId?.split('-')[0]}`,
         });
-    }, [css, setAttributes, ready, ppcClassId, clientId]);
+    }, [css, setAttributes, ready, pcssClassId, clientId]);
 
     useEffect(() => {
         if (!ready) return;
         if (compiled === compiledCss) return;
-        setAttributes({ ppcAdditionalCssCompiled: compiled });
+        setAttributes({ pcssAdditionalCssCompiled: compiled });
     }, [compiled, setAttributes, ready, compiledCss]);
 
     useLayoutEffect(() => {
@@ -149,9 +149,7 @@ export const BlockControl = (
         // if no parent then not sure where we are TODO - clean this up
         if (!parent) return;
 
-        // TODO: can I abstract this more since it's simliar to per-page?
-        // eslint-disable-next-line
-        const id = `ppc-styles-block-${ppcClassId}`;
+        const id = `pcss-styles-block-${pcssClassId}`;
         const existing = parent?.querySelector(`#${id}`);
         if (existing) {
             existing.innerHTML = compiled;
@@ -165,7 +163,7 @@ export const BlockControl = (
         frame
             ? frame.document.head.appendChild(style)
             : parent.appendChild(style);
-    }, [compiled, ready, ppcClassId]);
+    }, [compiled, ready, pcssClassId]);
 
     return (
         <>
@@ -174,14 +172,12 @@ export const BlockControl = (
                 <PanelBody
                     title="Additional CSS"
                     initialOpen={false}
-                    // icon={boltIcon}
-                    className="per-page-css-editor">
-                    {/* TODO: Snippet manager inside block and more menu item slot area */}
+                    className="pattern-css-editor">
                     {hasPermission ? (
                         <>
                             <CodeEditor
                                 value={css ?? defaultCssExample}
-                                data-cy="ppc-editor-block"
+                                data-cy="pcss-editor-block"
                                 onChange={handleChange}
                                 lineOptions={warnings.map(({ loc }) => ({
                                     line: loc.line,
@@ -192,7 +188,7 @@ export const BlockControl = (
                                 {sprintf(
                                     __(
                                         'Styles will be scoped to this block only.',
-                                        'per-page-css',
+                                        'pattern-css',
                                     ),
                                     '`[block]`',
                                 )}
@@ -204,25 +200,25 @@ export const BlockControl = (
                 </PanelBody>
             </InspectorControls>
             <InspectorAdvancedControls>
-                <BaseControl id="ppc-css-id-setting">
+                <BaseControl id="pcss-css-id-setting">
                     <TextControl
                         spellCheck={false}
                         autoComplete="off"
                         data-cy="class-id"
                         type="string"
                         label={__(
-                            'Scoped CSS Selector (Per Page CSS)',
-                            'per-page-css',
+                            'Scoped CSS Selector (Pattern CSS)',
+                            'pattern-css',
                         )}
                         help={__(
                             "Edit this if you duplicated a block, or have a conflict with another block's CSS styles.",
-                            'per-page-css',
+                            'pattern-css',
                         )}
                         placeholder={'0'}
-                        onChange={(ppcClassId: string) => {
-                            setAttributes({ ppcClassId });
+                        onChange={(pcssClassId: string) => {
+                            setAttributes({ pcssClassId });
                         }}
-                        value={ppcClassId}
+                        value={pcssClassId}
                     />
                 </BaseControl>
             </InspectorAdvancedControls>

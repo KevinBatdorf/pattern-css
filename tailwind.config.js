@@ -8,7 +8,7 @@ delete colors['blueGray'];
 // See postcss.config.js for more parsing options.
 module.exports = {
     // This plugin only uses css in the editor
-    important: '.per-page-css-editor',
+    important: '.pattern-css-editor',
     content: ['./src/**/*.{ts,tsx}'],
     theme: {
         screens: {
@@ -24,7 +24,7 @@ module.exports = {
             '4xl': '1920px',
         },
         fontFamily: {
-            'jetbrains-mono': ['ppc-jetbrains-mono', 'monospace'],
+            'jetbrains-mono': ['pcss-jetbrains-mono', 'monospace'],
         },
         colors: {
             ...colors,

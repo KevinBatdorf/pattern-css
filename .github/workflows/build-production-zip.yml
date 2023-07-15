@@ -24,7 +24,7 @@ jobs:
             - name: Package
               uses: actions/upload-artifact@v3
               with:
-                  name: per-page-css
+                  name: pattern-css
                   retention-days: 5
                   path: |
                       ${{ github.workspace }}/
