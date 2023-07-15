@@ -12,5 +12,13 @@ module.exports = {
 				singleQuote: false,
 			},
 		},
+		{
+			files: ['**/*.md'],
+			options: {
+				useTabs: false,
+				tabWidth: 2,
+				singleQuote: false,
+			},
+		},
 	],
 };
