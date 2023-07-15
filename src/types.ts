@@ -2,7 +2,7 @@ export {};
 
 declare global {
     interface Window {
-        perPageCss: {
+        patternCss: {
             canEditCss: string;
             pluginUrl: string;
         };

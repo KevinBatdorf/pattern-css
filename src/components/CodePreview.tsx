@@ -25,7 +25,7 @@ export const CodePreview = ({ value }: CodeEditorProps) => {
                 <Tip>
                     {__(
                         'You do not have permission to edit this css.',
-                        'per-page-css',
+                        'pattern-css',
                     )}
                 </Tip>
             </BaseControl>
