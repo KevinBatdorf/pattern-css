@@ -1,15 +1,15 @@
 export {};
 
 declare global {
-    interface Window {
-        patternCss: {
-            canEditCss: string;
-            pluginUrl: string;
-        };
-    }
+	interface Window {
+		patternCss: {
+			canEditCss: string;
+			pluginUrl: string;
+		};
+	}
 }
 
 export type LineOption = {
-    line: number;
-    classes?: string[];
+	line: number;
+	classes?: string[];
 };
