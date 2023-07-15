@@ -6,11 +6,11 @@ Stable tag:        1.0.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
-Lightening Fast, Reusable, Safe, In-editor CSS Optimization and Minification Tool.
+Lightening Fast, Reusable, Safe, In-editor CSS Optimization and Minification Tool. The perfect compliment to your site's theme.json.
 
 == Description ==
 
-Add custom CSS directly to any block, including reusable synced patterns. Unlike with similar tools, your css will be optimized, minified, and inlined directly into the head of the page where the block is used.
+Safely add custom CSS to any WordPress block, including synced reusable blocks. Unlike with similar tools, your css will be optimized, minified, and inlined directly into the head of the page only where the block is used.
 
 = Features =
 - It's fast. Likely faster than your development build tool

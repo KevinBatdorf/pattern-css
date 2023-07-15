@@ -1,6 +1,6 @@
 ## Pattern CSS
 
-Safely add custom CSS to any WordPress block, including synced reusable blocks.
+Lightening Fast, Reusable, Safe, In-editor CSS Optimization and Minification Tool. The perfect compliment to your site's theme.json. Safely add custom CSS to any WordPress block, including synced reusable blocks.
 
 [![Twitter](https://img.shields.io/twitter/url/https/twitter.com/kevinbatdorf.svg?style=social&label=Follow%20%40kevinbatdorf)](https://twitter.com/kevinbatdorf)
 
