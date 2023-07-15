@@ -6,7 +6,7 @@ Lightening Fast, Reusable, Safe, In-editor CSS Optimization and Minification Too
 
 ![alt text](.wordpress-org/screenshot-1.gif "Example")
 
-> Demo showing some typo notification and live updating. This was added to a reusable pattern, which will load and the css anywhere that this pattern is used, without conflicting with other patterns.
+> Demo showing some invalid css signals, and live updating. This was added to a reusable pattern, which will load and the css anywhere that this pattern is used, without conflicting with other patterns.
 
 ### Features
 
