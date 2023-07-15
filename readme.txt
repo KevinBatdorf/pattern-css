@@ -65,6 +65,7 @@ becomes:
 
 == Changelog ==
 
+= 1.0.0 - 2023-07-15 =
 - Feature: Now supports reusable blocks/patterns
 - Update: Removed the "per page" functionality to limit the scope of this plugin to blocks and reusable patterns only
 - Improvement: Added the option to update the CSS selector used for scoping (useful for duplicating blocks)
