@@ -28,10 +28,10 @@ Safely add custom CSS to any WordPress block, including synced reusable blocks.
 
 ```css
 [block] {
-    color: red;
+  color: red;
 }
 .bar {
-    color: red;
+  color: red;
 }
 ```
 
@@ -40,7 +40,7 @@ becomes:
 ```css
 .pcss-3aa0f0fc,
 .pcss-3aa0f0fc .bar {
-    color: red;
+  color: red;
 }
 ```
 
@@ -48,10 +48,10 @@ becomes:
 
 ```css
 [block] {
-    padding-top: 5px;
-    padding-left: 50px;
-    padding-bottom: 15px;
-    padding-right: 5px;
+  padding-top: 5px;
+  padding-left: 50px;
+  padding-bottom: 15px;
+  padding-right: 5px;
 }
 ```
 
@@ -59,7 +59,7 @@ becomes:
 
 ```css
 .pcss-3aa0f0fc {
-    padding: 5px 5px 15px 50px;
+  padding: 5px 5px 15px 50px;
 }
 ```
 
