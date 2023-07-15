@@ -14,6 +14,7 @@ Add custom CSS directly to any block, including reusable synced patterns. Unlike
 
 = Features =
 - It's fast. Likely faster than your development build tool
+- It's safe - only persist if css is valid (compiled via webassembly sandbox)
 - Scopes styles to the block, removing the need to manage class naming
 - Supports reusable (synced or not-synced) patterns
 - See changes on the page as you make them
@@ -26,6 +27,7 @@ Add custom CSS directly to any block, including reusable synced patterns. Unlike
 - View on [GitHub](https://github.com/KevinBatdorf/pattern-css)
 
 = Tips =
+- Use `[block]` to target the current block directly instead of children
 - Use `!important` to override some of your theme styles (Use sparingly)
 
 = Combines Rules =
