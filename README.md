@@ -19,6 +19,7 @@ Demo showing some typo notification and live updating. This was added to a reusa
 - Coming soon: Use theme.json decorators.
 
 ### Tips
+- Use `[block]` to target the current block directly instead of children
 - Use `!important` to override some of your theme styles (Use sparingly)
 
 ### Combines Rules

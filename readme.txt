@@ -27,6 +27,7 @@ Add custom CSS directly to any block, including reusable synced patterns. Unlike
 - View on [GitHub](https://github.com/KevinBatdorf/pattern-css)
 
 = Tips =
+- Use `[block]` to target the current block directly instead of children
 - Use `!important` to override some of your theme styles (Use sparingly)
 
 = Combines Rules =
