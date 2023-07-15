@@ -14,13 +14,13 @@ Add custom CSS directly to any block, including reusable synced patterns. Unlike
 
 = Features =
 - It's fast. Likely faster than your development build tool
-- It's safe - only persist if css is valid (compiled via webassembly sandbox)
+- It's safe - only used if the css is valid (compiled via webassembly sandbox)
 - Scopes styles to the block, removing the need to manage class naming
 - Supports reusable (synced or not-synced) patterns
 - See changes on the page as you make them
 - Combines adjacent rules (to decrease size)
 - Minifies colors and math functions to simplify according to spec
-- Coming soon: Use theme.json decorators.
+- Coming soon: Use theme.json decorators
 
 = More Info =
 - Follow [@kevinbatdorf](https://twitter.com/kevinbatdorf) on Twitter

@@ -10,13 +10,13 @@ Safely add custom CSS to any WordPress block, including synced reusable blocks.
 
 ### Features
 - It's fast. Likely faster than your development build tool
-- It's safe - only persist if css is valid (compiled via webassembly sandbox)
+- It's safe - only used if the css is valid (compiled via webassembly sandbox)
 - Scopes styles to the block, removing the need to manage class naming
 - Supports reusable (synced or not-synced) patterns
 - See changes on the page as you make them
 - Combines adjacent rules (to decrease size)
 - Minifies colors and math functions to simplify according to spec
-- Coming soon: Use theme.json decorators.
+- Coming soon: Use theme.json decorators
 
 ### Tips
 - Use `[block]` to target the current block directly instead of children
