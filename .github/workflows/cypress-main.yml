@@ -2,11 +2,11 @@ name: Run Cypress on main
 on:
     push:
         branches:
-          - main
+            - main
     workflow_dispatch:
     schedule:
-    # At 08:00 daily
-    - cron: "0 8 * * *"
+        # At 08:00 daily
+        - cron: '0 8 * * *'
 jobs:
     test:
         name: WordPress ${{ matrix.wp-version }} (${{ matrix.spec }})
@@ -40,10 +40,7 @@ jobs:
               if: ${{ matrix.wp-version }}
               with:
                   name: '.wp-env.json'
-                  json: '{
-                    "core": "WordPress/WordPress#${{ env.branch }}",
-                    "plugins":["."]
-                  }'
+                  json: '{ "core": "WordPress/WordPress#${{ env.branch }}", "plugins":["."] }'
             - name: Start server
               run: |
                   npm install -g @wordpress/env
@@ -52,8 +49,8 @@ jobs:
             - name: Cypress run
               uses: cypress-io/github-action@v4
               with:
-                browser: chrome
-                spec: cypress/e2e/${{ matrix.spec }}.cy.js
+                  browser: chrome
+                  spec: cypress/e2e/${{ matrix.spec }}.cy.js
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - uses: actions/upload-artifact@v3

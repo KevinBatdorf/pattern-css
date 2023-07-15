@@ -3,6 +3,5 @@
 /.github
 /node_modules
 /assets
-/scripts
 /package-lock.json
-/target
+/cypress

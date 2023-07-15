@@ -9,49 +9,58 @@ Safely add custom CSS to any WordPress block, including synced reusable blocks.
 > Demo showing some typo notification and live updating. This was added to a reusable pattern, which will load and the css anywhere that this pattern is used, without conflicting with other patterns.
 
 ### Features
-- It's fast. Likely faster than your development build tool
-- It's safe - only used if the css is valid (compiled via webassembly sandbox)
-- Scopes styles to the block, removing the need to manage class naming
-- Supports reusable (synced or not-synced) patterns
-- See changes on the page as you make them
-- Combines adjacent rules (to decrease size)
-- Minifies colors and math functions to simplify according to spec
-- Coming soon: Use theme.json decorators
+
+-   It's fast. Likely faster than your development build tool
+-   It's safe - only used if the css is valid (compiled via webassembly sandbox)
+-   Scopes styles to the block, removing the need to manage class naming
+-   Supports reusable (synced or not-synced) patterns
+-   See changes on the page as you make them
+-   Combines adjacent rules (to decrease size)
+-   Minifies colors and math functions to simplify according to spec
+-   Coming soon: Use theme.json decorators
 
 ### Tips
-- Use `[block]` to target the current block directly instead of children
-- Use `!important` to override some of your theme styles (Use sparingly)
+
+-   Use `[block]` to target the current block directly instead of children
+-   Use `!important` to override some of your theme styles (Use sparingly)
 
 ### Combines Rules
+
 ```css
 [block] {
-  color: red;
+	color: red;
 }
 .bar {
-  color: red;
+	color: red;
 }
 ```
 
 becomes:
 
 ```css
-.pcss-3aa0f0fc,.pcss-3aa0f0fc .bar{color:red}
+.pcss-3aa0f0fc,
+.pcss-3aa0f0fc .bar {
+	color: red;
+}
 ```
 
 ### Fixes redundant properties
+
 ```css
 [block] {
-  padding-top: 5px;
-  padding-left: 50px;
-  padding-bottom: 15px;
-  padding-right: 5px;
+	padding-top: 5px;
+	padding-left: 50px;
+	padding-bottom: 15px;
+	padding-right: 5px;
 }
 ```
 
 becomes:
 
 ```css
-.pcss-3aa0f0fc{padding:5px 5px 15px 50px}
+.pcss-3aa0f0fc {
+	padding: 5px 5px 15px 50px;
+}
 ```
 
 ### How to test

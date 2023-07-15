@@ -4,7 +4,7 @@
  * Description:       Lightening Fast, Safe, In-editor CSS Optimization and Minification Tool
  * Requires at least: 6.0
  * Requires PHP:      7.0
- * Version:           0.1.0
+ * Version:           1.0.0
  * Author:            Kevin Batdorf
  * Author URI:        https://twitter.com/kevinbatdorf
  * License:           GPL-2.0-or-later
@@ -51,7 +51,6 @@ add_filter('pre_render_block', function($pre_render, $parsed_block) {
     $pcss_additional_css = $parsed_block['attrs']['pcssAdditionalCssCompiled'];
     $pcss_block_id = $parsed_block['attrs']['pcssClassId'];
 
-    // Should this error if the css is found but not the id?
     if (empty($pcss_block_id) || empty($pcss_additional_css)) return $pre_render;
 
     wp_register_style("pcss-block-{$pcss_block_id}", false, [], null);

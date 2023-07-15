@@ -2,7 +2,7 @@
 Contributors:      kbat82
 Tags:              pattern, sync, css, styles, stylesheet, inline styles, custom css
 Tested up to:      6.3
-Stable tag:        0.1.0
+Stable tag:        1.0.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -65,6 +65,7 @@ becomes:
 
 == Changelog ==
 
+= 1.0.0 - 2023-07-15 =
 - Feature: Now supports reusable blocks/patterns
 - Update: Removed the "per page" functionality to limit the scope of this plugin to blocks and reusable patterns only
 - Improvement: Added the option to update the CSS selector used for scoping (useful for duplicating blocks)
