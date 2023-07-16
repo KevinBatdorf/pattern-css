@@ -40,7 +40,7 @@ add_action('enqueue_block_editor_assets', function () {
 });
 
 
-// This works by looking for blocks with the compiled CSS and
+// This works by looking for blocks with the compiled CSS attribute
 // during the render phase, and inlines the css if found.
 // That keeps the inline styles ONLY loaded on pages that have the block.
 add_filter('pre_render_block', function($pre_render, $parsed_block) {
