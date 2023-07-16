@@ -11,7 +11,7 @@ Lightening Fast, Reusable, Safe, In-editor CSS Optimization and Minification Too
 ### Features
 
 - It's fast. Likely faster than your development build tool
-- It's safe. Invalid CSS is never persisted (validated via webassembly sandbox)
+- It's safe. Invalid, non-spec CSS is never persisted (validated via webassembly sandbox)
 - Scopes styles to the block, removing the need to manage class naming
 - Supports reusable (synced or not-synced) patterns
 - See changes on the page as you make them
