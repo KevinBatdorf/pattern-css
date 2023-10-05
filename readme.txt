@@ -68,6 +68,7 @@ becomes:
 = 1.0.0 - 2023-07-15 =
 - Feature: Now supports reusable blocks/patterns
 - Update: Removed the "per page" functionality to limit the scope of this plugin to blocks and reusable patterns only
+- Performance: Added global loading strategy to prevent per block n+1 loading issues
 - Improvement: Added the option to update the CSS selector used for scoping (useful for duplicating blocks)
 - Improvement: Added some examples when no CSS is present
 - Improvement: Removed the public className attribute requirement from the Additional Settings area

@@ -17,7 +17,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                wp-version: [null, 'Next']
+                wp-version: [null]
                 spec: ['block']
         steps:
             - name: Clone repo

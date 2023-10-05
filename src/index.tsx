@@ -1,6 +1,12 @@
 import { addFilter } from '@wordpress/hooks';
 import { BlockControl } from './components/BlockControl';
 import './editor.css';
+import init, { transform } from 'lightningcss-wasm';
+
+init().then(() => {
+	// Add to global scope so it's not loaded multiple times
+	window.patternCss.transform = transform;
+});
 
 // Both are unexpected objects with any properties types
 // eslint-disable-next-line
