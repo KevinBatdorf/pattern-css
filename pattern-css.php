@@ -15,6 +15,10 @@
  */
 
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 add_action('init', function () {
     wp_set_script_translations('kevinbatdorf/pattern-css', 'pattern-css');
 });
