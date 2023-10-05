@@ -1,3 +1,4 @@
+import { transform } from 'lightningcss-wasm';
 export {};
 
 declare global {
@@ -5,6 +6,7 @@ declare global {
 		patternCss: {
 			canEditCss: string;
 			pluginUrl: string;
+			transform: typeof transform;
 		};
 	}
 }

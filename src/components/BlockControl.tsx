@@ -12,7 +12,7 @@ import {
 } from '@wordpress/element';
 import { escapeHTML } from '@wordpress/escape-html';
 import { sprintf, __ } from '@wordpress/i18n';
-import init, { transform, Warning as CssWarning } from 'lightningcss-wasm';
+import { Warning as CssWarning } from 'lightningcss-wasm';
 import { CodeEditor } from './CodeEditor';
 import { CodePreview } from './CodePreview';
 
@@ -59,7 +59,9 @@ export const BlockControl = (
 			setWarnings([]);
 			setCss(css);
 
-			const transformed = transform({
+			if (!window.patternCss) return;
+
+			const transformed = window.patternCss.transform({
 				filename: 'raw.css',
 				code: new TextEncoder().encode(css),
 				minify: true,
@@ -104,7 +106,7 @@ export const BlockControl = (
 
 	useEffect(() => {
 		if (!hasPermission) return;
-		init().then(() => setReady(true));
+		setReady(true);
 	}, [hasPermission]);
 
 	useEffect(() => {
@@ -143,7 +145,7 @@ export const BlockControl = (
 		)?.contentWindow as Window;
 
 		const parent = frame
-			? frame.document
+			? frame?.document
 			: document.querySelector('.editor-styles-wrapper');
 
 		// if no parent then not sure where we are TODO - clean this up
@@ -155,12 +157,12 @@ export const BlockControl = (
 			existing.innerHTML = compiled;
 			return;
 		}
-		const style = frame
+		const style = frame?.document
 			? frame.document.createElement('style')
 			: document.createElement('style');
 		style.id = id;
 		style.innerHTML = compiled;
-		frame
+		frame?.document?.head
 			? frame.document.head.appendChild(style)
 			: parent.appendChild(style);
 	}, [compiled, ready, pcssClassId]);
@@ -205,7 +207,7 @@ export const BlockControl = (
 						spellCheck={false}
 						autoComplete="off"
 						data-cy="class-id"
-						type="string"
+						type="text"
 						label={__(
 							'Scoped CSS Selector (Pattern CSS)',
 							'pattern-css',
