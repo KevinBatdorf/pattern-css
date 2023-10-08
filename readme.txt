@@ -6,7 +6,7 @@ Stable tag:        1.0.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
-Add CSS to any block without worrying about style bleed or performance. Supports reusable, synced patterns.
+Add CSS to any block without worrying about performance, conflicts, or overhead. Supports reusable synced patterns too!
 
 == Description ==
 
