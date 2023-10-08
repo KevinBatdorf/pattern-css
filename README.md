@@ -17,7 +17,6 @@ Lightening Fast, Reusable, Safe, In-editor CSS Optimization and Minification Too
 - See changes on the page as you make them
 - Combines adjacent rules (to decrease size)
 - Minifies colors and math functions to simplify according to spec
-- Coming soon: Use theme.json decorators
 
 ### Tips
 

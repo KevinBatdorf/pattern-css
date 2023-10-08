@@ -20,7 +20,6 @@ Safely add custom CSS to any WordPress block, including synced reusable blocks. 
 - See changes on the page as you make them
 - Combines adjacent rules (to decrease size)
 - Minifies colors and math functions to simplify according to spec
-- Coming soon: Use theme.json decorators
 
 = More Info =
 - Follow [@kevinbatdorf](https://twitter.com/kevinbatdorf) on Twitter
