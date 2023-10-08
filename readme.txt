@@ -28,7 +28,7 @@ Safely add custom CSS to any WordPress block, including synced reusable blocks. 
 
 = Tips =
 - Use `[block]` to target the current block directly instead of children
-- Use `!important` to override some of your theme styles (Use sparingly)
+- Use `!important` to override some of your theme styles (use sparingly)
 
 = Combines Rules =
 `[block] {

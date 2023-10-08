@@ -22,7 +22,7 @@ Lightening Fast, Reusable, Safe, In-editor CSS Optimization and Minification Too
 ### Tips
 
 - Use `[block]` to target the current block directly instead of children
-- Use `!important` to override some of your theme styles (Use sparingly)
+- Use `!important` to override some of your theme styles (use sparingly)
 
 ### Combines Rules
 <!-- prettier-ignore -->
