@@ -25,7 +25,7 @@ Lightening Fast, Reusable, Safe, In-editor CSS Optimization and Minification Too
 - Use `!important` to override some of your theme styles (Use sparingly)
 
 ### Combines Rules
-
+<!-- prettier-ignore -->
 ```css
 [block] {
   color: red;
@@ -33,17 +33,12 @@ Lightening Fast, Reusable, Safe, In-editor CSS Optimization and Minification Too
 .bar {
   color: red;
 }
-```
-
-becomes:
-
-<!-- prettier-ignore -->
-```css
+/* output: */
 .pcss-f903c5c0,.pcss-f903c5c0 .bar{color:red}
 ```
 
 ### Fixes redundant properties
-
+<!-- prettier-ignore -->
 ```css
 [block] {
   padding-top: 5px;
@@ -51,12 +46,7 @@ becomes:
   padding-bottom: 15px;
   padding-right: 5px;
 }
-```
-
-becomes:
-
-<!-- prettier-ignore -->
-```css
+/* output: */
 .pcss-f903c5c0{padding:5px 5px 15px 50px}
 ```
 

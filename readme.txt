@@ -6,7 +6,7 @@ Stable tag:        1.0.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
-Lightening Fast, Reusable, Safe, In-editor CSS Optimization and Minification Tool. The perfect compliment to your site's theme.json.
+Add CSS to any block without worrying about style bleed or performance. Supports reusable, synced patterns.
 
 == Description ==
 
@@ -36,11 +36,9 @@ Safely add custom CSS to any WordPress block, including synced reusable blocks. 
 }
 .bar {
   color: red;
-}`
-
-becomes:
-
-`.pcss-3aa0f0fc,.pcss-3aa0f0fc .bar{color:red}`
+}
+/* Output: */
+.pcss-3aa0f0fc,.pcss-3aa0f0fc .bar{color:red}`
 
 = Fixes redundant properties =
 `[block] {
@@ -48,11 +46,9 @@ becomes:
   padding-left: 50px;
   padding-bottom: 15px;
   padding-right: 5px;
-}`
-
-becomes:
-
-`.pcss-3aa0f0fc{padding:5px 5px 15px 50px}`
+}
+/* Output: */
+.pcss-3aa0f0fc{padding:5px 5px 15px 50px}`
 
 
 == Installation ==
