@@ -33,6 +33,7 @@ Lightening Fast, Reusable, Safe, In-editor CSS Optimization and Minification Too
 .bar {
   color: red;
 }
+
 /* output: */
 .pcss-f903c5c0,.pcss-f903c5c0 .bar{color:red}
 ```
@@ -46,6 +47,7 @@ Lightening Fast, Reusable, Safe, In-editor CSS Optimization and Minification Too
   padding-bottom: 15px;
   padding-right: 5px;
 }
+
 /* output: */
 .pcss-f903c5c0{padding:5px 5px 15px 50px}
 ```
