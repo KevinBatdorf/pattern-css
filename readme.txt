@@ -1,4 +1,4 @@
-=== Pattern CSS ===
+=== Pattern CSS - The missing stylesheet for patterns ===
 Contributors:      kbat82
 Tags:              pattern, sync, css, styles, stylesheet, inline styles, custom css
 Tested up to:      6.3
