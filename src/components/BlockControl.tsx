@@ -59,7 +59,7 @@ export const BlockControl = (
 			setWarnings([]);
 			setCss(css);
 
-			if (!window.patternCss) return;
+			if (!window.patternCss?.transform) return;
 
 			const transformed = window.patternCss.transform({
 				filename: 'raw.css',
