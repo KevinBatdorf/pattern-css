@@ -4,10 +4,6 @@ Lightening Fast, Reusable, Safe, In-editor CSS Optimization and Minification Too
 
 [![Twitter](https://img.shields.io/twitter/url/https/twitter.com/kevinbatdorf.svg?style=social&label=Follow%20%40kevinbatdorf)](https://twitter.com/kevinbatdorf)
 
-![alt text](.wordpress-org/screenshot-1.gif "Example")
-
-> Demo showing some invalid css signals, and live updating. This was added to a reusable pattern, which will update the css anywhere that this pattern is used, without conflicting with other patterns.
-
 ### Features
 
 - It's fast. CSS is minified and optimized in the browser

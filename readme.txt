@@ -1,8 +1,8 @@
-=== Pattern CSS - The missing stylesheet for patterns ===
+=== Pattern CSS - The Missing Stylesheet For Patterns ===
 Contributors:      kbat82
 Tags:              pattern, sync, css, styles, stylesheet, inline styles, custom css
-Tested up to:      6.3
-Stable tag:        1.0.0
+Tested up to:      6.4
+Stable tag:        1.0.1
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,9 +54,14 @@ Star it on [GitHub](https://github.com/KevinBatdorf/pattern-css)
 
 == Screenshots ==
 
-1. An example showing the safety mechanism, and live editor updates.
+1. Style your block however you life
+2. Supports reusable and synced patterns too
+3. Will warn you if your CSS is invalid
 
 == Changelog ==
+
+= 1.0.1 - 2023-11-04 =
+- Fixed a bug where the it would crash on the pattern manager page
 
 = 1.0.0 - 2023-07-15 =
 - Feature: Now supports reusable blocks/patterns
