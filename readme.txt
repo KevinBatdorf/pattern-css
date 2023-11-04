@@ -13,9 +13,9 @@ Add CSS to any block without worrying about performance, conflicts, or overhead.
 Safely add custom CSS to any WordPress block, including synced reusable blocks. Unlike with similar tools, your css will be optimized, minified, and inlined directly into the head of the page only where the block is used.
 
 = Features =
+- Scopes styles to the block so that parent/sibling blocks arent affected
 - It's fast. CSS is minified and optimized in the browser
 - It's safe. Invalid, non-spec CSS is never persisted (validated via webassembly sandbox)
-- Scopes styles to the block, removing the need to manage class naming
 - Supports reusable (synced or not-synced) patterns
 - See changes on the page as you make them
 - Combines adjacent rules (to decrease size)
@@ -25,6 +25,7 @@ Star it on [GitHub](https://github.com/KevinBatdorf/pattern-css)
 
 = Tips =
 - Use `[block]` to target the current block directly instead of children
+- Create reusable patterns to make starting points for your blocks
 - Use `!important` to override some of your theme styles (use sparingly)
 
 = Combines Rules =
