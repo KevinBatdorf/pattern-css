@@ -6,11 +6,11 @@ Stable tag:        1.0.1
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
-Add CSS to any block without worrying about performance, conflicts, or overhead. Supports reusable synced patterns too!
+Add custom CSS styles to any block without worrying about performance, conflicts, or bloated overhead. Supports reusable patterns too!
 
 == Description ==
 
-Safely add custom CSS to any WordPress block, including synced reusable blocks. Unlike with similar tools, your css will be optimized, minified, and inlined directly into the head of the page only where the block is used.
+Add custom CSS styles to any WordPress block or pattern, including reusable patterns (synced or detached). Unlike with similar tools, your css will be optimized, minified, and inlined directly into the page only where the block is used.
 
 = Features =
 - Scopes styles to the block so that parent/sibling blocks arent affected
