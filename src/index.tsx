@@ -5,7 +5,6 @@ import init, { transform } from 'lightningcss-wasm';
 
 init().then(() => {
 	// Add to global scope so it's not loaded multiple times
-	console.log('Loaded lightningcss-wasm');
 	window.patternCss.transform = transform;
 });
 
