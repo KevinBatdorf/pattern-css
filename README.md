@@ -50,11 +50,3 @@ Lightening Fast, Reusable, Safe, In-editor CSS Optimization and Minification Too
 /* output: */
 .pcss-f903c5c0{padding:5px 5px 15px 50px}
 ```
-
-### How to test
-
-Currently, this plugin is only available on GitHub while going through the .org approval process. If the plugin is not approved, I will add a mechanism to keep it up to date from GitHub. For the time being, I'll run a daily job to keep an zip available. Go here to download the latest version:
-
-https://github.com/KevinBatdorf/pattern-css/actions/workflows/build-production-zip.yml
-
-(Click on the latest run, then at the bottom of the page, under "Artifacts", click on "pattern-css")

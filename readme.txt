@@ -21,9 +21,7 @@ Safely add custom CSS to any WordPress block, including synced reusable blocks. 
 - Combines adjacent rules (to decrease size)
 - Minifies colors and math functions to simplify according to spec
 
-= More Info =
-- Follow [@kevinbatdorf](https://twitter.com/kevinbatdorf) on Twitter
-- View on [GitHub](https://github.com/KevinBatdorf/pattern-css)
+Star it on [GitHub](https://github.com/KevinBatdorf/pattern-css)
 
 = Tips =
 - Use `[block]` to target the current block directly instead of children
