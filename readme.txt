@@ -54,7 +54,7 @@ Star it on [GitHub](https://github.com/KevinBatdorf/pattern-css)
 
 == Screenshots ==
 
-1. Style your block however you life
+1. Add styles not available in the editor
 2. Supports reusable and synced patterns too
 3. Will warn you if your CSS is invalid
 
