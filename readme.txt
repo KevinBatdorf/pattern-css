@@ -1,6 +1,6 @@
-=== Pattern CSS - The Missing Stylesheet For Patterns ===
+=== Pattern CSS - A Stylesheet For Blocks And Patterns ===
 Contributors:      kbat82
-Tags:              pattern, sync, css, styles, stylesheet, inline styles, custom css
+Tags:              css, styles, stylesheet, custom, blocks, patterns, design, sync
 Tested up to:      6.4
 Stable tag:        1.0.1
 License:           GPL-2.0-or-later
@@ -10,7 +10,7 @@ Add custom CSS styles to any block without worrying about performance, conflicts
 
 == Description ==
 
-Add custom CSS styles to any WordPress block or pattern, including reusable patterns (synced or detached). Unlike with similar tools, your css will be optimized, minified, and inlined directly into the page only where the block is used.
+Add custom CSS to any block or pattern, including reusable patterns too. Your styles will be optimized, minified, and inlined directly into the page only where the block is used.
 
 = Features =
 - Scopes styles to the block so that parent/sibling blocks arent affected
