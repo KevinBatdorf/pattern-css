@@ -1,12 +1,12 @@
 === Pattern CSS - A Stylesheet For Blocks And Patterns ===
 Contributors:      kbat82
-Tags:              css, styles, stylesheet, custom, blocks, patterns, design, sync
+Tags:              css, styles, stylesheet, custom, blocks, pattern, design
 Tested up to:      6.4
 Stable tag:        1.0.1
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
-Add custom CSS styles to any block without worrying about performance, conflicts, or bloated overhead. Supports reusable patterns too!
+Add CSS styles to any block or synced pattern! Automatically optimizes, minifies, and smart loads only where required. No bloat, all performance.
 
 == Description ==
 
