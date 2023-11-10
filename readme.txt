@@ -1,4 +1,4 @@
-=== Pattern CSS - A Stylesheet For Blocks And Patterns ===
+=== Pattern CSS - Customize Your Blocks And Patterns ===
 Contributors:      kbat82
 Tags:              css, styles, stylesheet, custom, blocks, pattern, design
 Tested up to:      6.4
