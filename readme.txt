@@ -1,4 +1,4 @@
-=== Pattern CSS - Customize Your Blocks And Patterns ===
+=== Pattern CSS - Add custom styles to blocks and patterns ===
 Contributors:      kbat82
 Tags:              css, styles, stylesheet, custom, blocks, pattern, design
 Tested up to:      6.4
@@ -6,11 +6,11 @@ Stable tag:        1.0.1
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
-Add CSS styles to any block or synced pattern! Automatically optimizes, minifies, and smart loads only where required. No bloat, all performance.
+Add CSS styles to your Gutenberg blocks and patterns. Fast, optimized, and using modern best practices.
 
 == Description ==
 
-Add custom CSS to any block or pattern, including reusable patterns too. Your styles will be optimized, minified, and inlined directly into the page only where the block is used.
+Add custom CSS to any block or pattern, including reusable patterns too. This plugin adds a panel on every block "Additional CSS" that provides a modern text editor where you can safely insert your stylesheet. Your styles will be optimized, minified, and inlined directly into the page only where the block is used.
 
 = Features =
 - Scopes styles to the block so that parent/sibling blocks arent affected
