@@ -29,6 +29,17 @@ Add custom CSS to any block or pattern, including reusable patterns too. Your st
 
 Star it on [GitHub](https://github.com/KevinBatdorf/pattern-css)
 
+= Supports Media Queries =
+`@media (prefers-color-scheme: dark) {
+  [block] {
+    border-color: blue;
+  }
+}
+
+/* Output: */
+
+@media (prefers-color-scheme:dark){.pcss-cddaa023{border-color:#00f}}`
+
 = Combines Rules =
 `[block] {
   color: red;
