@@ -53,7 +53,7 @@ addFilter(
 		// eslint-disable-next-line
 		(props: any) =>
 			BlockControl(CurrentMenuItems, props),
-	// Force it at th every bottom
+	// Force it at the very bottom
 	Number.MAX_SAFE_INTEGER,
 );
 addFilter(
