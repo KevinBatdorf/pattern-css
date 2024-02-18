@@ -20,6 +20,7 @@ Lightening Fast, Reusable, Safe, In-editor CSS Optimization and Minification Too
 - Use `!important` to override some of your theme styles (use sparingly)
 
 ### Combines Rules
+
 <!-- prettier-ignore -->
 ```css
 [block] {
@@ -34,6 +35,7 @@ Lightening Fast, Reusable, Safe, In-editor CSS Optimization and Minification Too
 ```
 
 ### Fixes redundant properties
+
 <!-- prettier-ignore -->
 ```css
 [block] {

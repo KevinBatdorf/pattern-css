@@ -82,7 +82,15 @@ context('Pattern Css', () => {
 				'rgb(255, 0, 0)',
 			);
 			// Second block p tag should not be red
-			cy.get(`p`).should('not.have.css', 'color', 'rgb(255, 0, 0)');
+			cy.get('p')
+				.not(`.${className} p`)
+				.each(($el) => {
+					cy.wrap($el).should(
+						'not.have.css',
+						'color',
+						'rgb(255, 0, 0)',
+					);
+				});
 		});
 	});
 
