@@ -9,7 +9,7 @@ afterEach(() => {
 	cy.logoutUser();
 });
 context('Pattern Css', () => {
-	it('Renders scoped to the block, targets inner content', () => {
+	it('Only adds the class after adding CSS', () => {
 		cy.window().then((win) => {
 			// Manually add blocks so we can get the block id
 			const block = win.wp.blocks.createBlock('core/group', {}, [
@@ -18,9 +18,30 @@ context('Pattern Css', () => {
 				}),
 			]);
 			win.wp.data.dispatch('core/block-editor').insertBlock(block);
-			// Check the group block has the class
+
+			// Make sure no class is added
 			const className = `pcss-${block.clientId?.split('-')[0]}`;
+			cy.get(`.wp-block-group.${className}`).should('not.exist');
+
+			// Add some css
+			cy.selectBlockById(block.clientId);
+			cy.addCodeToCurrentBlock('p { color: red; }');
+
+			// Check the group block has the class
 			cy.get(`.wp-block-group.${className}`).should('exist');
+		});
+	});
+
+	it('Renders scoped to the block, targets inner content', () => {
+		cy.window().then((win) => {
+			// Manually add blocks so we can get the block id
+			const block = win.wp.blocks.createBlock('core/group', {}, [
+				win.wp.blocks.createBlock('core/paragraph', {
+					content: 'Hello',
+				}),
+			]);
+			const className = `pcss-${block.clientId?.split('-')[0]}`;
+			win.wp.data.dispatch('core/block-editor').insertBlock(block);
 
 			// Add similiar blocks
 			const block2 = win.wp.blocks.createBlock('core/group', {}, [
@@ -29,26 +50,27 @@ context('Pattern Css', () => {
 				}),
 			]);
 			win.wp.data.dispatch('core/block-editor').insertBlock(block2);
-			// Check the group block has the class
-			const className2 = `pcss-${block2.clientId?.split('-')[0]}`;
-			cy.get(`.wp-block-group.${className2}`).should('exist');
 
 			// Select the first block
 			cy.selectBlockById(block.clientId);
 			cy.addCodeToCurrentBlock('p { color: red; }');
 
 			// First block p tag should be red
-			cy.get(`.${className} p`).should(
+			cy.get(`.${className} > p`).should(
 				'have.css',
 				'color',
 				'rgb(255, 0, 0)',
 			);
 			// Second block p tag should not be red
-			cy.get(`.${className2} p`).should(
-				'not.have.css',
-				'color',
-				'rgb(255, 0, 0)',
-			);
+			cy.get('p')
+				.not(`.${className} p`)
+				.each(($el) => {
+					cy.wrap($el).should(
+						'not.have.css',
+						'color',
+						'rgb(255, 0, 0)',
+					);
+				});
 
 			// Confirm the same on the frontend
 			cy.previewCurrentPage();
@@ -60,11 +82,15 @@ context('Pattern Css', () => {
 				'rgb(255, 0, 0)',
 			);
 			// Second block p tag should not be red
-			cy.get(`.${className2} p`).should(
-				'not.have.css',
-				'color',
-				'rgb(255, 0, 0)',
-			);
+			cy.get('p')
+				.not(`.${className} p`)
+				.each(($el) => {
+					cy.wrap($el).should(
+						'not.have.css',
+						'color',
+						'rgb(255, 0, 0)',
+					);
+				});
 		});
 	});
 
@@ -76,10 +102,8 @@ context('Pattern Css', () => {
 					content: 'Hello',
 				}),
 			]);
-			win.wp.data.dispatch('core/block-editor').insertBlock(block);
-			// Check the group block has the class
 			const className = `pcss-${block.clientId?.split('-')[0]}`;
-			cy.get(`.wp-block-group.${className}`).should('exist');
+			win.wp.data.dispatch('core/block-editor').insertBlock(block);
 
 			// Add similiar blocks
 			const block2 = win.wp.blocks.createBlock('core/group', {}, [
@@ -87,10 +111,8 @@ context('Pattern Css', () => {
 					content: 'World',
 				}),
 			]);
-			win.wp.data.dispatch('core/block-editor').insertBlock(block2);
-			// Check the group block has the class
 			const className2 = `pcss-${block2.clientId?.split('-')[0]}`;
-			cy.get(`.wp-block-group.${className2}`).should('exist');
+			win.wp.data.dispatch('core/block-editor').insertBlock(block2);
 
 			// Select the first block
 			cy.selectBlockById(block.clientId);
@@ -137,10 +159,8 @@ context('Pattern Css', () => {
 			const block = win.wp.blocks.createBlock('core/paragraph', {
 				content: 'Hello',
 			});
-			win.wp.data.dispatch('core/block-editor').insertBlock(block);
-			// Check the group block has the class
 			const className = `pcss-${block.clientId?.split('-')[0]}`;
-			cy.get(`.wp-block-paragraph.${className}`).should('exist');
+			win.wp.data.dispatch('core/block-editor').insertBlock(block);
 
 			// Select the block
 			cy.selectBlockById(block.clientId);
@@ -171,10 +191,8 @@ context('Pattern Css', () => {
 			const block = win.wp.blocks.createBlock('core/paragraph', {
 				content: 'Hello',
 			});
-			win.wp.data.dispatch('core/block-editor').insertBlock(block);
-			// Check the group block has the class
 			const className = `pcss-${block.clientId?.split('-')[0]}`;
-			cy.get(`.wp-block-paragraph.${className}`).should('exist');
+			win.wp.data.dispatch('core/block-editor').insertBlock(block);
 
 			// Select the block
 			cy.selectBlockById(block.clientId);

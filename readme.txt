@@ -1,16 +1,22 @@
-=== Pattern CSS - Add custom styles to blocks and patterns ===
+=== Pattern CSS - Sync styles to blocks and patterns ===
 Contributors:      kbat82
 Tags:              css, styles, stylesheet, custom, blocks, pattern, design
-Tested up to:      6.4
+Tested up to:      6.5
 Stable tag:        1.0.1
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
-Add CSS styles to your Gutenberg blocks and patterns. Fast, optimized, and using modern best practices.
+Add CSS styles to your blocks and synced patterns! Fast, optimized, and using modern best practices.
 
 == Description ==
 
-Add custom CSS to any block or pattern, including reusable patterns too. This plugin adds a panel on every block "Additional CSS" that provides a modern text editor where you can safely insert your stylesheet. Your styles will be optimized, minified, and inlined directly into the page only where the block is used.
+Add custom CSS to any block or pattern, including reusable patterns too. Your styles will be optimized, minified, and inlined directly into the page *only* where the block is used. If you set the block as synced, then the styles will be updated everywhere the block is used!
+
+= How to =
+- Every block will have a new "Additional CSS" settings panel at the botom.
+- To target a block, you must use the `[block]` selector.
+- To target any element *inside* the block, you can use the normal CSS selectors.
+- Use `!important` if needed to override some of your theme styles (use sparingly)
 
 = Features =
 - Scopes styles to the block so that parent/sibling blocks arent affected
@@ -23,11 +29,6 @@ Add custom CSS to any block or pattern, including reusable patterns too. This pl
 
 Star it on [GitHub](https://github.com/KevinBatdorf/pattern-css)
 
-= Tips =
-- Use `[block]` to target the current block directly instead of children
-- Create reusable patterns to make starting points for your blocks
-- Use `!important` to override some of your theme styles (use sparingly)
-
 = Combines Rules =
 `[block] {
   color: red;
@@ -35,6 +36,7 @@ Star it on [GitHub](https://github.com/KevinBatdorf/pattern-css)
 .bar {
   color: red;
 }
+
 /* Output: */
 .pcss-3aa0f0fc,.pcss-3aa0f0fc .bar{color:red}`
 
@@ -45,6 +47,7 @@ Star it on [GitHub](https://github.com/KevinBatdorf/pattern-css)
   padding-bottom: 15px;
   padding-right: 5px;
 }
+
 /* Output: */
 .pcss-3aa0f0fc{padding:5px 5px 15px 50px}`
 
@@ -60,6 +63,9 @@ Star it on [GitHub](https://github.com/KevinBatdorf/pattern-css)
 3. Will warn you if your CSS is invalid
 
 == Changelog ==
+
+- Prevent adding classes to blocks unless CSS is added
+- Force the settings area to the bottom (mainly for custom blocks)
 
 = 1.0.1 - 2023-11-04 =
 - Fixed a bug where the it would crash on the pattern manager page
