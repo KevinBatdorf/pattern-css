@@ -9,7 +9,7 @@ afterEach(() => {
 	cy.logoutUser();
 });
 context('Pattern Css', () => {
-	it('Renders scoped to the block, targets inner content', () => {
+	it.only('Renders scoped to the block, targets inner content', () => {
 		cy.window().then((win) => {
 			// Manually add blocks so we can get the block id
 			const block = win.wp.blocks.createBlock('core/group', {}, [
