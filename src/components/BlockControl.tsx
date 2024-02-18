@@ -122,7 +122,6 @@ export const BlockControl = (
 
 	useEffect(() => {
 		if (!ready || css === undefined) return;
-		console.log({ css });
 		setAttributes({
 			pcssAdditionalCss: css,
 			// eslint-disable-next-line react/prop-types
