@@ -121,7 +121,8 @@ export const BlockControl = (
 	}, [transformed, ready]);
 
 	useEffect(() => {
-		if (!ready) return;
+		if (!ready || css === undefined) return;
+		console.log({ css });
 		setAttributes({
 			pcssAdditionalCss: css,
 			// eslint-disable-next-line react/prop-types
@@ -189,7 +190,7 @@ export const BlockControl = (
 							<p className="m-0 my-2 text-gray-700 text-xs">
 								{sprintf(
 									__(
-										'Styles will be scoped to this block only.',
+										'Styles will be scoped to this block only. See the readme for some examples.',
 										'pattern-css',
 									),
 									'`[block]`',
