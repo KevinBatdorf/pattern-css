@@ -2,7 +2,7 @@
 Contributors:      kbat82
 Tags:              css, styles, stylesheet, custom, blocks, pattern, design
 Tested up to:      6.5
-Stable tag:        1.0.1
+Stable tag:        1.1.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,7 @@ Star it on [GitHub](https://github.com/KevinBatdorf/pattern-css)
 
 == Changelog ==
 
+= 1.1.0 - 2024-02-18 =
 - Prevent adding classes to blocks unless CSS is added
 - Force the settings area to the bottom (mainly for custom blocks)
 
