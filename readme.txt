@@ -37,7 +37,6 @@ Star it on [GitHub](https://github.com/KevinBatdorf/pattern-css)
 }
 
 /* Output: */
-
 @media (prefers-color-scheme:dark){.pcss-cddaa023{border-color:#00f}}`
 
 = Combines Rules =
