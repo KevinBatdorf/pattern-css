@@ -13,10 +13,10 @@ Add CSS styles to your blocks and synced patterns! Fast, optimized, and using mo
 Add custom CSS to any block or pattern, including reusable patterns too. Your styles will be optimized, minified, and inlined directly into the page *only* where the block is used. If you set the block as synced, then the styles will be updated everywhere the block is used!
 
 = How to =
-- Every block will have a new "Additional CSS" settings panel at the botom.
+- Every block will have a new "Additional CSS" settings panel.
 - To target a block, you must use the `[block]` selector.
-- To target any element *inside* the block, you can use the normal CSS selectors.
-- Use `!important` if needed to override some of your theme styles (use sparingly)
+- To target any element *inside* the block, use the normal CSS selector.
+- Use `!important` if needed to override your theme styles (use sparingly)
 
 = Features =
 - Scopes styles to the block so that parent/sibling blocks arent affected
