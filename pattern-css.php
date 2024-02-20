@@ -37,6 +37,8 @@ add_action('enqueue_block_editor_assets', function () {
         'window.patternCss = ' . wp_json_encode([
             'canEditCss' => current_user_can('edit_css'),
             'pluginUrl' => esc_url_raw(plugin_dir_url(__FILE__)),
+			'selectorOverride' => defined('PATTERN_CSS_SELECTOR_OVERRIDE') ?
+				PATTERN_CSS_SELECTOR_OVERRIDE : null,
         ]) . ';',
         'before'
     );

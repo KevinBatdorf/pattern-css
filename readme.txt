@@ -19,7 +19,7 @@ Add custom CSS to any block or pattern, including reusable patterns too. Your st
 - Use `!important` to override your theme styles (use sparingly)
 
 = Features =
-- Scopes styles to the block so that parent/sibling blocks arent affected
+- Scopes styles to the block so that parent/sibling blocks are not affected
 - It's fast. CSS is minified and optimized in the browser
 - It's safe. Invalid, non-spec CSS is never persisted (validated via webassembly sandbox)
 - Supports reusable (synced or not-synced) patterns
@@ -75,6 +75,13 @@ Star it on [GitHub](https://github.com/KevinBatdorf/pattern-css)
 
 1. Activate the plugin through the 'Plugins' screen in WordPress
 
+== Frequently Asked Questions ==
+
+= Use something other than [block] =
+
+You can add a custom selector via a PHP constant. It requires setting a type (type, attribute, etc) and the name. Here's an example for `selector {}`. Add this to functions.php:
+`define('PATTERN_CSS_SELECTOR_OVERRIDE', ['name' => 'selector', 'type' => 'type']);`
+
 == Screenshots ==
 
 1. Add styles not available in the editor
@@ -82,6 +89,8 @@ Star it on [GitHub](https://github.com/KevinBatdorf/pattern-css)
 3. Will warn you if your CSS is invalid
 
 == Changelog ==
+
+- Lets users define an additional block selector
 
 = 1.1.0 - 2024-02-18 =
 - Prevent adding classes to blocks unless CSS is added

@@ -72,10 +72,12 @@ export const BlockControl = (
 							name?: string;
 							type: string;
 						};
-						// If the selector is [block] or selector then just swap it with pcssClassId
+						const { name: overrideName, type: overrideType } =
+							window.patternCss.selectorOverride || {};
+						// If the selector is [block] or custom then just swap it with pcssClassId
 						if (
 							(type === 'attribute' && name === 'block') ||
-							(type === 'type' && name === 'selector')
+							(type === overrideType && name === overrideName)
 						) {
 							return [
 								{
