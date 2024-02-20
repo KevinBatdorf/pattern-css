@@ -16,10 +16,10 @@ Add custom CSS to any block or pattern, including reusable patterns too. Your st
 - Every block will have a new "Additional CSS" settings panel.
 - To target a block, you must use the `[block]` selector.
 - To target any element *inside* the block, use the normal CSS selector.
-- Use `!important` if needed to override your theme styles (use sparingly)
+- Use `!important` to override your theme styles (use sparingly)
 
 = Features =
-- Scopes styles to the block so that parent/sibling blocks arent affected
+- Scopes styles to the block so that parent/sibling blocks are not affected
 - It's fast. CSS is minified and optimized in the browser
 - It's safe. Invalid, non-spec CSS is never persisted (validated via webassembly sandbox)
 - Supports reusable (synced or not-synced) patterns
@@ -28,6 +28,16 @@ Add custom CSS to any block or pattern, including reusable patterns too. Your st
 - Minifies colors and math functions to simplify according to spec
 
 Star it on [GitHub](https://github.com/KevinBatdorf/pattern-css)
+
+= Basic Example =
+`[block] a {
+  border-bottom: 1px solid blue;
+}
+[block] a:hover {
+  border-bottom-color: green;
+}
+/* Output: */
+.pcss-f526bb2d a{border-bottom:1px solid #00f}.pcss-f526bb2d a:hover{border-bottom-color:green}`
 
 = Supports Media Queries =
 `@media (prefers-color-scheme: dark) {
@@ -61,10 +71,16 @@ Star it on [GitHub](https://github.com/KevinBatdorf/pattern-css)
 /* Output: */
 .pcss-3aa0f0fc{padding:5px 5px 15px 50px}`
 
-
 == Installation ==
 
 1. Activate the plugin through the 'Plugins' screen in WordPress
+
+== Frequently Asked Questions ==
+
+= Use something other than [block] =
+
+You can add a custom selector via a PHP constant. It requires setting a type (type, attribute, etc) and the name. Here's an example for `selector {}`. Add this to functions.php:
+`define('PATTERN_CSS_SELECTOR_OVERRIDE', ['name' => 'selector', 'type' => 'type']);`
 
 == Screenshots ==
 
@@ -75,6 +91,7 @@ Star it on [GitHub](https://github.com/KevinBatdorf/pattern-css)
 == Changelog ==
 
 - Removes the code example on focus and adds it back on blur (if empty)
+- Lets users define an additional block selector
 
 = 1.1.0 - 2024-02-18 =
 - Prevent adding classes to blocks unless CSS is added
