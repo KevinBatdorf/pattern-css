@@ -16,7 +16,7 @@ Add custom CSS to any block or pattern, including reusable patterns too. Your st
 - Every block will have a new "Additional CSS" settings panel.
 - To target a block, you must use the `[block]` selector.
 - To target any element *inside* the block, use the normal CSS selector.
-- Use `!important` if needed to override your theme styles (use sparingly)
+- Use `!important` to override your theme styles (use sparingly)
 
 = Features =
 - Scopes styles to the block so that parent/sibling blocks arent affected
@@ -28,6 +28,16 @@ Add custom CSS to any block or pattern, including reusable patterns too. Your st
 - Minifies colors and math functions to simplify according to spec
 
 Star it on [GitHub](https://github.com/KevinBatdorf/pattern-css)
+
+= Basic Example =
+`[block] a {
+  border-bottom: 1px solid blue;
+}
+[block] a:hover {
+  border-bottom-color: green;
+}
+/* Output: */
+.pcss-f526bb2d a{border-bottom:1px solid #00f}.pcss-f526bb2d a:hover{border-bottom-color:green}`
 
 = Supports Media Queries =
 `@media (prefers-color-scheme: dark) {
@@ -60,7 +70,6 @@ Star it on [GitHub](https://github.com/KevinBatdorf/pattern-css)
 
 /* Output: */
 .pcss-3aa0f0fc{padding:5px 5px 15px 50px}`
-
 
 == Installation ==
 

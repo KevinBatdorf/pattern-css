@@ -38,7 +38,7 @@ export const BlockControl = (
 	const [transformed, setTransformed] = useState<Uint8Array>();
 	const [compiled, setCompiled] = useState(compiledCss || '');
 	const hasPermission = useMemo(() => window?.patternCss?.canEditCss, []);
-
+	console.log({ compiled });
 	const stringOne = __('Examples', 'pattern-css');
 
 	/* translators: "An example of css that will focus on the block itself" */
@@ -67,14 +67,24 @@ export const BlockControl = (
 				minify: true,
 				errorRecovery: true,
 				visitor: {
+					RuleExit: (f) => {
+						console.log({ f });
+					},
 					Selector(selector) {
-						// If the selector is [block] then just swap it with pcssClassId
+						const { name, type } = selector[0] as {
+							// cast as we only deal with cases where names exist
+							name?: string;
+							type: string;
+						};
+						console.log('selector', selector, name, type);
+						// If the selector is [block] or selector then just swap it with pcssClassId
 						if (
-							selector[0]?.type === 'attribute' &&
-							selector[0]?.name === 'block'
+							(type === 'attribute' && name === 'block') ||
+							(type === 'type' && name === 'selector')
 						) {
 							return [
 								{
+									...selector[0],
 									type: 'class',
 									// eslint-disable-next-line
 									name: pcssClassId,

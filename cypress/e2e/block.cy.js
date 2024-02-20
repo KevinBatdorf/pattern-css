@@ -236,4 +236,41 @@ context('Pattern Css', () => {
 				.and('have.css', 'color', 'rgb(255, 0, 0)');
 		});
 	});
+	it('Supports "selector" in addition to [block]', () => {
+		cy.window().then((win) => {
+			// Manually add blocks so we can get the block id
+			const block = win.wp.blocks.createBlock('core/paragraph', {
+				content: 'Hello',
+			});
+			const className = `pcss-${block.clientId?.split('-')[0]}`;
+			win.wp.data.dispatch('core/block-editor').insertBlock(block);
+
+			// Select the block
+			cy.selectBlockById(block.clientId);
+			cy.clearCodeFromCurrentBlock(); // clear placeholder
+			cy.addCodeToCurrentBlock(`
+				[block] { color: red; }
+				selector { border-bottom: 1px solid green; }
+			`);
+
+			// p tag should be red
+			cy.get(`.${className}`).should(
+				'have.css',
+				'color',
+				'rgb(255, 0, 0)',
+			);
+
+			// p tag should have green border
+			cy.get(`.${className}`).should(
+				'have.css',
+				'border-bottom',
+				'1px solid rgb(0, 128, 0)',
+			);
+
+			// Make sure the 'line-error' class isn't there
+			cy.get('[data-cy="pcss-editor-block"] pre .line-error').should(
+				'not.exist',
+			);
+		});
+	});
 });
