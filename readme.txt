@@ -97,9 +97,12 @@ Check browser support for [CSS nesting](https://caniuse.com/css-nesting)
 
 == Frequently Asked Questions ==
 
-= Use something other than [block] =
+= Can I use something other than [block]? =
 
-You can add a custom selector via a PHP constant. It requires setting a type (type, attribute, etc) and the name. Here's an example for `selector {}`. Add this to functions.php:
+You can add a custom selector via a PHP constant. It requires setting a type (type, attribute, etc) and the name.
+
+Here's an example for `selector {}`. Add this to functions.php:
+
 `define('PATTERN_CSS_SELECTOR_OVERRIDE', ['name' => 'selector', 'type' => 'type']);`
 
 == Screenshots ==
