@@ -7,11 +7,22 @@ import type { LineOption } from '../types';
 type CodeEditorProps = {
 	value: string;
 	onChange: (value: string) => void;
+	// eslint-disable-next-line
+	onFocus: (event: any) => void;
+	// eslint-disable-next-line
+	onBlur: (event: any) => void;
 	lineOptions: LineOption[];
 };
 export const CodeEditor = (props: CodeEditorProps) => {
 	const textAreaRef = useRef<HTMLDivElement>(null);
-	const { value, onChange, lineOptions = [], ...remainingProps } = props;
+	const {
+		value,
+		onChange,
+		onFocus,
+		onBlur,
+		lineOptions = [],
+		...remainingProps
+	} = props;
 	const {
 		highlighter,
 		error: editorError,
@@ -49,6 +60,8 @@ export const CodeEditor = (props: CodeEditorProps) => {
 					// Tab lock here. Pressing Escape will unlock.
 					textAreaRef.current?.querySelector('textarea')?.focus()
 				}
+				onFocus={onFocus}
+				onBlur={onBlur}
 				highlight={(code: string) =>
 					highlighter
 						?.codeToHtml(decodeEntities(code), {

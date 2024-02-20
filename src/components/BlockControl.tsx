@@ -181,6 +181,16 @@ export const BlockControl = (
 								value={css ?? defaultCssExample}
 								data-cy="pcss-editor-block"
 								onChange={handleChange}
+								onFocus={(e) => {
+									if (e.target.value === defaultCssExample) {
+										handleChange('');
+									}
+								}}
+								onBlur={(e) => {
+									if (e.target.value === '') {
+										handleChange(defaultCssExample);
+									}
+								}}
 								lineOptions={warnings.map(({ loc }) => ({
 									line: loc.line,
 									classes: ['line-error'],
@@ -189,7 +199,7 @@ export const BlockControl = (
 							<p className="m-0 my-2 text-gray-700 text-xs">
 								{sprintf(
 									__(
-										'Styles will be scoped to this block only. See the readme for some examples.',
+										'See the plugin readme for examples.',
 										'pattern-css',
 									),
 									'`[block]`',
