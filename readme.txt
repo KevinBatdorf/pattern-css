@@ -90,6 +90,7 @@ You can add a custom selector via a PHP constant. It requires setting a type (ty
 
 == Changelog ==
 
+- Removes the code example on focus and adds it back on blur (if empty)
 - Lets users define an additional block selector
 
 = 1.1.0 - 2024-02-18 =
