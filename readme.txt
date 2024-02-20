@@ -26,6 +26,7 @@ Add custom CSS to any block or pattern, including reusable patterns too. Your st
 - See changes on the page as you make them
 - Combines adjacent rules (to decrease size)
 - Minifies colors and math functions to simplify according to spec
+- Supports CSS nesting
 
 Star it on [GitHub](https://github.com/KevinBatdorf/pattern-css)
 
@@ -109,7 +110,7 @@ You can add a custom selector via a PHP constant. It requires setting a type (ty
 
 == Changelog ==
 
-- Adds support for top level nesting
+- Feature: Adds support for top level nesting
 - Removes the code example on focus and adds it back on blur (if empty)
 - Lets users define an additional block selector
 
