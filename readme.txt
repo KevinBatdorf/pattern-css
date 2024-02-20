@@ -1,6 +1,6 @@
 === Pattern CSS - Sync styles to blocks and patterns ===
 Contributors:      kbat82
-Tags:              css, styles, stylesheet, custom, blocks, pattern, design
+Tags:              css, styles, inline, custom, blocks, pattern, design
 Tested up to:      6.5
 Stable tag:        1.2.0
 License:           GPL-2.0-or-later
