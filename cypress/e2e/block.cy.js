@@ -236,8 +236,13 @@ context('Pattern Css', () => {
 				.and('have.css', 'color', 'rgb(255, 0, 0)');
 		});
 	});
-	it('Supports "selector" in addition to [block]', () => {
+	it('Supports custom selectors in addition to [block]', () => {
 		cy.window().then((win) => {
+			// Override usually by php but can mutate the window anyway
+			win.patternCss.selectorOverride = {
+				name: 'selector',
+				type: 'type',
+			};
 			// Manually add blocks so we can get the block id
 			const block = win.wp.blocks.createBlock('core/paragraph', {
 				content: 'Hello',
