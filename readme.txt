@@ -1,4 +1,4 @@
-=== Pattern CSS - Sync styles to blocks and patterns ===
+=== Pattern CSS - Sync styles to patterns and blocks ===
 Contributors:      kbat82
 Tags:              css, styles, inline, custom, blocks, pattern, design
 Tested up to:      6.5
