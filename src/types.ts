@@ -7,6 +7,10 @@ declare global {
 			canEditCss: string;
 			pluginUrl: string;
 			transform: typeof transform;
+			selectorOverride?: {
+				type: string;
+				name: string;
+			};
 		};
 	}
 }
