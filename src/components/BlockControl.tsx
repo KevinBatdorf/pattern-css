@@ -1,6 +1,7 @@
 import {
 	InspectorAdvancedControls,
 	InspectorControls,
+	store as blockEditorStore,
 } from '@wordpress/block-editor';
 import { PanelBody, BaseControl, TextControl } from '@wordpress/components';
 import {
@@ -10,11 +11,14 @@ import {
 	useMemo,
 	useCallback,
 } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
 import { escapeHTML } from '@wordpress/escape-html';
 import { sprintf, __ } from '@wordpress/i18n';
 import { Warning as CssWarning } from 'lightningcss-wasm';
 import { CodeEditor } from './CodeEditor';
 import { CodePreview } from './CodePreview';
+
+const unsupportedBlocks = ['core/site-logo'];
 
 export const BlockControl = (
 	// eslint-disable-next-line
@@ -26,13 +30,20 @@ export const BlockControl = (
 	const [warnings, setWarnings] = useState<CssWarning[]>([]);
 	// TODO
 	/* eslint-disable react/prop-types */
-	const { attributes, setAttributes, clientId } = props;
+	const { attributes, setAttributes, clientId: blockId } = props;
 	const {
 		pcssClassId,
 		pcssAdditionalCss: initialCss,
 		pcssAdditionalCssCompiled: compiledCss,
 	} = attributes;
 	/* eslint-enable react/prop-types */
+
+	// eslint-disable-next-line
+	// @ts-ignore-next-line - it exists?
+	const { getBlockName } = useSelect(
+		(select) => select(blockEditorStore),
+		[],
+	);
 
 	const [css, setCss] = useState(initialCss);
 	const [transformed, setTransformed] = useState<Uint8Array>();
@@ -134,9 +145,9 @@ export const BlockControl = (
 		setAttributes({
 			pcssAdditionalCss: css,
 			// eslint-disable-next-line react/prop-types
-			pcssClassId: pcssClassId || `pcss-${clientId?.split('-')[0]}`,
+			pcssClassId: pcssClassId || `pcss-${blockId?.split('-')[0]}`,
 		});
-	}, [css, setAttributes, ready, pcssClassId, clientId]);
+	}, [css, setAttributes, ready, pcssClassId, blockId]);
 
 	useEffect(() => {
 		if (!ready) return;
@@ -175,6 +186,28 @@ export const BlockControl = (
 			? frame.document.head.appendChild(style)
 			: parent.appendChild(style);
 	}, [compiled, ready, pcssClassId]);
+
+	if (unsupportedBlocks.includes(getBlockName(blockId))) {
+		return (
+			<>
+				<CurrentMenuItems {...props} />
+				<InspectorControls>
+					<PanelBody
+						title="Additional CSS"
+						initialOpen={false}
+						className="pattern-css-editor">
+						{sprintf(
+							__(
+								'The `%s` block is not yet supported by Pattern CSS. You can wrap it in a `core/group` block and add CSS there.',
+								'pattern-css',
+							),
+							getBlockName(blockId),
+						)}
+					</PanelBody>
+				</InspectorControls>
+			</>
+		);
+	}
 
 	return (
 		<>
