@@ -71,6 +71,25 @@ Star it on [GitHub](https://github.com/KevinBatdorf/pattern-css)
 /* Output: */
 .pcss-3aa0f0fc{padding:5px 5px 15px 50px}`
 
+= Supports CSS nesting =
+`[block] {
+  padding: 1rem;
+  a {
+    color: red;
+  }
+  background: white;
+  /* Including media queries */
+  @media (prefers-color-scheme: dark) {
+    background: black;
+    color:white;
+  }
+}
+
+/* Output: */
+.pcss-f526bb2d{background:#fff;padding:1rem;& a{color:red}@media (prefers-color-scheme:dark){&{color:#fff;background:#000}}}`
+
+See the
+
 == Installation ==
 
 1. Activate the plugin through the 'Plugins' screen in WordPress
@@ -90,6 +109,7 @@ You can add a custom selector via a PHP constant. It requires setting a type (ty
 
 == Changelog ==
 
+- Adds support for top level nesting
 - Removes the code example on focus and adds it back on blur (if empty)
 - Lets users define an additional block selector
 

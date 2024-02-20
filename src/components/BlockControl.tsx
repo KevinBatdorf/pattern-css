@@ -89,6 +89,8 @@ export const BlockControl = (
 								...selector.slice(1),
 							];
 						}
+						// If we are nested we don't want to prepend the id
+						if (selector[0].type === 'nesting') return selector;
 						// prepend id to selector
 						return [
 							{
