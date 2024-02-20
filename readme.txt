@@ -101,9 +101,11 @@ Check browser support for [CSS nesting](https://caniuse.com/css-nesting)
 
 You can add a custom selector via a PHP constant. It requires setting a type (type, attribute, etc) and the name.
 
-Here's an example for `selector {}`. Add this to functions.php:
+Here's an example for "foo { color: red }", where foo will be replaced with ".pcss-randomString"
 
-`define('PATTERN_CSS_SELECTOR_OVERRIDE', ['name' => 'selector', 'type' => 'type']);`
+Add this to functions.php:
+
+`define('PATTERN_CSS_SELECTOR_OVERRIDE', ['name' => 'foo', 'type' => 'type']);`
 
 == Screenshots ==
 
