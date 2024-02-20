@@ -27,6 +27,7 @@ export const BlockControl = (
 	props: any,
 ) => {
 	const [ready, setReady] = useState(false);
+	const [dirty, setDirty] = useState(false);
 	const [warnings, setWarnings] = useState<CssWarning[]>([]);
 	// TODO
 	/* eslint-disable react/prop-types */
@@ -64,7 +65,11 @@ export const BlockControl = (
 	);
 
 	const handleChange = useCallback(
-		(value: string) => {
+		(value?: string) => {
+			if (value === undefined) {
+				setCss(undefined);
+				return;
+			}
 			const css = escapeHTML(value);
 			setWarnings([]);
 			setCss(css);
@@ -223,14 +228,13 @@ export const BlockControl = (
 								value={css ?? defaultCssExample}
 								data-cy="pcss-editor-block"
 								onChange={handleChange}
-								onFocus={(e) => {
-									if (e.target.value === defaultCssExample) {
-										handleChange('');
-									}
+								onFocus={() => {
+									if (!css && !dirty) handleChange('');
+									setDirty(true);
 								}}
 								onBlur={(e) => {
 									if (e.target.value === '') {
-										handleChange(defaultCssExample);
+										handleChange(undefined);
 									}
 								}}
 								lineOptions={warnings.map(({ loc }) => ({
