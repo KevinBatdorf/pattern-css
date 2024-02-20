@@ -2,7 +2,7 @@
 Contributors:      kbat82
 Tags:              css, styles, stylesheet, custom, blocks, pattern, design
 Tested up to:      6.5
-Stable tag:        1.1.0
+Stable tag:        1.2.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -110,7 +110,8 @@ You can add a custom selector via a PHP constant. It requires setting a type (ty
 
 == Changelog ==
 
-- Feature: Adds support for top level nesting
+= 1.2.0 - 2024-02-20 =
+- Feature: Adds support for CSS nesting
 - Removes the code example on focus and adds it back on blur (if empty)
 - Lets users define an additional block selector
 - Adds a notice that the site logo isn't currently supported
