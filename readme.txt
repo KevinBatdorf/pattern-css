@@ -111,7 +111,7 @@ You can add a custom selector via a PHP constant. It requires setting a type (ty
 == Changelog ==
 
 = 1.2.0 - 2024-02-20 =
-- Feature: Adds support for top level nesting
+- Feature: Adds support for CSS nesting
 - Removes the code example on focus and adds it back on blur (if empty)
 - Lets users define an additional block selector
 - Adds a notice that the site logo isn't currently supported
