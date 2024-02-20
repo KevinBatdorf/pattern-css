@@ -89,6 +89,8 @@ Star it on [GitHub](https://github.com/KevinBatdorf/pattern-css)
 /* Output: */
 .pcss-f526bb2d{background:#fff;padding:1rem;& a{color:red}@media (prefers-color-scheme:dark){&{color:#fff;background:#000}}}`
 
+Check browser support for [CSS nesting](https://caniuse.com/css-nesting)
+
 == Installation ==
 
 1. Activate the plugin through the 'Plugins' screen in WordPress
