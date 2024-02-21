@@ -1,4 +1,4 @@
-import { useRef } from '@wordpress/element';
+import { forwardRef, useRef } from '@wordpress/element';
 import { decodeEntities } from '@wordpress/html-entities';
 import Editor from 'react-simple-code-editor';
 import { useTheme } from '../hooks/useTheme';
@@ -13,7 +13,7 @@ type CodeEditorProps = {
 	onBlur?: (event: any) => void;
 	lineOptions: LineOption[];
 };
-export const CodeEditor = (props: CodeEditorProps) => {
+export const CodeEditor = forwardRef((props: CodeEditorProps, ref) => {
 	const textAreaRef = useRef<HTMLDivElement>(null);
 	const {
 		value,
@@ -38,6 +38,9 @@ export const CodeEditor = (props: CodeEditorProps) => {
 	return (
 		<div ref={textAreaRef}>
 			<Editor
+				// eslint-disable-next-line
+				// @ts-ignore-next-line
+				ref={ref}
 				value={decodeEntities(value)}
 				className="font-jetbrains-mono border border-gray-600 wp-focus"
 				onValueChange={onChange}
@@ -73,4 +76,4 @@ export const CodeEditor = (props: CodeEditorProps) => {
 			/>
 		</div>
 	);
-};
+});

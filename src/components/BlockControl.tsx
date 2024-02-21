@@ -3,13 +3,20 @@ import {
 	InspectorControls,
 	store as blockEditorStore,
 } from '@wordpress/block-editor';
-import { PanelBody, BaseControl, TextControl } from '@wordpress/components';
+import {
+	PanelBody,
+	BaseControl,
+	TextControl,
+	Button,
+	Tooltip,
+} from '@wordpress/components';
 import {
 	useLayoutEffect,
 	useEffect,
 	useState,
 	useMemo,
 	useCallback,
+	useRef,
 } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 import { escapeHTML } from '@wordpress/escape-html';
@@ -27,6 +34,7 @@ export const BlockControl = (
 	// eslint-disable-next-line
 	props: any,
 ) => {
+	const editorWrapperRef = useRef<HTMLDivElement>(null);
 	const [ready, setReady] = useState(false);
 	const [warnings, setWarnings] = useState<CssWarning[]>([]);
 	// TODO
@@ -210,24 +218,32 @@ export const BlockControl = (
 			<InspectorControls>
 				<PanelBody
 					title="Additional CSS"
-					initialOpen={false}
+					initialOpen={true}
 					className="pattern-css-editor">
 					{hasPermission ? (
 						<>
-							<CodeEditor
-								value={css ?? defaultCssExample}
-								data-cy="pcss-editor-block"
-								onChange={handleChange}
-								onFocus={(e) => {
-									if (e.target.value === defaultCssExample) {
-										focusAtEndOfLine2(e.target);
-									}
-								}}
-								lineOptions={warnings.map(({ loc }) => ({
-									line: loc.line,
-									classes: ['line-error'],
-								}))}
-							/>
+							<div className="relative" ref={editorWrapperRef}>
+								<CodeEditor
+									value={css ?? defaultCssExample}
+									data-cy="pcss-editor-block"
+									onChange={handleChange}
+									onFocus={(e) => {
+										if (
+											e.target.value === defaultCssExample
+										) {
+											focusAtEndOfLine2(e.target);
+										}
+									}}
+									lineOptions={warnings.map(({ loc }) => ({
+										line: loc.line,
+										classes: ['line-error'],
+									}))}
+								/>
+								<EditorControls
+									handleChange={handleChange}
+									editorWrapperRef={editorWrapperRef}
+								/>
+							</div>
 							<p
 								className="m-0 my-2 text-gray-700 text-xs"
 								dangerouslySetInnerHTML={{
@@ -274,3 +290,30 @@ export const BlockControl = (
 		</>
 	);
 };
+
+const EditorControls = ({
+	handleChange,
+	editorWrapperRef,
+}: {
+	handleChange: (value: string) => void;
+	editorWrapperRef: React.RefObject<HTMLDivElement>;
+}) => (
+	<div className="flex gap-1 absolute top-[5px] right-[5px]">
+		<Tooltip text={__('Clear CSS', 'pattern-css')}>
+			<Button
+				icon="no-alt"
+				size="small"
+				onClick={() => {
+					handleChange('');
+					editorWrapperRef.current
+						?.querySelector('textarea')
+						?.focus();
+				}}
+				className="text-gray-600 wp-focus">
+				<span className="sr-only">
+					{__('Clear CSS', 'pattern-css')}
+				</span>
+			</Button>
+		</Tooltip>
+	</div>
+);
