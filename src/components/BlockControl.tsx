@@ -3,13 +3,7 @@ import {
 	InspectorControls,
 	store as blockEditorStore,
 } from '@wordpress/block-editor';
-import {
-	PanelBody,
-	BaseControl,
-	TextControl,
-	Button,
-	Tooltip,
-} from '@wordpress/components';
+import { PanelBody, BaseControl, TextControl } from '@wordpress/components';
 import {
 	useLayoutEffect,
 	useEffect,
@@ -25,6 +19,7 @@ import { Warning as CssWarning } from 'lightningcss-wasm';
 import { CodeEditor } from './CodeEditor';
 import { CodePreview } from './CodePreview';
 import { focusAtEndOfLine2 } from '../lib/dom';
+import { EditorControls } from './EditorControls';
 
 const unsupportedBlocks = ['core/site-logo'];
 
@@ -248,7 +243,7 @@ export const BlockControl = (
 								className="m-0 my-2 text-gray-700 text-xs"
 								dangerouslySetInnerHTML={{
 									__html: sprintf(
-										// translators: %1$s = opening <a> tag, %2$s = closing </a> tag. %3$s = is an icon indicating a new tab.
+										// translators: %1$s = opening <a> tag, %2$s = closing </a> tag.
 										__(
 											'See the %1$splugin readme%2$s for examples.',
 											'pattern-css',
@@ -290,30 +285,3 @@ export const BlockControl = (
 		</>
 	);
 };
-
-const EditorControls = ({
-	handleChange,
-	editorWrapperRef,
-}: {
-	handleChange: (value: string) => void;
-	editorWrapperRef: React.RefObject<HTMLDivElement>;
-}) => (
-	<div className="flex gap-1 absolute top-[5px] right-[5px]">
-		<Tooltip text={__('Clear CSS', 'pattern-css')}>
-			<Button
-				icon="no-alt"
-				size="small"
-				onClick={() => {
-					handleChange('');
-					editorWrapperRef.current
-						?.querySelector('textarea')
-						?.focus();
-				}}
-				className="text-gray-600 wp-focus">
-				<span className="sr-only">
-					{__('Clear CSS', 'pattern-css')}
-				</span>
-			</Button>
-		</Tooltip>
-	</div>
-);
