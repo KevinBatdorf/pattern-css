@@ -15,7 +15,7 @@
 .pattern-css-editor *:after,
 .pattern-css-editor *:before {
 	box-sizing: border-box;
-	border: 0 solid transparent;
+	/* border: 0 solid transparent; */
 }
 @tailwind base;
 @tailwind components;

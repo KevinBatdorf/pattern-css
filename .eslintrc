@@ -3,7 +3,7 @@
 		"browser": true,
 		"es2021": true,
 		"jest": true,
-		"node": true
+		"node": true,
 	},
 	"extends": [
 		"eslint:recommended",
@@ -13,12 +13,12 @@
 		"plugin:react-hooks/recommended",
 		"plugin:jsx-a11y/recommended",
 		"plugin:cypress/recommended",
-		"prettier"
+		"prettier",
 	],
 	"parserOptions": {
 		"ecmaFeatures": { "jsx": true },
 		"sourceType": "module",
-		"allowImportExportEverywhere": true
+		"allowImportExportEverywhere": true,
 	},
 	"ignorePatterns": ["node_modules/", "pkg/", "build/"],
 	"parser": "@typescript-eslint/parser",
@@ -40,9 +40,10 @@
 			{
 				"anonymous": "always",
 				"named": "never",
-				"asyncArrow": "always"
-			}
+				"asyncArrow": "always",
+			},
 		],
+		"react/prop-types": "off",
 		"react/react-in-jsx-scope": "off",
 		"quote-props": ["error", "as-needed"],
 		"no-multiple-empty-lines": ["error", { "max": 1 }],
@@ -51,9 +52,9 @@
 			"error",
 			{
 				"beforeBlockComment": true,
-				"allowBlockStart": true
-			}
-		]
+				"allowBlockStart": true,
+			},
+		],
 	},
-	"settings": { "react": { "version": "detect" } }
+	"settings": { "react": { "version": "detect" } },
 }
