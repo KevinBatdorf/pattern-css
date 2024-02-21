@@ -17,6 +17,7 @@ import { sprintf, __ } from '@wordpress/i18n';
 import { Warning as CssWarning } from 'lightningcss-wasm';
 import { CodeEditor } from './CodeEditor';
 import { CodePreview } from './CodePreview';
+import { focusAtEndOfLine2 } from '../lib/dom';
 
 const unsupportedBlocks = ['core/site-logo'];
 
@@ -27,7 +28,6 @@ export const BlockControl = (
 	props: any,
 ) => {
 	const [ready, setReady] = useState(false);
-	const [dirty, setDirty] = useState(false);
 	const [warnings, setWarnings] = useState<CssWarning[]>([]);
 	// TODO
 	/* eslint-disable react/prop-types */
@@ -50,19 +50,7 @@ export const BlockControl = (
 	const [transformed, setTransformed] = useState<Uint8Array>();
 	const [compiled, setCompiled] = useState(compiledCss || '');
 	const hasPermission = useMemo(() => window?.patternCss?.canEditCss, []);
-	const stringOne = __('Examples', 'pattern-css');
-
-	/* translators: "An example of css that will focus on the block itself" */
-	const stringTwo = __('Target the block', 'pattern-css');
-
-	/* translators: "An example of css that will select items inside the block" */
-	const stringThree = __('Inside the block', 'pattern-css');
-	const defaultCssExample = sprintf(
-		'/* %1$s */\n\n/* %2$s */\n[block] {\n  color: gray;\n}\n\n/* %3$s */\np {\n  color: blue;\n}',
-		stringOne,
-		stringTwo,
-		stringThree,
-	);
+	const defaultCssExample = '[block] {\n  \n}';
 
 	const handleChange = useCallback(
 		(value?: string) => {
@@ -201,13 +189,15 @@ export const BlockControl = (
 						title="Additional CSS"
 						initialOpen={false}
 						className="pattern-css-editor">
-						{sprintf(
-							__(
-								'The `%s` block is not yet supported by Pattern CSS. You can wrap it in a `core/group` block and add CSS there.',
-								'pattern-css',
-							),
-							getBlockName(blockId),
-						)}
+						<p className="p-3 text-gray-900 bg-gray-150 my-2">
+							{sprintf(
+								__(
+									'The `%s` block is not yet supported by Pattern CSS. You can wrap it in a `core/group` block and add CSS there.',
+									'pattern-css',
+								),
+								getBlockName(blockId),
+							)}
+						</p>
 					</PanelBody>
 				</InspectorControls>
 			</>
@@ -228,13 +218,9 @@ export const BlockControl = (
 								value={css ?? defaultCssExample}
 								data-cy="pcss-editor-block"
 								onChange={handleChange}
-								onFocus={() => {
-									if (!css && !dirty) handleChange('');
-									setDirty(true);
-								}}
-								onBlur={(e) => {
-									if (e.target.value === '') {
-										handleChange(undefined);
+								onFocus={(e) => {
+									if (e.target.value === defaultCssExample) {
+										focusAtEndOfLine2(e.target);
 									}
 								}}
 								lineOptions={warnings.map(({ loc }) => ({
@@ -242,15 +228,20 @@ export const BlockControl = (
 									classes: ['line-error'],
 								}))}
 							/>
-							<p className="m-0 my-2 text-gray-700 text-xs">
-								{sprintf(
-									__(
-										'See the plugin readme for examples.',
-										'pattern-css',
+							<p
+								className="m-0 my-2 text-gray-700 text-xs"
+								dangerouslySetInnerHTML={{
+									__html: sprintf(
+										// translators: %1$s = opening <a> tag, %2$s = closing </a> tag. %3$s = is an icon indicating a new tab.
+										__(
+											'See the %1$splugin readme%2$s for examples.',
+											'pattern-css',
+										),
+										'<a href="https://wordpress.org/plugins/pattern-css#opens-in-a-new-tab" target="_blank" rel="noreferrer noopener" class="text-wp-theme-500">',
+										'</a>',
 									),
-									'`[block]`',
-								)}
-							</p>
+								}}
+							/>
 						</>
 					) : (
 						<CodePreview value={css} />

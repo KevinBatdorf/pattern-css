@@ -10,7 +10,7 @@ type CodeEditorProps = {
 	// eslint-disable-next-line
 	onFocus: (event: any) => void;
 	// eslint-disable-next-line
-	onBlur: (event: any) => void;
+	onBlur?: (event: any) => void;
 	lineOptions: LineOption[];
 };
 export const CodeEditor = (props: CodeEditorProps) => {

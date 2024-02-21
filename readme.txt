@@ -31,14 +31,22 @@ Add custom CSS to any block or pattern, including reusable patterns too. Your st
 Star it on [GitHub](https://github.com/KevinBatdorf/pattern-css)
 
 = Basic Example =
-`[block] a {
-  border-bottom: 1px solid blue;
+`/* Target the block directly */
+[block] {
+  background: antiquewhite;
+  padding: 2rem;
 }
-[block] a:hover {
-  border-bottom-color: green;
+/* Target any inner elements */
+a {
+  text-decoration-color: burlywood;
+  text-decoration-thickness: 2px;
+  text-decoration-style: solid !important;
+}
+a:hover {
+  text-decoration-color: darkgoldenrod;
 }
 /* Output: */
-.pcss-f526bb2d a{border-bottom:1px solid #00f}.pcss-f526bb2d a:hover{border-bottom-color:green}`
+.pcss-a1b7b016{background:#faebd7;padding:2rem}.pcss-a1b7b016 a{text-decoration-color:#deb887;text-decoration-thickness:2px;text-decoration-style:solid!important}.pcss-a1b7b016 a:hover{text-decoration-color:#b8860b}`
 
 = Supports Media Queries =
 `@media (prefers-color-scheme: dark) {
