@@ -292,7 +292,7 @@ export const BlockControl = (
 					</Button>
 					<p className="text-md text-gray-600 mt-2">
 						{__(
-							"If there's a conflict from importing or duplication you can generate a new ID. Remember to save.",
+							"If there's a styling conflict with another block you can generate a new ID.",
 							'pattern-css',
 						)}
 					</p>
