@@ -42,7 +42,7 @@ export const CodeEditor = forwardRef((props: CodeEditorProps, ref) => {
 				// @ts-ignore-next-line
 				ref={ref}
 				value={decodeEntities(value)}
-				className="font-jetbrains-mono border border-gray-600 wp-focus"
+				className="font-jetbrains-mono border border-solid border-gray-600 wp-focus"
 				onValueChange={onChange}
 				{...remainingProps}
 				padding={{

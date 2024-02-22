@@ -25,6 +25,7 @@ import { CodePreview } from './CodePreview';
 import { focusAtEndOfLine2 } from '../lib/dom';
 import { EditorControls } from './EditorControls';
 import { store as coreStore } from '@wordpress/editor';
+import { addToClassList } from '../lib/classes';
 
 export const BlockControl = (
 	// eslint-disable-next-line
@@ -143,7 +144,10 @@ export const BlockControl = (
 			pcssAdditionalCss: css,
 			pcssClassId: pcssClassId || `pcss-${blockId?.split('-')[0]}`,
 		});
-	}, [css, setAttributes, ready, pcssClassId, blockId]);
+		const existing = existingClasses?.split(' ') || [];
+		if (existing?.includes(pcssClassId)) return;
+		setAttributes({ className: addToClassList(existing, pcssClassId) });
+	}, [css, setAttributes, ready, pcssClassId, blockId, existingClasses]);
 
 	// Do a check for the id if they are saving the post
 	// TODO: this isn't perfect so check back for pre-save hook
@@ -151,15 +155,7 @@ export const BlockControl = (
 		if (!ready || !pcssClassId || !isSaving) return;
 		const existing = existingClasses?.split(' ') || [];
 		if (existing?.find((c: string) => c.startsWith(pcssClassId))) return;
-		const className = [
-			...new Set(
-				[
-					// Remove any existing pcss- classes
-					...existing.filter((c: string) => !c.startsWith('pcss-')),
-					pcssClassId,
-				].filter(Boolean),
-			),
-		].join(' ');
+		const className = addToClassList(existing, pcssClassId);
 		setAttributes({ className });
 	}, [isSaving, existingClasses, pcssClassId, setAttributes, ready]);
 
