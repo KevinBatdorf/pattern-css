@@ -30,8 +30,8 @@ import { installPlugin, uninstallPlugin, resetDatabase } from './wp-cli';
 
 // Getting around
 Cypress.Commands.add('visitLoginPage', (query) => visitToLoginPage(query));
-Cypress.Commands.add('visitAdminPage', (path, query) =>
-	visitAdminPage(path, query),
+Cypress.Commands.add('visitAdminPage', (path, query, options) =>
+	visitAdminPage(path, query, options),
 );
 Cypress.Commands.add('visitNewPageEditor', (query, skipWelcomeGuide) =>
 	visitPageEditor(query, skipWelcomeGuide),
@@ -86,8 +86,8 @@ Cypress.Commands.add('installPlugin', (slug) => installPlugin(slug));
 Cypress.Commands.add('uninstallPlugin', (slug) => uninstallPlugin(slug));
 
 // Block css
-Cypress.Commands.add('clearCodeFromCurrentBlock', (code) =>
-	clearCodeFromCurrentBlock(code),
+Cypress.Commands.add('clearCodeFromCurrentBlock', () =>
+	clearCodeFromCurrentBlock(),
 );
 Cypress.Commands.add('addCodeToCurrentBlock', (code) =>
 	addCodeToCurrentBlock(code),

@@ -10,6 +10,7 @@ import {
 	useState,
 	useMemo,
 	useCallback,
+	useRef,
 } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 import { escapeHTML } from '@wordpress/escape-html';
@@ -17,6 +18,8 @@ import { sprintf, __ } from '@wordpress/i18n';
 import { Warning as CssWarning } from 'lightningcss-wasm';
 import { CodeEditor } from './CodeEditor';
 import { CodePreview } from './CodePreview';
+import { focusAtEndOfLine2 } from '../lib/dom';
+import { EditorControls } from './EditorControls';
 
 const unsupportedBlocks = ['core/site-logo'];
 
@@ -26,7 +29,9 @@ export const BlockControl = (
 	// eslint-disable-next-line
 	props: any,
 ) => {
+	const editorWrapperRef = useRef<HTMLDivElement>(null);
 	const [ready, setReady] = useState(false);
+	const [focused, setFocused] = useState(false);
 	const [warnings, setWarnings] = useState<CssWarning[]>([]);
 	// TODO
 	/* eslint-disable react/prop-types */
@@ -49,22 +54,14 @@ export const BlockControl = (
 	const [transformed, setTransformed] = useState<Uint8Array>();
 	const [compiled, setCompiled] = useState(compiledCss || '');
 	const hasPermission = useMemo(() => window?.patternCss?.canEditCss, []);
-	const stringOne = __('Examples', 'pattern-css');
-
-	/* translators: "An example of css that will focus on the block itself" */
-	const stringTwo = __('Target the block', 'pattern-css');
-
-	/* translators: "An example of css that will select items inside the block" */
-	const stringThree = __('Inside the block', 'pattern-css');
-	const defaultCssExample = sprintf(
-		'/* %1$s */\n\n/* %2$s */\n[block] {\n  color: gray;\n}\n\n/* %3$s */\np {\n  color: blue;\n}',
-		stringOne,
-		stringTwo,
-		stringThree,
-	);
+	const defaultCssExample = '[block] {\n  \n}';
 
 	const handleChange = useCallback(
-		(value: string) => {
+		(value?: string) => {
+			if (value === undefined) {
+				setCss(undefined);
+				return;
+			}
 			const css = escapeHTML(value);
 			setWarnings([]);
 			setCss(css);
@@ -196,13 +193,15 @@ export const BlockControl = (
 						title="Additional CSS"
 						initialOpen={false}
 						className="pattern-css-editor">
-						{sprintf(
-							__(
-								'The `%s` block is not yet supported by Pattern CSS. You can wrap it in a `core/group` block and add CSS there.',
-								'pattern-css',
-							),
-							getBlockName(blockId),
-						)}
+						<p className="p-3 text-gray-900 bg-gray-150 my-2">
+							{sprintf(
+								__(
+									'The `%s` block is not yet supported by Pattern CSS. You can wrap it in a `core/group` block and add CSS there.',
+									'pattern-css',
+								),
+								getBlockName(blockId),
+							)}
+						</p>
 					</PanelBody>
 				</InspectorControls>
 			</>
@@ -219,34 +218,45 @@ export const BlockControl = (
 					className="pattern-css-editor">
 					{hasPermission ? (
 						<>
-							<CodeEditor
-								value={css ?? defaultCssExample}
-								data-cy="pcss-editor-block"
-								onChange={handleChange}
-								onFocus={(e) => {
-									if (e.target.value === defaultCssExample) {
-										handleChange('');
-									}
-								}}
-								onBlur={(e) => {
-									if (e.target.value === '') {
-										handleChange(defaultCssExample);
-									}
-								}}
-								lineOptions={warnings.map(({ loc }) => ({
-									line: loc.line,
-									classes: ['line-error'],
-								}))}
-							/>
-							<p className="m-0 my-2 text-gray-700 text-xs">
-								{sprintf(
-									__(
-										'See the plugin readme for examples.',
-										'pattern-css',
-									),
-									'`[block]`',
+							<div className="relative" ref={editorWrapperRef}>
+								<CodeEditor
+									value={css ?? defaultCssExample}
+									data-cy="pcss-editor-block"
+									onChange={handleChange}
+									onFocus={(e) => {
+										const v = e.target.value;
+										if (v === defaultCssExample) {
+											focusAtEndOfLine2(e.target);
+										}
+										setFocused(true);
+									}}
+									onBlur={() => setFocused(false)}
+									lineOptions={warnings.map(({ loc }) => ({
+										line: loc.line,
+										classes: ['line-error'],
+									}))}
+								/>
+								{focused ? null : (
+									<EditorControls
+										handleChange={handleChange}
+										editorWrapperRef={editorWrapperRef}
+									/>
 								)}
-							</p>
+							</div>
+							<p
+								className="m-0 my-2 text-gray-700 text-xs"
+								dangerouslySetInnerHTML={{
+									__html: sprintf(
+										// translators: %1$s = opening <a> tag, %2$s = closing </a> tag.
+										__(
+											'See the %1$splugin readme%2$s for examples.',
+											'pattern-css',
+										),
+										'<a href="https://wordpress.org/plugins/pattern-css#opens-in-a-new-tab" target="_blank" rel="noreferrer noopener" class="text-wp-theme-500">',
+										'</a>',
+									),
+								}}
+							/>
 						</>
 					) : (
 						<CodePreview value={css} />
