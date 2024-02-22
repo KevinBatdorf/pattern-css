@@ -11,7 +11,11 @@ init().then(() => {
 // Both are unexpected objects with any properties types
 // eslint-disable-next-line
 const addSaveProps = (props: any, _blockType: null, attributes: any) => {
-	const classes = new Set(props.className?.split(' '));
+	const classes = new Set(
+		[props.className?.split(' '), attributes.className?.split(' ')]
+			.flat()
+			.filter(Boolean),
+	);
 	const { pcssClassId } = attributes;
 
 	if (!pcssClassId || classes.has(pcssClassId)) return props;

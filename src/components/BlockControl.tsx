@@ -1,9 +1,13 @@
 import {
 	InspectorAdvancedControls,
 	InspectorControls,
-	store as blockEditorStore,
 } from '@wordpress/block-editor';
-import { PanelBody, BaseControl, TextControl } from '@wordpress/components';
+import {
+	PanelBody,
+	BaseControl,
+	TextControl,
+	Button,
+} from '@wordpress/components';
 import {
 	useLayoutEffect,
 	useEffect,
@@ -20,8 +24,8 @@ import { CodeEditor } from './CodeEditor';
 import { CodePreview } from './CodePreview';
 import { focusAtEndOfLine2 } from '../lib/dom';
 import { EditorControls } from './EditorControls';
-
-const unsupportedBlocks = ['core/site-logo'];
+import { store as coreStore } from '@wordpress/editor';
+import { addToClassList } from '../lib/classes';
 
 export const BlockControl = (
 	// eslint-disable-next-line
@@ -33,22 +37,19 @@ export const BlockControl = (
 	const [ready, setReady] = useState(false);
 	const [focused, setFocused] = useState(false);
 	const [warnings, setWarnings] = useState<CssWarning[]>([]);
-	// TODO
-	/* eslint-disable react/prop-types */
+	const isSaving = useSelect((select) => {
+		// eslint-disable-next-line
+		// @ts-ignore-next-line
+		const { isSavingPost, isAutosavingPost } = select(coreStore);
+		return isSavingPost() || isAutosavingPost();
+	}, []);
 	const { attributes, setAttributes, clientId: blockId } = props;
 	const {
 		pcssClassId,
 		pcssAdditionalCss: initialCss,
 		pcssAdditionalCssCompiled: compiledCss,
+		className: existingClasses,
 	} = attributes;
-	/* eslint-enable react/prop-types */
-
-	// eslint-disable-next-line
-	// @ts-ignore-next-line - it exists?
-	const { getBlockName } = useSelect(
-		(select) => select(blockEditorStore),
-		[],
-	);
 
 	const [css, setCss] = useState(initialCss);
 	const [transformed, setTransformed] = useState<Uint8Array>();
@@ -141,10 +142,23 @@ export const BlockControl = (
 		if (!ready || css === undefined) return;
 		setAttributes({
 			pcssAdditionalCss: css,
-			// eslint-disable-next-line react/prop-types
 			pcssClassId: pcssClassId || `pcss-${blockId?.split('-')[0]}`,
 		});
-	}, [css, setAttributes, ready, pcssClassId, blockId]);
+		// If they are editing and our class isnt in the list then add it
+		const existing = existingClasses?.split(' ') || [];
+		if (existing?.includes(pcssClassId)) return;
+		setAttributes({ className: addToClassList(existing, pcssClassId) });
+	}, [css, setAttributes, ready, pcssClassId, blockId, existingClasses]);
+
+	// Do a check for the id if they are saving the post
+	// TODO: this isn't perfect so check back for pre-save hook
+	useEffect(() => {
+		if (!ready || !pcssClassId || !isSaving) return;
+		const existing = existingClasses?.split(' ') || [];
+		if (existing?.find((c: string) => c.startsWith(pcssClassId))) return;
+		const className = addToClassList(existing, pcssClassId);
+		setAttributes({ className });
+	}, [isSaving, existingClasses, pcssClassId, setAttributes, ready]);
 
 	useEffect(() => {
 		if (!ready) return;
@@ -183,30 +197,6 @@ export const BlockControl = (
 			? frame.document.head.appendChild(style)
 			: parent.appendChild(style);
 	}, [compiled, ready, pcssClassId]);
-
-	if (unsupportedBlocks.includes(getBlockName(blockId))) {
-		return (
-			<>
-				<CurrentMenuItems {...props} />
-				<InspectorControls>
-					<PanelBody
-						title="Additional CSS"
-						initialOpen={false}
-						className="pattern-css-editor">
-						<p className="p-3 text-gray-900 bg-gray-150 my-2">
-							{sprintf(
-								__(
-									'The `%s` block is not yet supported by Pattern CSS. You can wrap it in a `core/group` block and add CSS there.',
-									'pattern-css',
-								),
-								getBlockName(blockId),
-							)}
-						</p>
-					</PanelBody>
-				</InspectorControls>
-			</>
-		);
-	}
 
 	return (
 		<>
@@ -264,26 +254,49 @@ export const BlockControl = (
 				</PanelBody>
 			</InspectorControls>
 			<InspectorAdvancedControls>
-				<BaseControl id="pcss-css-id-setting">
+				<BaseControl
+					id="pcss-css-id-setting"
+					className="pattern-css-editor">
 					<TextControl
 						spellCheck={false}
 						autoComplete="off"
 						data-cy="class-id"
 						type="text"
-						label={__(
-							'Scoped CSS Selector (Pattern CSS)',
-							'pattern-css',
-						)}
-						help={__(
-							"Edit this if you duplicated a block, or have a conflict with another block's CSS styles.",
-							'pattern-css',
-						)}
-						placeholder={'0'}
-						onChange={(pcssClassId: string) => {
-							setAttributes({ pcssClassId });
-						}}
+						label={__('Pattern CSS ID', 'pattern-css')}
+						disabled
+						onChange={() => undefined}
 						value={pcssClassId}
 					/>
+					<Button
+						variant="secondary"
+						className="-mt-2"
+						onClick={() => {
+							const pcssClassId = `pcss-${Math.random()
+								.toString(36)
+								.substring(2, 10)}`;
+							const existing = existingClasses?.split(' ') || [];
+							const className = [
+								...new Set(
+									[
+										// Remove any existing pcss- classes
+										...existing.filter(
+											(c: string) =>
+												!c.startsWith('pcss-'),
+										),
+										pcssClassId,
+									].filter(Boolean),
+								),
+							].join(' ');
+							setAttributes({ pcssClassId, className });
+						}}>
+						{__('Generate New ID', 'pattern-css')}
+					</Button>
+					<p className="text-md text-gray-600 mt-2">
+						{__(
+							"If there's a styling conflict with another block you can generate a new ID.",
+							'pattern-css',
+						)}
+					</p>
 				</BaseControl>
 			</InspectorAdvancedControls>
 		</>
