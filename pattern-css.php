@@ -4,7 +4,7 @@
  * Description:       Lightening Fast, Safe, In-editor CSS Optimization and Minification Tool
  * Requires at least: 6.0
  * Requires PHP:      7.0
- * Version:           1.2.0
+ * Version:           1.2.1
  * Author:            Kevin Batdorf
  * Author URI:        https://twitter.com/kevinbatdorf
  * License:           GPL-2.0-or-later

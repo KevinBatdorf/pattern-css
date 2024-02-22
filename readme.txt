@@ -2,7 +2,7 @@
 Contributors:      kbat82
 Tags:              css, styles, inline, custom, blocks, pattern, design
 Tested up to:      6.5
-Stable tag:        1.2.0
+Stable tag:        1.2.1
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -122,6 +122,10 @@ Add this to functions.php:
 3. Will warn you if your CSS is invalid
 
 == Changelog ==
+
+= 1.2.1 - 2024-02-22 =
+- Removed the example code and added a useful default
+- Render blocks now work - now adds the id to the main class list
 
 = 1.2.0 - 2024-02-20 =
 - Feature: Adds support for CSS nesting
