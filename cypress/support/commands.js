@@ -86,8 +86,8 @@ Cypress.Commands.add('installPlugin', (slug) => installPlugin(slug));
 Cypress.Commands.add('uninstallPlugin', (slug) => uninstallPlugin(slug));
 
 // Block css
-Cypress.Commands.add('clearCodeFromCurrentBlock', (code) =>
-	clearCodeFromCurrentBlock(code),
+Cypress.Commands.add('clearCodeFromCurrentBlock', () =>
+	clearCodeFromCurrentBlock(),
 );
 Cypress.Commands.add('addCodeToCurrentBlock', (code) =>
 	addCodeToCurrentBlock(code),

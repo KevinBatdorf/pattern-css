@@ -31,6 +31,7 @@ export const BlockControl = (
 ) => {
 	const editorWrapperRef = useRef<HTMLDivElement>(null);
 	const [ready, setReady] = useState(false);
+	const [focused, setFocused] = useState(false);
 	const [warnings, setWarnings] = useState<CssWarning[]>([]);
 	// TODO
 	/* eslint-disable react/prop-types */
@@ -213,7 +214,7 @@ export const BlockControl = (
 			<InspectorControls>
 				<PanelBody
 					title="Additional CSS"
-					initialOpen={true}
+					initialOpen={false}
 					className="pattern-css-editor">
 					{hasPermission ? (
 						<>
@@ -223,21 +224,24 @@ export const BlockControl = (
 									data-cy="pcss-editor-block"
 									onChange={handleChange}
 									onFocus={(e) => {
-										if (
-											e.target.value === defaultCssExample
-										) {
+										const v = e.target.value;
+										if (v === defaultCssExample) {
 											focusAtEndOfLine2(e.target);
 										}
+										setFocused(true);
 									}}
+									onBlur={() => setFocused(false)}
 									lineOptions={warnings.map(({ loc }) => ({
 										line: loc.line,
 										classes: ['line-error'],
 									}))}
 								/>
-								<EditorControls
-									handleChange={handleChange}
-									editorWrapperRef={editorWrapperRef}
-								/>
+								{focused ? null : (
+									<EditorControls
+										handleChange={handleChange}
+										editorWrapperRef={editorWrapperRef}
+									/>
+								)}
 							</div>
 							<p
 								className="m-0 my-2 text-gray-700 text-xs"
