@@ -8,7 +8,7 @@ export const EditorControls = ({
 	handleChange: (value: string) => void;
 	editorWrapperRef: React.RefObject<HTMLDivElement>;
 }) => (
-	<div className="flex gap-1 absolute top-[5px] right-[5px]">
+	<div className="flex gap-1 absolute top-px right-px">
 		<Tooltip text={__('Clear CSS', 'pattern-css')}>
 			<Button
 				icon="no-alt"
@@ -19,7 +19,7 @@ export const EditorControls = ({
 						?.querySelector('textarea')
 						?.focus();
 				}}
-				className="text-gray-600 wp-focus">
+				className="text-gray-600 wp-focus gap-0 p-1">
 				<span className="sr-only">
 					{__('Clear CSS', 'pattern-css')}
 				</span>

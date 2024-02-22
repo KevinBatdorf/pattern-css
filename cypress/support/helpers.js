@@ -6,8 +6,11 @@ Cypress.Commands.add('text', { prevSubject: true }, (subject, text) => {
 });
 Cypress.Commands.add('clearBrowserStorage', () => {
 	cy.log('Clear browser local storage (including session storage)');
+	cy.reload();
 	cy.window().then((win) => {
 		win.localStorage.clear();
 		win.sessionStorage.clear();
 	});
+	// https://github.com/cypress-io/cypress/issues/2573#issuecomment-1339618812
+	cy.clearAllLocalStorage();
 });

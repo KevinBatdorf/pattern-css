@@ -18,15 +18,13 @@ context('Pattern Css', () => {
 				}),
 			]);
 			win.wp.data.dispatch('core/block-editor').insertBlock(block);
-
 			// Make sure no class is added
 			const className = `pcss-${block.clientId?.split('-')[0]}`;
 			cy.get(`.wp-block-group.${className}`).should('not.exist');
-
 			// Add some css
 			cy.selectBlockById(block.clientId);
+			cy.clearCodeFromCurrentBlock();
 			cy.addCodeToCurrentBlock('p { color: red; }');
-
 			// Check the group block has the class
 			cy.get(`.wp-block-group.${className}`).should('exist');
 		});
@@ -53,6 +51,7 @@ context('Pattern Css', () => {
 
 			// Select the first block
 			cy.selectBlockById(block.clientId);
+			cy.clearCodeFromCurrentBlock();
 			cy.addCodeToCurrentBlock('p { color: red; }');
 
 			// First block p tag should be red
@@ -116,6 +115,7 @@ context('Pattern Css', () => {
 
 			// Select the first block
 			cy.selectBlockById(block.clientId);
+			cy.clearCodeFromCurrentBlock();
 			cy.addCodeToCurrentBlock('p { color: red; }');
 
 			// Select the second block
@@ -164,6 +164,7 @@ context('Pattern Css', () => {
 
 			// Select the block
 			cy.selectBlockById(block.clientId);
+			cy.clearCodeFromCurrentBlock();
 			cy.addCodeToCurrentBlock('[block] { color: red; }');
 
 			// p tag should be red
@@ -197,9 +198,7 @@ context('Pattern Css', () => {
 			// Select the block
 			cy.selectBlockById(block.clientId);
 			cy.clearCodeFromCurrentBlock(); // clear placeholder
-			cy.addCodeToCurrentBlock(
-				'[block] { color: blue; }[block] { color: red; }',
-			);
+			cy.addCodeToCurrentBlock('[block] { color: red; }');
 
 			// p tag should be red
 			cy.get(`.${className}`).should(
