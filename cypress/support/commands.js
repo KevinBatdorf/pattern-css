@@ -30,8 +30,8 @@ import { installPlugin, uninstallPlugin, resetDatabase } from './wp-cli';
 
 // Getting around
 Cypress.Commands.add('visitLoginPage', (query) => visitToLoginPage(query));
-Cypress.Commands.add('visitAdminPage', (path, query) =>
-	visitAdminPage(path, query),
+Cypress.Commands.add('visitAdminPage', (path, query, options) =>
+	visitAdminPage(path, query, options),
 );
 Cypress.Commands.add('visitNewPageEditor', (query, skipWelcomeGuide) =>
 	visitPageEditor(query, skipWelcomeGuide),

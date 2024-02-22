@@ -18,15 +18,12 @@ context('Pattern Css', () => {
 				}),
 			]);
 			win.wp.data.dispatch('core/block-editor').insertBlock(block);
-
 			// Make sure no class is added
 			const className = `pcss-${block.clientId?.split('-')[0]}`;
 			cy.get(`.wp-block-group.${className}`).should('not.exist');
-
 			// Add some css
 			cy.selectBlockById(block.clientId);
 			cy.addCodeToCurrentBlock('p { color: red; }');
-
 			// Check the group block has the class
 			cy.get(`.wp-block-group.${className}`).should('exist');
 		});
