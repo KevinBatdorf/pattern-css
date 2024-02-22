@@ -144,6 +144,7 @@ export const BlockControl = (
 			pcssAdditionalCss: css,
 			pcssClassId: pcssClassId || `pcss-${blockId?.split('-')[0]}`,
 		});
+		// If they are editing and our class isnt in the list then add it
 		const existing = existingClasses?.split(' ') || [];
 		if (existing?.includes(pcssClassId)) return;
 		setAttributes({ className: addToClassList(existing, pcssClassId) });
