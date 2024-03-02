@@ -1,4 +1,4 @@
-=== Pattern CSS - Sync styles to patterns and blocks ===
+=== Pattern CSS - Inline Block Styles ===
 Contributors:      kbat82
 Tags:              css, styles, inline, pattern, sync
 Tested up to:      6.5
@@ -29,6 +29,7 @@ Add custom CSS to any block or pattern, including reusable patterns too. Your st
 - Supports CSS nesting
 
 Star it on [GitHub](https://github.com/KevinBatdorf/pattern-css)
+DM me on Twitter [@kevinbatdorf](https://twitter.com/kevinbatdorf)
 
 = Basic Example =
 `/* Target the block directly */
@@ -45,6 +46,7 @@ a {
 a:hover {
   text-decoration-color: darkgoldenrod;
 }
+
 /* Output: */
 .pcss-a1b7b016{background:#faebd7;padding:2rem}.pcss-a1b7b016 a{text-decoration-color:#deb887;text-decoration-thickness:2px;text-decoration-style:solid!important}.pcss-a1b7b016 a:hover{text-decoration-color:#b8860b}`
 
