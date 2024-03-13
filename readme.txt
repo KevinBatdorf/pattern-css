@@ -6,11 +6,11 @@ Stable tag:        1.2.1
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
-Add CSS styles to your blocks and synced patterns! Fast, optimized, and using modern best practices.
+Add optimized CSS styles to your blocks and synced patterns via a "Additional CSS" settings panel.
 
 == Description ==
 
-Add custom CSS to any block or pattern, including reusable patterns too. Your styles will be optimized, minified, and inlined directly into the page *only* where the block is used. If you set the block as synced, then the styles will be updated everywhere the block is used!
+The missing inline CSS editor for blocks. Very powerful with synced patterns.
 
 = How to =
 - Every block will have a new "Additional CSS" settings panel.
@@ -19,6 +19,8 @@ Add custom CSS to any block or pattern, including reusable patterns too. Your st
 - Use `!important` to override your theme styles (use sparingly)
 
 = Features =
+- Smart loading. Only loads the CSS when the block is present
+- No lock in. The styles are attached to the block attributes
 - Scopes styles to the block so that parent/sibling blocks are not affected
 - It's fast. CSS is minified and optimized in the browser
 - It's safe. Invalid, non-spec CSS is never persisted (validated via webassembly sandbox)
