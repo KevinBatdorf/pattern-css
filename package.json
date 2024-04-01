@@ -60,7 +60,7 @@
 		"lightningcss": "1.23.0",
 		"lightningcss-wasm": "1.23.0",
 		"react-simple-code-editor": "^0.13.1",
-		"shiki": "^0.14.7",
+		"shiki": "^1.2.3",
 		"swr": "^2.2.5",
 		"zustand": "^4.5.1"
 	}
