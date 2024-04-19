@@ -314,7 +314,7 @@ context('Pattern Css', () => {
 				.invoke('text')
 				.should(
 					'contain',
-					`background-image:url(https://foo.com/bar.jpg?&lt;/style>&lt;script>alert\\(1\\)&lt;/script>)`,
+					'background-image:url(https://foo.com/bar.jpg?&lt;/style>&lt;script>alert\\(1\\)&lt;/script>)',
 				);
 		});
 	});
