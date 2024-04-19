@@ -109,6 +109,10 @@ Check browser support for [CSS nesting](https://caniuse.com/css-nesting)
 
 == Frequently Asked Questions ==
 
+= Error about application/wasm mime type =
+
+Your server needs to be able to identify the mime type being used. See here: https://wordpress.org/support/topic/webassembly-instantiatestreaming-failed-because-your-server-does-not-serve-wasm/
+
 = Can I use something other than [block]? =
 
 You can add a custom selector via a PHP constant. It requires setting a type (type, attribute, etc) and the name.
@@ -126,6 +130,11 @@ Add this to functions.php:
 3. Will warn you if your CSS is invalid
 
 == Changelog ==
+
+- Fixed an issue where CSS media queries using <= were stripped out
+- Removed loading the viewer for users without the edit_css cap
+- Removed the tag stripping output - now only privlidged users can use
+- Updated tests to run on modern WP (by disabling the iframe)
 
 = 1.2.1 - 2024-02-22 =
 - Removed the example code and added a useful default

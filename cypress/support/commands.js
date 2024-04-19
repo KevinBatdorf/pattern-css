@@ -23,7 +23,12 @@ import {
 	visitAdminPage,
 	visitToLoginPage,
 } from './navigate-pages';
-import { installPlugin, uninstallPlugin, resetDatabase } from './wp-cli';
+import {
+	installPlugin,
+	uninstallPlugin,
+	resetDatabase,
+	disableIframe,
+} from './wp-cli';
 
 // Port more commands from WP here:
 // https://github.com/WordPress/gutenberg/tree/trunk/packages/e2e-test-utils/src
@@ -84,6 +89,9 @@ Cypress.Commands.add('resetDatabase', () => resetDatabase());
 // Manage plugins
 Cypress.Commands.add('installPlugin', (slug) => installPlugin(slug));
 Cypress.Commands.add('uninstallPlugin', (slug) => uninstallPlugin(slug));
+
+// Disable iframe
+Cypress.Commands.add('disableIframe', () => disableIframe());
 
 // Block css
 Cypress.Commands.add('clearCodeFromCurrentBlock', () =>

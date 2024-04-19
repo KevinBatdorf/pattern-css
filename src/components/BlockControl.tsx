@@ -12,7 +12,6 @@ import {
 	useLayoutEffect,
 	useEffect,
 	useState,
-	useMemo,
 	useCallback,
 	useRef,
 } from '@wordpress/element';
@@ -21,7 +20,6 @@ import { escapeHTML } from '@wordpress/escape-html';
 import { sprintf, __ } from '@wordpress/i18n';
 import { Warning as CssWarning } from 'lightningcss-wasm';
 import { CodeEditor } from './CodeEditor';
-import { CodePreview } from './CodePreview';
 import { focusAtEndOfLine2 } from '../lib/dom';
 import { EditorControls } from './EditorControls';
 import { store as coreStore } from '@wordpress/editor';
@@ -34,7 +32,6 @@ export const BlockControl = (
 	props: any,
 ) => {
 	const editorWrapperRef = useRef<HTMLDivElement>(null);
-	const [ready, setReady] = useState(false);
 	const [focused, setFocused] = useState(false);
 	const [warnings, setWarnings] = useState<CssWarning[]>([]);
 	const isSaving = useSelect((select) => {
@@ -54,7 +51,6 @@ export const BlockControl = (
 	const [css, setCss] = useState(initialCss);
 	const [transformed, setTransformed] = useState<Uint8Array>();
 	const [compiled, setCompiled] = useState(compiledCss || '');
-	const hasPermission = useMemo(() => window?.patternCss?.canEditCss, []);
 	const defaultCssExample = '[block] {\n  \n}';
 
 	const handleChange = useCallback(
@@ -123,23 +119,17 @@ export const BlockControl = (
 	);
 
 	useEffect(() => {
-		if (!hasPermission) return;
-		setReady(true);
-	}, [hasPermission]);
-
-	useEffect(() => {
-		if (!ready || !initialCss) return;
+		if (!initialCss) return;
 		handleChange(initialCss);
-	}, [ready, handleChange, initialCss]);
+	}, [handleChange, initialCss]);
 
 	useEffect(() => {
-		if (!ready) return;
 		if (transformed === undefined) return;
 		setCompiled(new TextDecoder().decode(transformed));
-	}, [transformed, ready]);
+	}, [transformed]);
 
 	useEffect(() => {
-		if (!ready || css === undefined) return;
+		if (css === undefined) return;
 		setAttributes({
 			pcssAdditionalCss: css,
 			pcssClassId: pcssClassId || `pcss-${blockId?.split('-')[0]}`,
@@ -148,26 +138,25 @@ export const BlockControl = (
 		const existing = existingClasses?.split(' ') || [];
 		if (existing?.includes(pcssClassId)) return;
 		setAttributes({ className: addToClassList(existing, pcssClassId) });
-	}, [css, setAttributes, ready, pcssClassId, blockId, existingClasses]);
+	}, [css, setAttributes, pcssClassId, blockId, existingClasses]);
 
 	// Do a check for the id if they are saving the post
 	// TODO: this isn't perfect so check back for pre-save hook
 	useEffect(() => {
-		if (!ready || !pcssClassId || !isSaving) return;
+		if (!pcssClassId || !isSaving) return;
 		const existing = existingClasses?.split(' ') || [];
 		if (existing?.find((c: string) => c.startsWith(pcssClassId))) return;
 		const className = addToClassList(existing, pcssClassId);
 		setAttributes({ className });
-	}, [isSaving, existingClasses, pcssClassId, setAttributes, ready]);
+	}, [isSaving, existingClasses, pcssClassId, setAttributes]);
 
 	useEffect(() => {
-		if (!ready) return;
 		if (compiled === compiledCss) return;
 		setAttributes({ pcssAdditionalCssCompiled: compiled });
-	}, [compiled, setAttributes, ready, compiledCss]);
+	}, [compiled, setAttributes, compiledCss]);
 
 	useLayoutEffect(() => {
-		if (!ready || compiled === undefined) return;
+		if (compiled === undefined) return;
 		// Append css to iframe
 		const frame = (
 			document.querySelector(
@@ -196,7 +185,7 @@ export const BlockControl = (
 		frame?.document?.head
 			? frame.document.head.appendChild(style)
 			: parent.appendChild(style);
-	}, [compiled, ready, pcssClassId]);
+	}, [compiled, pcssClassId]);
 
 	return (
 		<>
@@ -206,51 +195,45 @@ export const BlockControl = (
 					title="Additional CSS"
 					initialOpen={false}
 					className="pattern-css-editor">
-					{hasPermission ? (
-						<>
-							<div className="relative" ref={editorWrapperRef}>
-								<CodeEditor
-									value={css ?? defaultCssExample}
-									data-cy="pcss-editor-block"
-									onChange={handleChange}
-									onFocus={(e) => {
-										const v = e.target.value;
-										if (v === defaultCssExample) {
-											focusAtEndOfLine2(e.target);
-										}
-										setFocused(true);
-									}}
-									onBlur={() => setFocused(false)}
-									lineOptions={warnings.map(({ loc }) => ({
-										line: loc.line,
-										classes: ['line-error'],
-									}))}
-								/>
-								{focused ? null : (
-									<EditorControls
-										handleChange={handleChange}
-										editorWrapperRef={editorWrapperRef}
-									/>
-								)}
-							</div>
-							<p
-								className="m-0 my-2 text-gray-700 text-xs"
-								dangerouslySetInnerHTML={{
-									__html: sprintf(
-										// translators: %1$s = opening <a> tag, %2$s = closing </a> tag.
-										__(
-											'See the %1$splugin readme%2$s for examples.',
-											'pattern-css',
-										),
-										'<a href="https://wordpress.org/plugins/pattern-css#opens-in-a-new-tab" target="_blank" rel="noreferrer noopener" class="text-wp-theme-500">',
-										'</a>',
-									),
-								}}
+					<div className="relative" ref={editorWrapperRef}>
+						<CodeEditor
+							value={css ?? defaultCssExample}
+							data-cy="pcss-editor-block"
+							onChange={handleChange}
+							onFocus={(e) => {
+								const v = e.target.value;
+								if (v === defaultCssExample) {
+									focusAtEndOfLine2(e.target);
+								}
+								setFocused(true);
+							}}
+							onBlur={() => setFocused(false)}
+							lineOptions={warnings.map(({ loc }) => ({
+								line: loc.line,
+								classes: ['line-error'],
+							}))}
+						/>
+						{focused ? null : (
+							<EditorControls
+								handleChange={handleChange}
+								editorWrapperRef={editorWrapperRef}
 							/>
-						</>
-					) : (
-						<CodePreview value={css} />
-					)}
+						)}
+					</div>
+					<p
+						className="m-0 my-2 text-gray-700 text-xs"
+						dangerouslySetInnerHTML={{
+							__html: sprintf(
+								// translators: %1$s = opening <a> tag, %2$s = closing </a> tag.
+								__(
+									'See the %1$splugin readme%2$s for examples.',
+									'pattern-css',
+								),
+								'<a href="https://wordpress.org/plugins/pattern-css#opens-in-a-new-tab" target="_blank" rel="noreferrer noopener" class="text-wp-theme-500">',
+								'</a>',
+							),
+						}}
+					/>
 				</PanelBody>
 			</InspectorControls>
 			<InspectorAdvancedControls>
