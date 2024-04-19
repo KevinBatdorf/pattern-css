@@ -306,10 +306,6 @@ context('Pattern Css', () => {
 				'url(https://foo.com/bar.jpg?</style><script>alert(1)</script>)',
 			);
 
-			cy.get(`#pcss-block-${className}-inline-css`).then(($el) => {
-				cy.log($el.text());
-				console.log($el.text());
-			});
 			cy.get(`#pcss-block-${className}-inline-css`)
 				.invoke('text')
 				.should(
