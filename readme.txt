@@ -2,7 +2,7 @@
 Contributors:      kbat82
 Tags:              css, styles, inline, pattern, sync
 Tested up to:      6.5
-Stable tag:        1.2.1
+Stable tag:        1.2.2
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -131,6 +131,7 @@ Add this to functions.php:
 
 == Changelog ==
 
+= 1.2.2 - 2024-04-19 =
 - Fixed an issue where CSS media queries using <= were stripped out
 - Removed loading the viewer for users without the edit_css cap
 - Removed the tag stripping output - now only privlidged users can use
