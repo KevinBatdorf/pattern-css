@@ -30,7 +30,7 @@ jobs:
                   wp-env start --update
                   echo "WordPress version: `wp-env run cli core version`"
             - name: Cypress run
-              uses: cypress-io/github-action@v4
+              uses: cypress-io/github-action@v6
               with:
                   browser: chrome
                   spec: cypress/e2e/${{ matrix.spec }}.cy.js
