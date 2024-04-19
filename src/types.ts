@@ -4,7 +4,6 @@ export {};
 declare global {
 	interface Window {
 		patternCss: {
-			canEditCss: string;
 			pluginUrl: string;
 			transform: typeof transform;
 			selectorOverride?: {
