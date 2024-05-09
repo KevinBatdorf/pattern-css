@@ -72,13 +72,17 @@ export const BlockControl = (
 				errorRecovery: true,
 				visitor: {
 					StyleSheetExit: (stylesheet) => {
-						// Filter out any styles that don't have rules inside
-						// These are sules like @import, @keyframes, etc
+						// Filter out the globals
+						const ignored = [
+							'import',
+							'supports',
+							'page',
+							'font-face',
+							'keyframes',
+							'counter-style',
+						];
 						stylesheet.rules = stylesheet.rules.filter(
-							(rule: Rule) =>
-								// eslint-disable-next-line
-								// @ts-ignore-next-line - if it doesnt exist, then great!
-								rule?.value?.rules?.length > 0,
+							(rule: Rule) => !ignored.includes(rule.type),
 						);
 						return stylesheet;
 					},
