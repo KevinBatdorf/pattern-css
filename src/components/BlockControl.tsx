@@ -18,7 +18,7 @@ import {
 import { useSelect } from '@wordpress/data';
 import { escapeHTML } from '@wordpress/escape-html';
 import { sprintf, __ } from '@wordpress/i18n';
-import { Warning as CssWarning } from 'lightningcss-wasm';
+import { Warning as CssWarning, Rule } from 'lightningcss-wasm';
 import { CodeEditor } from './CodeEditor';
 import { focusAtEndOfLine2 } from '../lib/dom';
 import { EditorControls } from './EditorControls';
@@ -71,6 +71,21 @@ export const BlockControl = (
 				minify: true,
 				errorRecovery: true,
 				visitor: {
+					StyleSheetExit: (stylesheet) => {
+						// Filter out the globals
+						const ignored = [
+							'import',
+							'supports',
+							'page',
+							'font-face',
+							'keyframes',
+							'counter-style',
+						];
+						stylesheet.rules = stylesheet.rules.filter(
+							(rule: Rule) => !ignored.includes(rule.type),
+						);
+						return stylesheet;
+					},
 					Selector(selector) {
 						const { name, type } = selector[0] as {
 							// cast as we only deal with cases where names exist
