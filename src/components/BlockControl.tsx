@@ -18,7 +18,7 @@ import {
 import { useSelect } from '@wordpress/data';
 import { escapeHTML } from '@wordpress/escape-html';
 import { sprintf, __ } from '@wordpress/i18n';
-import { Warning as CssWarning } from 'lightningcss-wasm';
+import { Warning as CssWarning, Rule } from 'lightningcss-wasm';
 import { CodeEditor } from './CodeEditor';
 import { focusAtEndOfLine2 } from '../lib/dom';
 import { EditorControls } from './EditorControls';
@@ -71,6 +71,17 @@ export const BlockControl = (
 				minify: true,
 				errorRecovery: true,
 				visitor: {
+					StyleSheetExit: (stylesheet) => {
+						// Filter out any styles that don't have rules inside
+						// These are sules like @import, @keyframes, etc
+						stylesheet.rules = stylesheet.rules.filter(
+							(rule: Rule) =>
+								// eslint-disable-next-line
+								// @ts-ignore-next-line - if it doesnt exist, then great!
+								rule?.value?.rules?.length > 0,
+						);
+						return stylesheet;
+					},
 					Selector(selector) {
 						const { name, type } = selector[0] as {
 							// cast as we only deal with cases where names exist

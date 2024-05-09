@@ -2,7 +2,7 @@
 Contributors:      kbat82
 Tags:              css, styles, inline, pattern, sync
 Tested up to:      6.5
-Stable tag:        1.2.2
+Stable tag:        1.2.3
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -130,6 +130,9 @@ Add this to functions.php:
 3. Will warn you if your CSS is invalid
 
 == Changelog ==
+
+= 1.2.3 - 2024-05-09 =
+- Removed globals like @import, @font-face, and @keyframes (and others)
 
 = 1.2.2 - 2024-04-19 =
 - Fixed an issue where CSS media queries using <= were stripped out

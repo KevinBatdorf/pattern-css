@@ -299,7 +299,7 @@ context('Pattern Css', () => {
 
 			cy.previewCurrentPage();
 
-			// Confirm the same on the frontend
+			// Confirm on the frontend
 			cy.get(`.${className}`).should(
 				'not.have.css',
 				'background-image',
@@ -312,6 +312,44 @@ context('Pattern Css', () => {
 					'contain',
 					'background-image:url(https://foo.com/bar.jpg?&lt;/style>&lt;script>alert\\(1\\)&lt;/script>)',
 				);
+		});
+	});
+	it('Removes @import, @keyframes, and others', () => {
+		const css = `@charset "UTF-8";
+		@import url('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css');
+		@media screen and (max-width: 600px) { .f { foo: 'bar';} }
+		@supports (display: grid) {}
+		@page :left {}
+		@font-face {font-family: MyFont;src: url('myfont.woff2');}
+		@keyframes slidein {from {}to {}}
+		@counter-style customCounter { system: cyclic; } `;
+		cy.window().then((win) => {
+			// Manually add blocks so we can get the block id
+			const block = win.wp.blocks.createBlock('core/group', {}, [
+				win.wp.blocks.createBlock('core/paragraph', {
+					content: 'Hello',
+				}),
+			]);
+			const className = `pcss-${block.clientId?.split('-')[0]}`;
+			win.wp.data.dispatch('core/block-editor').insertBlock(block);
+
+			// Select the block
+			cy.selectBlockById(block.clientId);
+			cy.clearCodeFromCurrentBlock(); // clear placeholder
+			cy.addCodeToCurrentBlock(css);
+
+			cy.previewCurrentPage();
+
+			// should not have any of the rules except media query
+			cy.get(`style#pcss-block-${className}-inline-css`)
+				.invoke('text')
+				.should('not.contain', '@import')
+				.and('not.contain', '@keyframes')
+				.and('not.contain', '@charset')
+				.and('not.contain', '@font-face')
+				.and('not.contain', '@page')
+				.and('not.contain', '@supports')
+				.and('contain', '@media');
 		});
 	});
 });
