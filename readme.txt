@@ -1,6 +1,6 @@
 === Pattern CSS - Inline Block Styles ===
 Contributors:      kbat82
-Tags:              css, styles, inline, pattern, sync
+Tags:              css, styles, margin, pattern, sync
 Tested up to:      6.5
 Stable tag:        1.2.3
 License:           GPL-2.0-or-later
