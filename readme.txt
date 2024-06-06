@@ -10,7 +10,7 @@ Add optimized CSS styles to your blocks and synced patterns via a "Additional CS
 
 == Description ==
 
-The missing inline CSS editor for blocks. Very powerful with synced patterns.
+The missing inline CSS editor for blocks. Very powerful with synced patterns. Pairs well with global styles.
 
 = How to =
 - Every block will have a new "Additional CSS" settings panel.
