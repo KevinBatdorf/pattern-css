@@ -207,7 +207,7 @@ export const BlockControl = (
 			{CurrentMenuItems && <CurrentMenuItems {...props} />}
 			<InspectorControls>
 				<PanelBody
-					title="Additional CSS"
+					title="Pattern CSS"
 					initialOpen={false}
 					className="pattern-css-editor">
 					<div className="relative" ref={editorWrapperRef}>
