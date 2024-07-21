@@ -1,5 +1,5 @@
 export const clearCodeFromCurrentBlock = () => {
-	cy.openSideBarPanel('Additional CSS');
+	cy.openSideBarPanel('Pattern CSS');
 	cy.get('[data-cy="pcss-editor-block"] textarea').should('exist').click();
 	cy.get('[data-cy="pcss-editor-block"] textarea')
 		.should('have.focus')
@@ -7,7 +7,7 @@ export const clearCodeFromCurrentBlock = () => {
 };
 
 export const addCodeToCurrentBlock = (code) => {
-	cy.openSideBarPanel('Additional CSS');
+	cy.openSideBarPanel('Pattern CSS');
 	cy.get('[data-cy="pcss-editor-block"] textarea').should('exist').click();
 	cy.get('[data-cy="pcss-editor-block"] textarea')
 		.should('have.focus')

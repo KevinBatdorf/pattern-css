@@ -1,19 +1,19 @@
 === Pattern CSS - Inline Block Styles ===
 Contributors:      kbat82
 Tags:              css, styles, inline, margin, pattern
-Tested up to:      6.5
-Stable tag:        1.2.3
+Tested up to:      6.6
+Stable tag:        1.2.4
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
-Add optimized CSS styles to your blocks and synced patterns via a "Additional CSS" settings panel.
+Add optimized CSS styles to your blocks and synced patterns via a "Pattern CSS" settings panel.
 
 == Description ==
 
 The missing inline CSS editor for blocks. Very powerful with synced patterns. Pairs well with global styles.
 
 = How to =
-- Every block will have a new "Additional CSS" settings panel.
+- Every block will have a new "Pattern CSS" settings panel.
 - To target a block, you must use the `[block]` selector.
 - To target any element *inside* the block, use the normal CSS selector.
 - Use `!important` to override your theme styles (use sparingly)
@@ -130,6 +130,9 @@ Add this to functions.php:
 3. Will warn you if your CSS is invalid
 
 == Changelog ==
+
+= 1.2.4 - 2024-07-21 =
+- Renamed the panel to Pattern CSS to differenciate it from the core panel on FSE
 
 = 1.2.3 - 2024-05-09 =
 - Removed globals like @import, @font-face, and @keyframes (and others)
