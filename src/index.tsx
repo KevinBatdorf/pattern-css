@@ -45,7 +45,7 @@ addFilter(
 		};
 		return {
 			...settings,
-			attributes: { ...settings.attributes, ...blockAttributes },
+			attributes: { ...(settings?.attributes ?? {}), ...blockAttributes },
 		};
 	},
 );

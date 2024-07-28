@@ -2,7 +2,7 @@
 Contributors:      kbat82
 Tags:              css, styles, inline, margin, pattern
 Tested up to:      6.6
-Stable tag:        1.2.4
+Stable tag:        1.2.5
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -130,6 +130,9 @@ Add this to functions.php:
 3. Will warn you if your CSS is invalid
 
 == Changelog ==
+
+= 1.2.5 - 2024-07-28 =
+- Fixed a small bug where a block may not have attributes when we access them.
 
 = 1.2.4 - 2024-07-21 =
 - Renamed the panel to Pattern CSS to differenciate it from the core panel on FSE
