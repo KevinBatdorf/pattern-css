@@ -27,7 +27,7 @@
 		"@typescript-eslint/parser": "^7.16.1",
 		"@wordpress/block-editor": "^13.3.0",
 		"@wordpress/env": "^10.3.0",
-		"@wordpress/scripts": "^28.3.0",
+		"@wordpress/scripts": "^28.6.0",
 		"@wordpress/url": "^4.3.0",
 		"autoprefixer": "^10.4.19",
 		"cypress": "^13.13.1",
