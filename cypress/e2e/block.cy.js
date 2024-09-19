@@ -310,7 +310,7 @@ context('Pattern Css', () => {
 				.invoke('text')
 				.should(
 					'contain',
-					'background-image:url(https://foo.com/bar.jpg?&lt;/style&gt;&lt;script>alert\\(1\\)&lt;/script&gt;)',
+					'background-image:url(https://foo.com/bar.jpg?&lt;/style&gt;&lt;script&gt;alert\\(1\\)&lt;/script&gt;)',
 				);
 		});
 	});
