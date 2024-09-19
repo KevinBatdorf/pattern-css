@@ -48,6 +48,7 @@
 		"quote-props": ["error", "as-needed"],
 		"no-multiple-empty-lines": ["error", { "max": 1 }],
 		"@typescript-eslint/no-var-requires": "off",
+		"@typescript-eslint/no-require-imports": "off",
 		"lines-around-comment": [
 			"error",
 			{

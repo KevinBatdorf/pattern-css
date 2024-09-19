@@ -195,9 +195,11 @@ export const BlockControl = (
 			: document.createElement('style');
 		style.id = id;
 		style.innerHTML = compiled;
-		frame?.document?.head
-			? frame.document.head.appendChild(style)
-			: parent.appendChild(style);
+		if (frame?.document?.head) {
+			frame.document.head.appendChild(style);
+		} else {
+			parent.appendChild(style);
+		}
 	}, [compiled, pcssClassId]);
 
 	return (

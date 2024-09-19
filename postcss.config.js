@@ -8,7 +8,7 @@ module.exports = ({ mode }) => ({
 		(css) =>
 			css.walkRules((rule) => {
 				// Removes top level TW styles like *::before {}
-				rule.selector.startsWith('*') && rule.remove();
+				if (rule.selector.startsWith('*')) rule.remove();
 			}),
 		// See: https://github.com/WordPress/gutenberg/blob/trunk/packages/postcss-plugins-preset/lib/index.js
 		require('autoprefixer')({ grid: true }),
