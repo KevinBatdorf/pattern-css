@@ -23,6 +23,7 @@ import { focusAtEndOfLine2 } from '../lib/dom';
 import { EditorControls } from './EditorControls';
 import { store as coreStore } from '@wordpress/editor';
 import { addToClassList } from '../lib/classes';
+import { escapeCSS } from '../lib/formatting';
 
 export const BlockControl = (
 	// eslint-disable-next-line
@@ -59,7 +60,7 @@ export const BlockControl = (
 				return;
 			}
 			setWarnings([]);
-			setCss(css);
+			setCss(escapeCSS(css));
 
 			if (!window.patternCss?.transform) return;
 
