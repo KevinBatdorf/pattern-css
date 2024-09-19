@@ -54,12 +54,11 @@ export const BlockControl = (
 	const defaultCssExample = '[block] {\n  \n}';
 
 	const handleChange = useCallback(
-		(value?: string) => {
-			if (value === undefined) {
+		(css?: string) => {
+			if (css === undefined) {
 				setCss(undefined);
 				return;
 			}
-			const css = escapeHTML(value);
 			setWarnings([]);
 			setCss(css);
 
