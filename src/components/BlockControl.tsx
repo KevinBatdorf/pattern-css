@@ -16,7 +16,6 @@ import {
 	useRef,
 } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
-import { escapeHTML } from '@wordpress/escape-html';
 import { sprintf, __ } from '@wordpress/i18n';
 import { Warning as CssWarning, Rule } from 'lightningcss-wasm';
 import { CodeEditor } from './CodeEditor';
