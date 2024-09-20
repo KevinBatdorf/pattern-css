@@ -16,7 +16,6 @@ import {
 	useRef,
 } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
-import { escapeHTML } from '@wordpress/escape-html';
 import { sprintf, __ } from '@wordpress/i18n';
 import { Warning as CssWarning, Rule } from 'lightningcss-wasm';
 import { CodeEditor } from './CodeEditor';
@@ -24,6 +23,7 @@ import { focusAtEndOfLine2 } from '../lib/dom';
 import { EditorControls } from './EditorControls';
 import { store as coreStore } from '@wordpress/editor';
 import { addToClassList } from '../lib/classes';
+import { escapeCSS } from '../lib/formatting';
 
 export const BlockControl = (
 	// eslint-disable-next-line
@@ -54,14 +54,13 @@ export const BlockControl = (
 	const defaultCssExample = '[block] {\n  \n}';
 
 	const handleChange = useCallback(
-		(value?: string) => {
-			if (value === undefined) {
+		(css?: string) => {
+			if (css === undefined) {
 				setCss(undefined);
 				return;
 			}
-			const css = escapeHTML(value);
 			setWarnings([]);
-			setCss(css);
+			setCss(escapeCSS(css));
 
 			if (!window.patternCss?.transform) return;
 
@@ -197,9 +196,11 @@ export const BlockControl = (
 			: document.createElement('style');
 		style.id = id;
 		style.innerHTML = compiled;
-		frame?.document?.head
-			? frame.document.head.appendChild(style)
-			: parent.appendChild(style);
+		if (frame?.document?.head) {
+			frame.document.head.appendChild(style);
+		} else {
+			parent.appendChild(style);
+		}
 	}, [compiled, pcssClassId]);
 
 	return (
