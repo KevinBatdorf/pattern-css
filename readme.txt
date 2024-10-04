@@ -6,11 +6,11 @@ Stable tag:        1.2.6
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
-Add optimized CSS styles to your blocks and synced patterns via a "Pattern CSS" settings panel.
+Add optimized CSS styles to your blocks and synced patterns via a "Pattern CSS" settings panel. If you need CSS for blocks then this plugin's simple implimentation is perfect for you.
 
 == Description ==
 
-The missing inline CSS editor for blocks. Very powerful with synced patterns. Pairs well with global styles.
+The missing inline CSS editor for blocks. Very powerful with synced patterns as well. And it pairs well with global styles.
 
 = How to =
 - Every block will have a new "Pattern CSS" settings panel.
