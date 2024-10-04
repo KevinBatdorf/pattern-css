@@ -1,29 +1,34 @@
 === Pattern CSS - Inline Block Styles ===
 Contributors:      kbat82
-Tags:              css, styles, inline, margin, pattern
+Tags:              css, styles, inline, margin, border
 Tested up to:      6.6
 Stable tag:        1.2.6
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
-Add optimized CSS styles to your blocks and synced patterns via a "Pattern CSS" settings panel. If you need CSS for blocks then this plugin's simple implimentation is perfect for you.
+Add CSS to your blocks and patterns right in the editor!
 
 == Description ==
 
 The missing inline CSS editor for blocks. Very powerful with synced patterns as well. And it pairs well with global styles.
 
+This plugin is perfect for beginners and clients looking to add some CSS for blocks without needing to create a child theme, or use a bloated plugin.
+
 = How to =
 - Every block will have a new "Pattern CSS" settings panel.
-- To target a block, you must use the `[block]` selector.
+- Open it and add any CSS. It will be scoped to the block.
+- To target the block directly, you must use the `[block]` selector.
 - To target any element *inside* the block, use the normal CSS selector.
 - Use `!important` to override your theme styles (use sparingly)
 
 = Features =
+- Powered by WebAssembly for fast and secure CSS parsing
 - Smart loading. Only loads the CSS when the block is present
-- No lock in. The styles are attached to the block attributes
+- The styles are attached to the block attributes
 - Scopes styles to the block so that parent/sibling blocks are not affected
-- It's fast. CSS is minified and optimized in the browser
-- It's safe. Invalid, non-spec CSS is never persisted (validated via webassembly sandbox)
+- It's fast.
+- CSS is minified and optimized
+- It's safe. Invalid, non-spec CSS is never persisted.
 - Supports reusable (synced or not-synced) patterns
 - See changes on the page as you make them
 - Combines adjacent rules (to decrease size)
