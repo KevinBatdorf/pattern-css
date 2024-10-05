@@ -10,7 +10,7 @@ Add CSS to your blocks and patterns right in the editor!
 
 == Description ==
 
-The missing inline CSS editor for blocks. Very powerful with synced patterns as well. And it pairs well with global styles.
+The missing inline block CSS editor for the Gutenberg editor. Very powerful with synced patterns as well. And it pairs well with global styles.
 
 This plugin is perfect for beginners looking to add some CSS for blocks without needing to create a child theme, or use a bloated plugin. Safely install it without worrying about your clients screwing up your design. CSS won't leak outside of the block, and only valid block CSS is persisted.
 
