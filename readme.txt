@@ -1,4 +1,4 @@
-=== Pattern CSS - Inline Block Styles ===
+=== Pattern CSS - Optimized Pattern and Block Styles ===
 Contributors:      kbat82
 Tags:              css, styles, inline, margin, border
 Tested up to:      6.6
@@ -12,7 +12,7 @@ Add CSS to your blocks and patterns right in the editor!
 
 The missing inline block CSS editor for the Gutenberg editor. Very powerful with synced patterns as well. And it pairs well with global styles.
 
-This plugin is perfect for beginners looking to add some CSS for blocks without needing to create a child theme, or use a bloated plugin. Safely install it without worrying about your clients screwing up your design. CSS won't leak outside of the block, and only valid block CSS is persisted.
+This plugin is perfect for users looking to add CSS for blocks without needing to create a child theme, or use a bloated plugin. Client safe too. CSS won't leak outside of the block, and only valid block CSS is persisted.
 
 = How to =
 - Every block will have a new "Pattern CSS" settings panel.
@@ -24,11 +24,11 @@ This plugin is perfect for beginners looking to add some CSS for blocks without 
 = Features =
 - Powered by WebAssembly for fast and secure CSS parsing
 - Smart loading. Only loads the CSS when the block is present
-- The styles are attached to the block attributes
+- Styles persist when changing themes
 - Scopes styles to the block so that parent/sibling blocks are not affected
-- It's fast.
+- It's fast
 - CSS is minified and optimized
-- It's safe. Invalid, non-spec CSS is never persisted.
+- It's safe. Invalid, non-spec CSS is never persisted
 - Supports reusable (synced or not-synced) patterns
 - See changes on the page as you make them
 - Combines adjacent rules (to decrease size)
