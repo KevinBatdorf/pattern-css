@@ -1,7 +1,7 @@
 === Pattern CSS - Optimized Pattern and Block Styles ===
 Contributors:      kbat82
 Tags:              css, styles, inline, margin, border
-Tested up to:      6.6
+Tested up to:      6.7
 Stable tag:        1.2.6
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
