@@ -1,4 +1,4 @@
-=== Pattern CSS - Optimized Pattern and Block Styles ===
+=== Pattern CSS - Pattern and Block Styles ===
 Contributors:      kbat82
 Tags:              css, styles, inline, margin, border
 Tested up to:      6.7
