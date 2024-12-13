@@ -1,12 +1,12 @@
-=== Pattern CSS - Pattern and Block Styles ===
+=== Pattern CSS - Pattern and Block Style Editor ===
 Contributors:      kbat82
-Tags:              css, styles, inline, margin, border
+Tags:              css, styles, inline, margin, editor
 Tested up to:      6.7
 Stable tag:        1.2.6
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
-Add CSS to your blocks and patterns right in the editor!
+Add a CSS editor to your blocks and patterns!
 
 == Description ==
 
