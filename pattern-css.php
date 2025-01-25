@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Pattern CSS
  * Description:       Lightening Fast, Safe, In-editor CSS Optimization and Minification Tool
- * Requires at least: 6.0
+ * Requires at least: 6.7
  * Requires PHP:      7.0
  * Version:           1.2.6
  * Author:            Kevin Batdorf

@@ -16,6 +16,8 @@ import {
 	wpDataSelect,
 	previewCurrentPage,
 	selectBlockById,
+	findBlock,
+	findBlockClass,
 } from './gutenberg';
 import { login, logout } from './login-logout';
 import {
@@ -66,6 +68,8 @@ Cypress.Commands.add('addBlocks', (block, children) =>
 Cypress.Commands.add('selectBlockById', (clientId) =>
 	selectBlockById(clientId),
 );
+Cypress.Commands.add('findBlockClass', findBlockClass);
+Cypress.Commands.add('findBlock', findBlock);
 Cypress.Commands.add('setPostContent', (content) => setPostContent(content));
 Cypress.Commands.add('getPostContent', (addon = '') => {
 	return cy.get(`${BLOCK_CONTAINER} ${addon}`);
