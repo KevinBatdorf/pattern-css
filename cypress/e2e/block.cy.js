@@ -279,7 +279,7 @@ context('Pattern Css', () => {
 		});
 	});
 
-	it.only('Safely escapes bad css', () => {
+	it('Safely escapes bad css', () => {
 		cy.window().then((win) => {
 			// Manually add blocks so we can get the block id
 			const block = win.wp.blocks.createBlock('core/group', {}, [
