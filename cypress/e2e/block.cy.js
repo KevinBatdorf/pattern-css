@@ -21,13 +21,13 @@ context('Pattern Css', () => {
 			win.wp.data.dispatch('core/block-editor').insertBlock(block);
 			// Make sure no class is added
 			const className = `pcss-${block.clientId?.split('-')[0]}`;
-			cy.get(`.wp-block-group.${className}`).should('not.exist');
+			cy.findBlock(`.wp-block-group.${className}`).should('not.exist');
 			// Add some css
 			cy.selectBlockById(block.clientId);
 			cy.clearCodeFromCurrentBlock();
 			cy.addCodeToCurrentBlock('p { color: red; }');
 			// Check the group block has the class
-			cy.get(`.wp-block-group.${className}`).should('exist');
+			cy.findBlock(`.wp-block-group.${className}`).should('exist');
 		});
 	});
 
@@ -56,13 +56,13 @@ context('Pattern Css', () => {
 			cy.addCodeToCurrentBlock('p { color: red; }');
 
 			// First block p tag should be red
-			cy.get(`.${className} > p`).should(
+			cy.findBlock(`.${className} > p`).should(
 				'have.css',
 				'color',
 				'rgb(255, 0, 0)',
 			);
 			// Second block p tag should not be red
-			cy.get('p')
+			cy.findBlock('p')
 				.not(`.${className} p`)
 				.each(($el) => {
 					cy.wrap($el).should(
@@ -124,13 +124,13 @@ context('Pattern Css', () => {
 			cy.addCodeToCurrentBlock('p { color: blue; }');
 
 			// First block p tag should be red
-			cy.get(`.${className} p`).should(
+			cy.findBlock(`.${className} p`).should(
 				'have.css',
 				'color',
 				'rgb(255, 0, 0)',
 			);
 			// Second block p tag should be blue
-			cy.get(`.${className2} p`).should(
+			cy.findBlock(`.${className2} p`).should(
 				'have.css',
 				'color',
 				'rgb(0, 0, 255)',
@@ -169,7 +169,7 @@ context('Pattern Css', () => {
 			cy.addCodeToCurrentBlock('[block] { color: red; }');
 
 			// p tag should be red
-			cy.get(`.${className}`).should(
+			cy.findBlock(`.${className}`).should(
 				'have.css',
 				'color',
 				'rgb(255, 0, 0)',
@@ -202,7 +202,7 @@ context('Pattern Css', () => {
 			cy.addCodeToCurrentBlock('[block] { color: red; }');
 
 			// p tag should be red
-			cy.get(`.${className}`).should(
+			cy.findBlock(`.${className}`).should(
 				'have.css',
 				'color',
 				'rgb(255, 0, 0)',
@@ -223,7 +223,7 @@ context('Pattern Css', () => {
 			cy.addCodeToCurrentBlock('[block] { color: green; }');
 
 			// p tag should be red
-			cy.get(`.${className}`)
+			cy.findBlock(`.${className}`)
 				.should('not.have.css', 'color', 'rgb(0, 128, 0)')
 				.and('have.css', 'color', 'rgb(255, 0, 0)');
 
@@ -259,14 +259,14 @@ context('Pattern Css', () => {
 			`);
 
 			// p tag should be red
-			cy.get(`.${className}`).should(
+			cy.findBlock(`.${className}`).should(
 				'have.css',
 				'color',
 				'rgb(255, 0, 0)',
 			);
 
 			// p tag should have green border
-			cy.get(`.${className}`).should(
+			cy.findBlock(`.${className}`).should(
 				'have.css',
 				'border-bottom',
 				'1px solid rgb(0, 128, 0)',

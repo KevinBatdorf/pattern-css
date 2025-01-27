@@ -136,6 +136,8 @@ Add this to functions.php:
 
 == Changelog ==
 
+- Switches to useStyleOverride for injecting styles
+
 = 1.2.6 - 2024-09-20 =
 - Removes an unecessary html escape that mangled some css.
 

@@ -140,9 +140,19 @@ export const selectBlockById = (clientId) => {
 		cy.wrap(null).then(() =>
 			win.wp.data.dispatch('core/block-editor').selectBlock(clientId),
 		);
-		cy.get(`[data-block="${clientId}"]`).should(
-			'have.class',
-			'is-selected',
-		);
+		cy.findBlockClass(`[data-block="${clientId}"]`, 'is-selected');
+	});
+};
+
+export const findBlock = (blockSelector) => {
+	cy.get('iframe[name="editor-canvas"]').then(($iframe) => {
+		cy.wrap($iframe.contents().find(blockSelector));
+	});
+};
+export const findBlockClass = (blockSelector, className) => {
+	cy.get('iframe[name="editor-canvas"]').then(($iframe) => {
+		cy.wrap($iframe.contents().find(blockSelector)).then(($block) => {
+			expect($block[0].outerHTML).to.include(className);
+		});
 	});
 };

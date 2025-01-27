@@ -8,13 +8,7 @@ import {
 	TextControl,
 	Button,
 } from '@wordpress/components';
-import {
-	useLayoutEffect,
-	useEffect,
-	useState,
-	useCallback,
-	useRef,
-} from '@wordpress/element';
+import { useEffect, useState, useCallback, useRef } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 import { sprintf, __ } from '@wordpress/i18n';
 import { Warning as CssWarning, Rule } from 'lightningcss-wasm';
@@ -24,6 +18,7 @@ import { EditorControls } from './EditorControls';
 import { store as coreStore } from '@wordpress/editor';
 import { addToClassList } from '../lib/classes';
 import { escapeCSS } from '../lib/formatting';
+import { useStyleOverride } from '@wordpress/block-editor';
 
 export const BlockControl = (
 	// eslint-disable-next-line
@@ -51,6 +46,7 @@ export const BlockControl = (
 	const [css, setCss] = useState(initialCss);
 	const [transformed, setTransformed] = useState<Uint8Array>();
 	const [compiled, setCompiled] = useState(compiledCss || '');
+	useStyleOverride({ id: `pcss-styles-block-${pcssClassId}`, css: compiled });
 	const defaultCssExample = '[block] {\n  \n}';
 
 	const handleChange = useCallback(
@@ -168,40 +164,6 @@ export const BlockControl = (
 		if (compiled === compiledCss) return;
 		setAttributes({ pcssAdditionalCssCompiled: compiled });
 	}, [compiled, setAttributes, compiledCss]);
-
-	useLayoutEffect(() => {
-		if (compiled === undefined) return;
-		// Append css to iframe
-		const frame = (
-			document.querySelector(
-				'iframe[name="editor-canvas"]',
-			) as HTMLIFrameElement
-		)?.contentWindow as Window;
-
-		const parent = frame
-			? frame?.document
-			: document.querySelector('.editor-styles-wrapper');
-
-		// if no parent then not sure where we are TODO - clean this up
-		if (!parent) return;
-
-		const id = `pcss-styles-block-${pcssClassId}`;
-		const existing = parent?.querySelector(`#${id}`);
-		if (existing) {
-			existing.innerHTML = compiled;
-			return;
-		}
-		const style = frame?.document
-			? frame.document.createElement('style')
-			: document.createElement('style');
-		style.id = id;
-		style.innerHTML = compiled;
-		if (frame?.document?.head) {
-			frame.document.head.appendChild(style);
-		} else {
-			parent.appendChild(style);
-		}
-	}, [compiled, pcssClassId]);
 
 	return (
 		<>
