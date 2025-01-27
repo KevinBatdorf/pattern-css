@@ -2,7 +2,7 @@
 Contributors:      kbat82
 Tags:              css, styles, inline, margin, editor
 Tested up to:      6.7
-Stable tag:        1.2.6
+Stable tag:        1.3.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -136,6 +136,7 @@ Add this to functions.php:
 
 == Changelog ==
 
+= 1.3.0 - 2025-01-27 =
 - Switches to useStyleOverride for injecting styles
 
 = 1.2.6 - 2024-09-20 =
