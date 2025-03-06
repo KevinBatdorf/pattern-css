@@ -1,4 +1,4 @@
-=== Pattern CSS - Pattern and Block Style Editor ===
+=== Pattern CSS - The CSS Editor For Blocks ===
 Contributors:      kbat82
 Tags:              css, styles, inline, margin, editor
 Tested up to:      6.7
