@@ -19,6 +19,9 @@ import { store as coreStore } from '@wordpress/editor';
 import { addToClassList } from '../lib/classes';
 import { escapeCSS } from '../lib/formatting';
 import { useStyleOverride } from '@wordpress/block-editor';
+import { PopoutWindow } from './PopoutWindow';
+import { PopoutControls } from './PopoutControls';
+import { usePopoutStore } from '../state/popout';
 
 export const BlockControl = (
 	// eslint-disable-next-line
@@ -35,6 +38,7 @@ export const BlockControl = (
 		const { isSavingPost, isAutosavingPost } = select(coreStore);
 		return isSavingPost() || isAutosavingPost();
 	}, []);
+	const { open: popoutOpen, setOpen: setPopoutOpen } = usePopoutStore();
 	const { attributes, setAttributes, clientId: blockId } = props;
 	const {
 		pcssClassId,
@@ -173,31 +177,40 @@ export const BlockControl = (
 					title="Pattern CSS"
 					initialOpen={false}
 					className="pattern-css-editor">
-					<div className="relative" ref={editorWrapperRef}>
-						<CodeEditor
-							value={css ?? defaultCssExample}
-							data-cy="pcss-editor-block"
-							onChange={handleChange}
-							onFocus={(e) => {
-								const v = e.target.value;
-								if (v === defaultCssExample) {
-									focusAtEndOfLine2(e.target);
-								}
-								setFocused(true);
-							}}
-							onBlur={() => setFocused(false)}
-							lineOptions={warnings.map(({ loc }) => ({
-								line: loc.line,
-								classes: ['line-error'],
-							}))}
-						/>
-						{focused ? null : (
-							<EditorControls
-								handleChange={handleChange}
-								editorWrapperRef={editorWrapperRef}
+					<PopoutWindow>
+						<div className="relative" ref={editorWrapperRef}>
+							<CodeEditor
+								value={css ?? defaultCssExample}
+								data-cy="pcss-editor-block"
+								onChange={handleChange}
+								onFocus={(e) => {
+									const v = e.target.value;
+									if (v === defaultCssExample) {
+										focusAtEndOfLine2(e.target);
+									}
+									setFocused(true);
+								}}
+								onBlur={() => setFocused(false)}
+								lineOptions={warnings.map(({ loc }) => ({
+									line: loc.line,
+									classes: ['line-error'],
+								}))}
 							/>
-						)}
-					</div>
+							{focused ? null : (
+								<>
+									<EditorControls
+										handleChange={handleChange}
+										editorWrapperRef={editorWrapperRef}
+									/>
+									{popoutOpen ? null : (
+										<PopoutControls
+											setPopoutOpen={setPopoutOpen}
+										/>
+									)}
+								</>
+							)}
+						</div>
+					</PopoutWindow>
 					<p
 						className="m-0 my-2 text-gray-700 text-xs"
 						dangerouslySetInnerHTML={{
