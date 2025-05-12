@@ -1,8 +1,8 @@
 === Pattern CSS - The CSS Editor For Blocks ===
 Contributors:      kbat82
 Tags:              css, styles, inline, margin, editor
-Tested up to:      6.7
-Stable tag:        1.3.0
+Tested up to:      6.8
+Stable tag:        1.4.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -135,6 +135,11 @@ Add this to functions.php:
 3. Will warn you if your CSS is invalid
 
 == Changelog ==
+
+= 1.4.0 - 2025-05-12 =
+- Adds a draggable, resizable popout mode
+- Updates CSS engine to include recent CSS features
+- Allows "supports" support scoped to the block
 
 = 1.3.0 - 2025-01-27 =
 - Switches to useStyleOverride for injecting styles
