@@ -1,4 +1,4 @@
-=== Pattern CSS - The CSS Editor For Blocks ===
+=== Pattern CSS - The CSS Editor For Gutenberg Blocks ===
 Contributors:      kbat82
 Tags:              css, styles, inline, margin, editor
 Tested up to:      6.8
