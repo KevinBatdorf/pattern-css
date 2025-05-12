@@ -1,4 +1,3 @@
-// use zustand for x,y coordinates
 import { create } from 'zustand';
 import { persist, devtools } from 'zustand/middleware';
 
