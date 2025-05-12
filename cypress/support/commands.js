@@ -6,7 +6,6 @@ import {
 import {
 	addBlock,
 	addBlocks,
-	closeWelcomeGuide,
 	openBlockInserter,
 	closeBlockInserter,
 	openBlockSettingsSideBar,
@@ -51,7 +50,6 @@ Cypress.Commands.add('loginUser', (username, password) =>
 Cypress.Commands.add('logoutUser', () => logout());
 
 // Gutenberg
-Cypress.Commands.add('closeWelcomeGuide', () => closeWelcomeGuide());
 Cypress.Commands.add('saveDraft', () => saveDraft());
 Cypress.Commands.add('openBlockInserter', () => openBlockInserter());
 Cypress.Commands.add('closeBlockInserter', () => closeBlockInserter());
