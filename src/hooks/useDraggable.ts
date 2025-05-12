@@ -9,7 +9,7 @@ export const useDraggable = ({
 	ref,
 	open,
 	initialPosition,
-	onDragEnd, // pass your store setter here
+	onDragEnd,
 }: {
 	ref: React.RefObject<HTMLDivElement>;
 	open: boolean;
@@ -17,6 +17,11 @@ export const useDraggable = ({
 	onDragEnd: (x: number, y: number) => void;
 }) => {
 	const offset = useRef({ x: 0, y: 0 });
+	const pointerIdRef = useRef<number | null>(null);
+	const lastPosition = useRef<Position>({
+		x: initialPosition.x,
+		y: initialPosition.y,
+	});
 
 	useLayoutEffect(() => {
 		const el = ref.current;
@@ -54,6 +59,11 @@ export const useDraggable = ({
 			e.preventDefault();
 			e.stopPropagation();
 			wp.style.pointerEvents = 'none';
+			if (pointerIdRef.current !== null) {
+				return;
+			}
+			pointerIdRef.current = e.pointerId;
+			handle.setPointerCapture(e.pointerId);
 			offset.current = {
 				x: e.clientX - el.offsetLeft,
 				y: e.clientY - el.offsetTop,
@@ -71,17 +81,19 @@ export const useDraggable = ({
 			const y = clamp(e.clientY - offset.current.y, minY, maxY);
 			el.style.left = `${x}px`;
 			el.style.top = `${y}px`;
+			lastPosition.current = { x, y };
 		};
 
 		const onPointerUp = (e: PointerEvent) => {
 			wp.style.pointerEvents = 'auto';
+			if (pointerIdRef.current !== e.pointerId) {
+				return;
+			}
+			pointerIdRef.current = null;
+			handle.releasePointerCapture(e.pointerId);
 			document.removeEventListener('pointermove', onPointerMove);
 			document.removeEventListener('pointerup', onPointerUp);
-			// Save the final position to your store
-			onDragEnd(
-				e.clientX - offset.current.x,
-				e.clientY - offset.current.y,
-			);
+			onDragEnd(lastPosition.current.x, lastPosition.current.y);
 		};
 
 		const onBlur = () => onPointerUp(new PointerEvent('pointerup'));
@@ -101,6 +113,11 @@ export const useDraggable = ({
 			handle.removeEventListener('contextmenu', onContextMenu);
 			document.removeEventListener('pointermove', onPointerMove);
 			document.removeEventListener('pointerup', onPointerUp);
+			wp.style.pointerEvents = 'auto';
+			if (pointerIdRef.current !== null) {
+				handle.releasePointerCapture(pointerIdRef.current);
+				pointerIdRef.current = null;
+			}
 		};
 	}, [ref, open, initialPosition.x, initialPosition.y, onDragEnd]);
 };
