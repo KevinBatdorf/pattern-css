@@ -14,6 +14,9 @@ The missing inline block CSS editor for the Gutenberg editor. Very powerful with
 
 This plugin is perfect for users looking to add CSS for blocks without needing to create a child theme, or use a bloated plugin. Client safe too. CSS won't leak outside of the block, and only valid block CSS is persisted.
 
+Star it on [GitHub](https://github.com/KevinBatdorf/pattern-css)
+Follow me on Twitter [@kevinbatdorf](https://twitter.com/kevinbatdorf)
+
 = How to =
 - Every block will have a new "Pattern CSS" settings panel.
 - Open it and add any CSS. It will be scoped to the block.
@@ -34,9 +37,6 @@ This plugin is perfect for users looking to add CSS for blocks without needing t
 - Combines adjacent rules (to decrease size)
 - Minifies colors and math functions to simplify according to spec
 - Supports CSS nesting
-
-Star it on [GitHub](https://github.com/KevinBatdorf/pattern-css)
-DM me on Twitter [@kevinbatdorf](https://twitter.com/kevinbatdorf)
 
 = Basic Example =
 `/* Target the block directly */
