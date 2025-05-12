@@ -55,32 +55,15 @@ export const openSideBarPanel = (label) => {
 			}
 		});
 };
-export const addBlock = (slug, attributes) => {
+export const addBlock = (slug, data) => {
 	cy.window().then((win) => {
-		const block = win.wp.blocks.createBlock(slug, attributes);
-		win.wp.data.dispatch('core/block-editor').insertBlock(block);
-		cy.get(`[data-type="${slug}"]`).should('exist');
-		if (attributes?.content) {
-			cy.getPostContent(`.wp-block-${slug.split('/')[1]}`).should(
-				'have.text',
-				attributes.content,
-			);
-		}
+		cy.get('iframe[name="editor-canvas"]')
+			.should('exist')
+			.then(() => {
+				const block = win.wp.blocks.createBlock(slug, data);
+				win.wp.data.dispatch('core/block-editor').insertBlock(block);
+			});
 	});
-};
-export const addBlocks = ({ slug, attributes }, children) => {
-	let block;
-	cy.window().then((win) => {
-		block = win.wp.blocks.createBlock(
-			slug,
-			attributes,
-			children.map(({ slug, attributes }) =>
-				win.wp.blocks.createBlock(slug, attributes),
-			),
-		);
-		win.wp.data.dispatch('core/block-editor').insertBlock(block);
-	});
-	return block;
 };
 
 export const wpDataSelect = (store, selector, ...parameters) => {
@@ -108,14 +91,22 @@ export const selectBlockById = (clientId) => {
 };
 
 export const findBlock = (blockSelector) => {
-	cy.get('iframe[name="editor-canvas"]').then(($iframe) => {
-		cy.wrap($iframe.contents().find(blockSelector));
-	});
+	// eslint-disable-next-line cypress/no-unnecessary-waiting
+	cy.get('iframe[name="editor-canvas"]')
+		.should('exist')
+		.wait(500)
+		.then(($iframe) => {
+			cy.wrap($iframe.contents().find(blockSelector));
+		});
 };
 export const findBlockClass = (blockSelector, className) => {
-	cy.get('iframe[name="editor-canvas"]').then(($iframe) => {
-		cy.wrap($iframe.contents().find(blockSelector)).then(($block) => {
-			expect($block[0].outerHTML).to.include(className);
+	// eslint-disable-next-line cypress/no-unnecessary-waiting
+	cy.get('iframe[name="editor-canvas"]')
+		.should('exist')
+		.wait(500)
+		.then(($iframe) => {
+			cy.wrap($iframe.contents().find(blockSelector)).then(($block) => {
+				expect($block[0].outerHTML).to.include(className);
+			});
 		});
-	});
 };

@@ -1,7 +1,6 @@
 beforeEach(() => {
 	cy.resetDatabase();
 	cy.clearBrowserStorage();
-	cy.disableIframe();
 	cy.loginUser();
 	cy.visitNewPageEditor();
 });
@@ -11,7 +10,7 @@ afterEach(() => {
 });
 context('Pattern Css', () => {
 	it('Only adds the class after adding CSS', () => {
-		cy.window().then((win) => {
+		cy.withEditorWp((win) => {
 			// Manually add blocks so we can get the block id
 			const block = win.wp.blocks.createBlock('core/group', {}, [
 				win.wp.blocks.createBlock('core/paragraph', {
@@ -25,14 +24,14 @@ context('Pattern Css', () => {
 			// Add some css
 			cy.selectBlockById(block.clientId);
 			cy.clearCodeFromCurrentBlock();
-			cy.addCodeToCurrentBlock('p { color: red; }');
+			cy.addCodeToCurrentBlock('p { color: rgb(155, 200, 130); }');
 			// Check the group block has the class
 			cy.findBlock(`.wp-block-group.${className}`).should('exist');
 		});
 	});
 
 	it('Renders scoped to the block, targets inner content', () => {
-		cy.window().then((win) => {
+		cy.withEditorWp((win) => {
 			// Manually add blocks so we can get the block id
 			const block = win.wp.blocks.createBlock('core/group', {}, [
 				win.wp.blocks.createBlock('core/paragraph', {
@@ -53,13 +52,13 @@ context('Pattern Css', () => {
 			// Select the first block
 			cy.selectBlockById(block.clientId);
 			cy.clearCodeFromCurrentBlock();
-			cy.addCodeToCurrentBlock('p { color: red; }');
+			cy.addCodeToCurrentBlock('p { color: rgb(155, 200, 130); }');
 
 			// First block p tag should be red
 			cy.findBlock(`.${className} > p`).should(
 				'have.css',
 				'color',
-				'rgb(255, 0, 0)',
+				'rgb(155, 200, 130)',
 			);
 			// Second block p tag should not be red
 			cy.findBlock('p')
@@ -68,7 +67,7 @@ context('Pattern Css', () => {
 					cy.wrap($el).should(
 						'not.have.css',
 						'color',
-						'rgb(255, 0, 0)',
+						'rgb(155, 200, 130)',
 					);
 				});
 
@@ -79,7 +78,7 @@ context('Pattern Css', () => {
 			cy.get(`.${className} p`).should(
 				'have.css',
 				'color',
-				'rgb(255, 0, 0)',
+				'rgb(155, 200, 130)',
 			);
 			// Second block p tag should not be red
 			cy.get('p')
@@ -88,14 +87,14 @@ context('Pattern Css', () => {
 					cy.wrap($el).should(
 						'not.have.css',
 						'color',
-						'rgb(255, 0, 0)',
+						'rgb(155, 200, 130)',
 					);
 				});
 		});
 	});
 
 	it('Renders scoped to the block and concats multiple block styles', () => {
-		cy.window().then((win) => {
+		cy.withEditorWp((win) => {
 			// Manually add blocks so we can get the block id
 			const block = win.wp.blocks.createBlock('core/group', {}, [
 				win.wp.blocks.createBlock('core/paragraph', {
@@ -117,7 +116,7 @@ context('Pattern Css', () => {
 			// Select the first block
 			cy.selectBlockById(block.clientId);
 			cy.clearCodeFromCurrentBlock();
-			cy.addCodeToCurrentBlock('p { color: red; }');
+			cy.addCodeToCurrentBlock('p { color: rgb(155, 200, 130); }');
 
 			// Select the second block
 			cy.selectBlockById(block2.clientId);
@@ -127,7 +126,7 @@ context('Pattern Css', () => {
 			cy.findBlock(`.${className} p`).should(
 				'have.css',
 				'color',
-				'rgb(255, 0, 0)',
+				'rgb(155, 200, 130)',
 			);
 			// Second block p tag should be blue
 			cy.findBlock(`.${className2} p`).should(
@@ -143,7 +142,7 @@ context('Pattern Css', () => {
 			cy.get(`.${className} p`).should(
 				'have.css',
 				'color',
-				'rgb(255, 0, 0)',
+				'rgb(155, 200, 130)',
 			);
 			// Second block p tag should be blue
 			cy.get(`.${className2} p`).should(
@@ -155,7 +154,7 @@ context('Pattern Css', () => {
 	});
 
 	it('Renders scoped to the block, targets block itself', () => {
-		cy.window().then((win) => {
+		cy.withEditorWp((win) => {
 			// Manually add blocks so we can get the block id
 			const block = win.wp.blocks.createBlock('core/paragraph', {
 				content: 'Hello',
@@ -166,13 +165,13 @@ context('Pattern Css', () => {
 			// Select the block
 			cy.selectBlockById(block.clientId);
 			cy.clearCodeFromCurrentBlock();
-			cy.addCodeToCurrentBlock('[block] { color: red; }');
+			cy.addCodeToCurrentBlock('[block] { color: rgb(155, 200, 130); }');
 
 			// p tag should be red
 			cy.findBlock(`.${className}`).should(
 				'have.css',
 				'color',
-				'rgb(255, 0, 0)',
+				'rgb(155, 200, 130)',
 			);
 
 			// Confirm the same on the frontend
@@ -182,13 +181,13 @@ context('Pattern Css', () => {
 			cy.get(`.${className}`).should(
 				'have.css',
 				'color',
-				'rgb(255, 0, 0)',
+				'rgb(155, 200, 130)',
 			);
 		});
 	});
 
 	it("Errors when the css is invalid and doesn't persist it", () => {
-		cy.window().then((win) => {
+		cy.withEditorWp((win) => {
 			// Manually add blocks so we can get the block id
 			const block = win.wp.blocks.createBlock('core/paragraph', {
 				content: 'Hello',
@@ -199,13 +198,13 @@ context('Pattern Css', () => {
 			// Select the block
 			cy.selectBlockById(block.clientId);
 			cy.clearCodeFromCurrentBlock(); // clear placeholder
-			cy.addCodeToCurrentBlock('[block] { color: red; }');
+			cy.addCodeToCurrentBlock('[block] { color: rgb(155, 200, 130); }');
 
 			// p tag should be red
 			cy.findBlock(`.${className}`).should(
 				'have.css',
 				'color',
-				'rgb(255, 0, 0)',
+				'rgb(155, 200, 130)',
 			);
 			// Make sure the 'line-error' class isn't there
 			cy.get('[data-cy="pcss-editor-block"] pre .line-error').should(
@@ -225,7 +224,7 @@ context('Pattern Css', () => {
 			// p tag should be red
 			cy.findBlock(`.${className}`)
 				.should('not.have.css', 'color', 'rgb(0, 128, 0)')
-				.and('have.css', 'color', 'rgb(255, 0, 0)');
+				.and('have.css', 'color', 'rgb(155, 200, 130)');
 
 			// Confirm the same on the frontend
 			cy.previewCurrentPage();
@@ -233,11 +232,11 @@ context('Pattern Css', () => {
 			// p tag should be red
 			cy.get(`.${className}`)
 				.should('not.have.css', 'color', 'rgb(0, 128, 0)')
-				.and('have.css', 'color', 'rgb(255, 0, 0)');
+				.and('have.css', 'color', 'rgb(155, 200, 130)');
 		});
 	});
 	it('Supports custom selectors in addition to [block]', () => {
-		cy.window().then((win) => {
+		cy.withEditorWp((win) => {
 			// Override usually by php but can mutate the window anyway
 			win.patternCss.selectorOverride = {
 				name: 'selector',
@@ -254,7 +253,7 @@ context('Pattern Css', () => {
 			cy.selectBlockById(block.clientId);
 			cy.clearCodeFromCurrentBlock(); // clear placeholder
 			cy.addCodeToCurrentBlock(`
-				[block] { color: red; }
+				[block] { color: rgb(155, 200, 130); }
 				selector { border-bottom: 1px solid green; }
 			`);
 
@@ -262,7 +261,7 @@ context('Pattern Css', () => {
 			cy.findBlock(`.${className}`).should(
 				'have.css',
 				'color',
-				'rgb(255, 0, 0)',
+				'rgb(155, 200, 130)',
 			);
 
 			// p tag should have green border
@@ -280,7 +279,7 @@ context('Pattern Css', () => {
 	});
 
 	it('Safely escapes bad css', () => {
-		cy.window().then((win) => {
+		cy.withEditorWp((win) => {
 			// Manually add blocks so we can get the block id
 			const block = win.wp.blocks.createBlock('core/group', {}, [
 				win.wp.blocks.createBlock('core/paragraph', {
@@ -316,15 +315,16 @@ context('Pattern Css', () => {
 	});
 	it('Removes @import, @keyframes, and others', () => {
 		const css = `@charset "UTF-8";
-		@import url('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css');
-		@media screen and (max-width: 600px) { .f { foo: 'bar';} }
-		@supports (display: grid) {}
-		@page :left {}
-		@font-face {font-family: MyFont;src: url('myfont.woff2');}
-		@keyframes slidein {from {}to {}}
-		@counter-style customCounter { system: cyclic; } `;
-		cy.window().then((win) => {
-			// Manually add blocks so we can get the block id
+		  @import url('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css');
+		  @media screen and (max-width: 600px) { .f { foo: 'bar';} }
+		  @page :left {}
+		  @font-face {font-family: MyFont;src: url('myfont.woff2');}
+		  @keyframes slidein {from {}to {}}
+		  @view-transition { navigation: auto }
+		  @counter-style customCounter { system: cyclic; }
+		  @namespace svg url(http://www.w3.org/2000/svg);`;
+
+		cy.withEditorWp((win) => {
 			const block = win.wp.blocks.createBlock('core/group', {}, [
 				win.wp.blocks.createBlock('core/paragraph', {
 					content: 'Hello',
@@ -348,7 +348,10 @@ context('Pattern Css', () => {
 				.and('not.contain', '@charset')
 				.and('not.contain', '@font-face')
 				.and('not.contain', '@page')
-				.and('not.contain', '@supports')
+				.and('not.contain', 'slidein')
+				.and('not.contain', '@view-transition')
+				.and('not.contain', '@counter-style')
+				.and('not.contain', '@namespace')
 				.and('contain', '@media');
 		});
 	});

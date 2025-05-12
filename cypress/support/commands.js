@@ -24,12 +24,7 @@ import {
 	visitAdminPage,
 	visitToLoginPage,
 } from './navigate-pages';
-import {
-	installPlugin,
-	uninstallPlugin,
-	resetDatabase,
-	disableIframe,
-} from './wp-cli';
+import { installPlugin, uninstallPlugin, resetDatabase } from './wp-cli';
 
 // Port more commands from WP here:
 // https://github.com/WordPress/gutenberg/tree/trunk/packages/e2e-test-utils/src
@@ -92,9 +87,6 @@ Cypress.Commands.add('resetDatabase', () => resetDatabase());
 Cypress.Commands.add('installPlugin', (slug) => installPlugin(slug));
 Cypress.Commands.add('uninstallPlugin', (slug) => uninstallPlugin(slug));
 
-// Disable iframe
-Cypress.Commands.add('disableIframe', () => disableIframe());
-
 // Block css
 Cypress.Commands.add('clearCodeFromCurrentBlock', () =>
 	clearCodeFromCurrentBlock(),
@@ -102,3 +94,18 @@ Cypress.Commands.add('clearCodeFromCurrentBlock', () =>
 Cypress.Commands.add('addCodeToCurrentBlock', (code) =>
 	addCodeToCurrentBlock(code),
 );
+
+// Helper to get into the wp dom
+// cypress/support/commands.js
+Cypress.Commands.add('withEditorWp', (cb) => {
+	cy.window().then((win) => {
+		// eslint-disable-next-line cypress/no-unnecessary-waiting
+		cy.get('iframe[name="editor-canvas"]')
+			.wait(500)
+			.should('exist')
+			.then(($iframe) => {
+				const wp = $iframe[0].contentWindow.wp;
+				cb(win, wp);
+			});
+	});
+});

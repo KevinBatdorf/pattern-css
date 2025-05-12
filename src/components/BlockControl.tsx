@@ -72,11 +72,13 @@ export const BlockControl = (
 						// Filter out the globals
 						const ignored = [
 							'import',
-							'supports',
 							'page',
 							'font-face',
 							'keyframes',
 							'counter-style',
+							'view-transition',
+							'charset',
+							'namespace',
 						];
 						stylesheet.rules = stylesheet.rules.filter(
 							(rule: Rule) => !ignored.includes(rule.type),
