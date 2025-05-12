@@ -19,6 +19,8 @@ import { store as coreStore } from '@wordpress/editor';
 import { addToClassList } from '../lib/classes';
 import { escapeCSS } from '../lib/formatting';
 import { useStyleOverride } from '@wordpress/block-editor';
+import { PopoutWindow } from './PopoutWindow';
+import { usePopoutStore } from '../state/popout';
 
 export const BlockControl = (
 	// eslint-disable-next-line
@@ -27,7 +29,6 @@ export const BlockControl = (
 	props: any,
 ) => {
 	const editorWrapperRef = useRef<HTMLDivElement>(null);
-	const [focused, setFocused] = useState(false);
 	const [warnings, setWarnings] = useState<CssWarning[]>([]);
 	const isSaving = useSelect((select) => {
 		// eslint-disable-next-line
@@ -35,6 +36,7 @@ export const BlockControl = (
 		const { isSavingPost, isAutosavingPost } = select(coreStore);
 		return isSavingPost() || isAutosavingPost();
 	}, []);
+	const { open: popoutOpen, setOpen: setPopoutOpen } = usePopoutStore();
 	const { attributes, setAttributes, clientId: blockId } = props;
 	const {
 		pcssClassId,
@@ -70,11 +72,13 @@ export const BlockControl = (
 						// Filter out the globals
 						const ignored = [
 							'import',
-							'supports',
 							'page',
 							'font-face',
 							'keyframes',
 							'counter-style',
+							'view-transition',
+							'charset',
+							'namespace',
 						];
 						stylesheet.rules = stylesheet.rules.filter(
 							(rule: Rule) => !ignored.includes(rule.type),
@@ -173,31 +177,37 @@ export const BlockControl = (
 					title="Pattern CSS"
 					initialOpen={false}
 					className="pattern-css-editor">
-					<div className="relative" ref={editorWrapperRef}>
-						<CodeEditor
-							value={css ?? defaultCssExample}
-							data-cy="pcss-editor-block"
-							onChange={handleChange}
-							onFocus={(e) => {
-								const v = e.target.value;
-								if (v === defaultCssExample) {
-									focusAtEndOfLine2(e.target);
-								}
-								setFocused(true);
-							}}
-							onBlur={() => setFocused(false)}
-							lineOptions={warnings.map(({ loc }) => ({
-								line: loc.line,
-								classes: ['line-error'],
-							}))}
-						/>
-						{focused ? null : (
-							<EditorControls
-								handleChange={handleChange}
-								editorWrapperRef={editorWrapperRef}
-							/>
-						)}
-					</div>
+					<PopoutWindow>
+						<>
+							<div
+								className="flex-grow relative"
+								ref={editorWrapperRef}>
+								<CodeEditor
+									value={css ?? defaultCssExample}
+									data-cy="pcss-editor-block"
+									onChange={handleChange}
+									onFocus={(e) => {
+										const v = e.target.value;
+										if (v === defaultCssExample) {
+											focusAtEndOfLine2(e.target);
+										}
+									}}
+									lineOptions={warnings.map(({ loc }) => ({
+										line: loc.line,
+										classes: ['line-error'],
+									}))}
+								/>
+							</div>
+							<div>
+								<EditorControls
+									handleChange={handleChange}
+									popoutOpen={popoutOpen}
+									setPopoutOpen={setPopoutOpen}
+									editorWrapperRef={editorWrapperRef}
+								/>
+							</div>
+						</>
+					</PopoutWindow>
 					<p
 						className="m-0 my-2 text-gray-700 text-xs"
 						dangerouslySetInnerHTML={{

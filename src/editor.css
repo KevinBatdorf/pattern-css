@@ -49,6 +49,19 @@
 		var(--wp-components-color-accent, var(--wp-admin-theme-color, #007cba));
 	outline: 2px solid transparent;
 }
+.pattern-css-editor [data-pcss-handle] {
+	@apply cursor-grab;
+}
+.pattern-css-editor [data-pcss-handle]:active {
+	@apply cursor-grabbing;
+}
+.pattern-css-editor [data-pcss-resize] {
+	@apply cursor-se-resize;
+}
+.pattern-css-editor [data-pcss-resize]:active {
+	@apply cursor-grabbing;
+}
+
 
 @font-face {
 	font-family: 'pcss-jetbrains-mono';

@@ -36,13 +36,13 @@ export const CodeEditor = forwardRef((props: CodeEditorProps, ref) => {
 	if (editorError) return <p>{editorError.message}</p>;
 
 	return (
-		<div ref={textAreaRef}>
+		<div ref={textAreaRef} className="h-full">
 			<Editor
 				// eslint-disable-next-line
 				// @ts-ignore-next-line
 				ref={ref}
 				value={decodeEntities(value)}
-				className="font-jetbrains-mono border border-solid border-gray-600 wp-focus"
+				className="font-jetbrains-mono border border-solid border-gray-600 h-full"
 				onValueChange={onChange}
 				{...remainingProps}
 				padding={{
@@ -53,8 +53,7 @@ export const CodeEditor = forwardRef((props: CodeEditorProps, ref) => {
 				}}
 				style={{
 					minHeight: 300,
-					backgroundColor:
-						highlighter?.getBackgroundColor() ?? '#fff',
+					backgroundColor: 'none',
 					color: highlighter?.getForegroundColor() ?? '#000',
 				}}
 				// eslint-disable-next-line
