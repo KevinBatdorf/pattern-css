@@ -1,6 +1,6 @@
 === Pattern CSS - The CSS Editor For Gutenberg Blocks ===
 Contributors:      kbat82
-Tags:              css, styles, inline, margin, editor
+Tags:              block, css, styles, inline, editor
 Tested up to:      6.8
 Stable tag:        1.5.1
 License:           GPL-2.0-or-later
