@@ -4,6 +4,9 @@ Lightening Fast, Reusable, Safe, In-editor CSS Optimization and Minification Too
 
 [![Twitter](https://img.shields.io/twitter/url/https/twitter.com/kevinbatdorf.svg?style=social&label=Follow%20%40kevinbatdorf)](https://twitter.com/kevinbatdorf)
 
+<!-- add screenshot from .wordpress-org/screenshot-2.gif -->
+![Pattern CSS](https://raw.githubusercontent.com/kevinbatdorf/pattern-css/main/.wordpress-org/screenshot-2.gif)
+
 ### Features
 
 - It's fast. CSS is minified and optimized in the browser

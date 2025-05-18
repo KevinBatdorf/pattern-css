@@ -2,7 +2,7 @@
 Contributors:      kbat82
 Tags:              css, styles, inline, margin, editor
 Tested up to:      6.8
-Stable tag:        1.4.0
+Stable tag:        1.5.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -134,11 +134,15 @@ Add this to functions.php:
 
 == Screenshots ==
 
-1. Add styles not available in the editor
-2. Supports reusable and synced patterns too
+1. Add styles not available in the editor (supoprts nesting)
+2. Add animation using the global editor
 3. Will warn you if your CSS is invalid
+4. Works with reusable and synced patterns
 
 == Changelog ==
+
+= 1.5.0 - 2025-05-18 =
+- Adds support for global styles via a new editor
 
 = 1.4.0 - 2025-05-12 =
 - Adds a draggable, resizable popout mode
