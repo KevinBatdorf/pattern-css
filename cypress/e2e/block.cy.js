@@ -31,7 +31,7 @@ context('Pattern Css (Block)', () => {
 	});
 
 	it('Renders scoped to the block, targets inner content', () => {
-		cy.withEditorWp((win, wp) => {
+		cy.withEditorWp((_win, wp) => {
 			// Manually add blocks so we can get the block id
 			const block = wp.blocks.createBlock('core/group', {}, [
 				wp.blocks.createBlock('core/paragraph', {
@@ -236,7 +236,7 @@ context('Pattern Css (Block)', () => {
 		});
 	});
 	it('Supports custom selectors in addition to [block]', () => {
-		cy.withEditorWp((_win, wp) => {
+		cy.withEditorWp((win, wp) => {
 			// Override usually by php but can mutate the window anyway
 			win.patternCss.selectorOverride = {
 				name: 'selector',

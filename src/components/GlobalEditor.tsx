@@ -1,6 +1,6 @@
 import apiFetch from '@wordpress/api-fetch';
 import { useStyleOverride } from '@wordpress/block-editor';
-import { BaseControl, CheckboxControl } from '@wordpress/components';
+import { CheckboxControl } from '@wordpress/components';
 import { PluginMoreMenuItem } from '@wordpress/editor';
 import { useCallback, useEffect, useRef, useState } from '@wordpress/element';
 import { __, sprintf } from '@wordpress/i18n';
