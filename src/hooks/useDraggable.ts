@@ -1,9 +1,7 @@
 import { useLayoutEffect, useRef } from '@wordpress/element';
+import { clamp, getHighestZIndex } from '../lib/util';
 
 type Position = { x: number; y: number };
-
-const clamp = (value: number, min: number, max: number) =>
-	Math.max(min, Math.min(value, max));
 
 export const useDraggable = ({
 	ref,
@@ -62,6 +60,13 @@ export const useDraggable = ({
 			if (pointerIdRef.current !== null) {
 				return;
 			}
+			// Increase the z index to be highest of all windows
+			const highestZIndex = getHighestZIndex();
+			el.style.setProperty(
+				'z-index',
+				`${highestZIndex + 1}`,
+				'important',
+			);
 			pointerIdRef.current = e.pointerId;
 			handle.setPointerCapture(e.pointerId);
 			offset.current = {

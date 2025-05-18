@@ -6,6 +6,10 @@ module.exports = {
 	singleQuote: true,
 	bracketSameLine: true,
 	importOrder: ['^@wordpress/(.*)$', '<THIRD_PARTY_MODULES>', '^[./]'],
+	plugins: [
+		'@trivago/prettier-plugin-sort-imports',
+		'prettier-plugin-tailwindcss',
+	],
 	overrides: [
 		{
 			files: ['**/*.html'],

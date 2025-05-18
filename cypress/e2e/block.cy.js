@@ -8,16 +8,16 @@ afterEach(() => {
 	cy.saveDraft(); // so we can leave without an alert
 	cy.logoutUser();
 });
-context('Pattern Css', () => {
+context('Pattern Css (Block)', () => {
 	it('Only adds the class after adding CSS', () => {
-		cy.withEditorWp((win) => {
+		cy.withEditorWp((_win, wp) => {
 			// Manually add blocks so we can get the block id
-			const block = win.wp.blocks.createBlock('core/group', {}, [
-				win.wp.blocks.createBlock('core/paragraph', {
+			const block = wp.blocks.createBlock('core/group', {}, [
+				wp.blocks.createBlock('core/paragraph', {
 					content: 'Hello',
 				}),
 			]);
-			win.wp.data.dispatch('core/block-editor').insertBlock(block);
+			wp.data.dispatch('core/block-editor').insertBlock(block);
 			// Make sure no class is added
 			const className = `pcss-${block.clientId?.split('-')[0]}`;
 			cy.findBlock(`.wp-block-group.${className}`).should('not.exist');
@@ -31,23 +31,23 @@ context('Pattern Css', () => {
 	});
 
 	it('Renders scoped to the block, targets inner content', () => {
-		cy.withEditorWp((win) => {
+		cy.withEditorWp((win, wp) => {
 			// Manually add blocks so we can get the block id
-			const block = win.wp.blocks.createBlock('core/group', {}, [
-				win.wp.blocks.createBlock('core/paragraph', {
+			const block = wp.blocks.createBlock('core/group', {}, [
+				wp.blocks.createBlock('core/paragraph', {
 					content: 'Hello',
 				}),
 			]);
 			const className = `pcss-${block.clientId?.split('-')[0]}`;
-			win.wp.data.dispatch('core/block-editor').insertBlock(block);
+			wp.data.dispatch('core/block-editor').insertBlock(block);
 
 			// Add similiar blocks
-			const block2 = win.wp.blocks.createBlock('core/group', {}, [
-				win.wp.blocks.createBlock('core/paragraph', {
+			const block2 = wp.blocks.createBlock('core/group', {}, [
+				wp.blocks.createBlock('core/paragraph', {
 					content: 'World',
 				}),
 			]);
-			win.wp.data.dispatch('core/block-editor').insertBlock(block2);
+			wp.data.dispatch('core/block-editor').insertBlock(block2);
 
 			// Select the first block
 			cy.selectBlockById(block.clientId);
@@ -94,24 +94,24 @@ context('Pattern Css', () => {
 	});
 
 	it('Renders scoped to the block and concats multiple block styles', () => {
-		cy.withEditorWp((win) => {
+		cy.withEditorWp((_win, wp) => {
 			// Manually add blocks so we can get the block id
-			const block = win.wp.blocks.createBlock('core/group', {}, [
-				win.wp.blocks.createBlock('core/paragraph', {
+			const block = wp.blocks.createBlock('core/group', {}, [
+				wp.blocks.createBlock('core/paragraph', {
 					content: 'Hello',
 				}),
 			]);
 			const className = `pcss-${block.clientId?.split('-')[0]}`;
-			win.wp.data.dispatch('core/block-editor').insertBlock(block);
+			wp.data.dispatch('core/block-editor').insertBlock(block);
 
 			// Add similiar blocks
-			const block2 = win.wp.blocks.createBlock('core/group', {}, [
-				win.wp.blocks.createBlock('core/paragraph', {
+			const block2 = wp.blocks.createBlock('core/group', {}, [
+				wp.blocks.createBlock('core/paragraph', {
 					content: 'World',
 				}),
 			]);
 			const className2 = `pcss-${block2.clientId?.split('-')[0]}`;
-			win.wp.data.dispatch('core/block-editor').insertBlock(block2);
+			wp.data.dispatch('core/block-editor').insertBlock(block2);
 
 			// Select the first block
 			cy.selectBlockById(block.clientId);
@@ -154,13 +154,13 @@ context('Pattern Css', () => {
 	});
 
 	it('Renders scoped to the block, targets block itself', () => {
-		cy.withEditorWp((win) => {
+		cy.withEditorWp((_win, wp) => {
 			// Manually add blocks so we can get the block id
-			const block = win.wp.blocks.createBlock('core/paragraph', {
+			const block = wp.blocks.createBlock('core/paragraph', {
 				content: 'Hello',
 			});
 			const className = `pcss-${block.clientId?.split('-')[0]}`;
-			win.wp.data.dispatch('core/block-editor').insertBlock(block);
+			wp.data.dispatch('core/block-editor').insertBlock(block);
 
 			// Select the block
 			cy.selectBlockById(block.clientId);
@@ -187,13 +187,13 @@ context('Pattern Css', () => {
 	});
 
 	it("Errors when the css is invalid and doesn't persist it", () => {
-		cy.withEditorWp((win) => {
+		cy.withEditorWp((_win, wp) => {
 			// Manually add blocks so we can get the block id
-			const block = win.wp.blocks.createBlock('core/paragraph', {
+			const block = wp.blocks.createBlock('core/paragraph', {
 				content: 'Hello',
 			});
 			const className = `pcss-${block.clientId?.split('-')[0]}`;
-			win.wp.data.dispatch('core/block-editor').insertBlock(block);
+			wp.data.dispatch('core/block-editor').insertBlock(block);
 
 			// Select the block
 			cy.selectBlockById(block.clientId);
@@ -236,18 +236,18 @@ context('Pattern Css', () => {
 		});
 	});
 	it('Supports custom selectors in addition to [block]', () => {
-		cy.withEditorWp((win) => {
+		cy.withEditorWp((_win, wp) => {
 			// Override usually by php but can mutate the window anyway
 			win.patternCss.selectorOverride = {
 				name: 'selector',
 				type: 'type',
 			};
 			// Manually add blocks so we can get the block id
-			const block = win.wp.blocks.createBlock('core/paragraph', {
+			const block = wp.blocks.createBlock('core/paragraph', {
 				content: 'Hello',
 			});
 			const className = `pcss-${block.clientId?.split('-')[0]}`;
-			win.wp.data.dispatch('core/block-editor').insertBlock(block);
+			wp.data.dispatch('core/block-editor').insertBlock(block);
 
 			// Select the block
 			cy.selectBlockById(block.clientId);
@@ -279,15 +279,15 @@ context('Pattern Css', () => {
 	});
 
 	it('Safely escapes bad css', () => {
-		cy.withEditorWp((win) => {
+		cy.withEditorWp((_win, wp) => {
 			// Manually add blocks so we can get the block id
-			const block = win.wp.blocks.createBlock('core/group', {}, [
-				win.wp.blocks.createBlock('core/paragraph', {
+			const block = wp.blocks.createBlock('core/group', {}, [
+				wp.blocks.createBlock('core/paragraph', {
 					content: 'Hello',
 				}),
 			]);
 			const className = `pcss-${block.clientId?.split('-')[0]}`;
-			win.wp.data.dispatch('core/block-editor').insertBlock(block);
+			wp.data.dispatch('core/block-editor').insertBlock(block);
 
 			// Select the block
 			cy.selectBlockById(block.clientId);
@@ -324,14 +324,14 @@ context('Pattern Css', () => {
 		  @counter-style customCounter { system: cyclic; }
 		  @namespace svg url(http://www.w3.org/2000/svg);`;
 
-		cy.withEditorWp((win) => {
-			const block = win.wp.blocks.createBlock('core/group', {}, [
-				win.wp.blocks.createBlock('core/paragraph', {
+		cy.withEditorWp((_win, wp) => {
+			const block = wp.blocks.createBlock('core/group', {}, [
+				wp.blocks.createBlock('core/paragraph', {
 					content: 'Hello',
 				}),
 			]);
 			const className = `pcss-${block.clientId?.split('-')[0]}`;
-			win.wp.data.dispatch('core/block-editor').insertBlock(block);
+			wp.data.dispatch('core/block-editor').insertBlock(block);
 
 			// Select the block
 			cy.selectBlockById(block.clientId);

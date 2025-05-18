@@ -1,0 +1,7 @@
+{
+	"name": "kevin/pattern-css",
+	"require": {},
+	"require-dev": {
+		"johnpbloch/wordpress-core": "*"
+	}
+}

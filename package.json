@@ -44,6 +44,7 @@
 		"postcss-import": "^16.1.0",
 		"postcss-safe-important": "^2.0.1",
 		"prettier": "^3.5.3",
+		"prettier-plugin-tailwindcss": "^0.6.11",
 		"replace-in-file": "^8.3.0",
 		"tailwindcss": "^3.4.17",
 		"typescript": "^5.8.3"
@@ -57,7 +58,7 @@
 		"@wordpress/i18n": "^5.23.0",
 		"@wordpress/plugins": "^7.23.0",
 		"browserlist": "^1.0.1",
-		"lightningcss": "1.30.0",
+		"lightningcss": "1.30.1",
 		"lightningcss-wasm": "1.30.0",
 		"react-simple-code-editor": "^0.14.1",
 		"shiki": "^0.14.7",

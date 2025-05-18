@@ -103,9 +103,6 @@ Cypress.Commands.add('withEditorWp', (cb) => {
 		cy.get('iframe[name="editor-canvas"]')
 			.wait(500)
 			.should('exist')
-			.then(($iframe) => {
-				const wp = $iframe[0].contentWindow.wp;
-				cb(win, wp);
-			});
+			.then(($iframe) => cb(win, win.wp, $iframe[0].contentWindow));
 	});
 });

@@ -9,3 +9,5 @@ cypress/videos/**/*
 !cypress/videos/**/.gitkeep
 cypress/downloads/**/*
 cypress/downloads/**/.gitkeep
+
+/vendor/

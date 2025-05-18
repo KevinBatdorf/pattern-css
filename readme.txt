@@ -6,7 +6,7 @@ Stable tag:        1.4.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
-Add a CSS editor to your blocks and patterns!
+Add a CSS editor to your blocks and patterns! Loads only where necessary. Supports adding global CSS too.
 
 == Description ==
 
@@ -18,11 +18,15 @@ Star it on [GitHub](https://github.com/KevinBatdorf/pattern-css)
 Follow me on Twitter [@kevinbatdorf](https://twitter.com/kevinbatdorf)
 
 = How to =
-- Every block will have a new "Pattern CSS" settings panel.
-- Open it and add any CSS. It will be scoped to the block.
-- To target the block directly, you must use the `[block]` selector.
-- To target any element *inside* the block, use the normal CSS selector.
+- Every block will have a new "Pattern CSS" settings panel
+- Open it and add any CSS. It will be scoped to the block
+- To target the block directly, you must use the `[block]` selector
+- To target any element *inside* the block, use the normal CSS selector
 - Use `!important` to override your theme styles (use sparingly)
+
+= Global Editor =
+- Access global styles under the options menu (three dots) in the top right corner of the editor
+- Additionaly, you can open from the Pattern CSS block editor controls
 
 = Features =
 - Powered by WebAssembly for fast and secure CSS parsing

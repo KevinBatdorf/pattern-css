@@ -1,4 +1,5 @@
 import { transform } from 'lightningcss-wasm';
+
 export {};
 
 declare global {
@@ -10,6 +11,8 @@ declare global {
 				type: string;
 				name: string;
 			};
+			globalCss: string;
+			globalCssCompiled: string;
 		};
 	}
 }
