@@ -4,6 +4,7 @@ import { CheckboxControl } from '@wordpress/components';
 import { PluginMoreMenuItem } from '@wordpress/editor';
 import { useCallback, useEffect, useRef, useState } from '@wordpress/element';
 import { __, sprintf } from '@wordpress/i18n';
+import { Icon, check } from '@wordpress/icons';
 import { Warning as CssWarning } from 'lightningcss-wasm';
 import { useDraggable } from '../hooks/useDraggable';
 import { usePortal } from '../hooks/usePortal';
@@ -107,6 +108,7 @@ const TheEditor = ({
 
 	const [css, setCss] = useState(initialCss);
 	const [transformed, setTransformed] = useState<Uint8Array>();
+	const [savingState, setSavingState] = useState<string>('idle');
 
 	const handleChange = useCallback((css: string) => {
 		setWarnings([]);
@@ -140,6 +142,7 @@ const TheEditor = ({
 	useEffect(() => {
 		window.patternCss.globalCss = css;
 		window.patternCss.globalCssCompiled = compiledCss;
+		setSavingState('saving');
 		const id = setTimeout(() => {
 			apiFetch({
 				path: '/pattern-css/v1/global-css',
@@ -149,10 +152,16 @@ const TheEditor = ({
 					// Only save the compiled CSS if it's different (it compiled)
 					global_css_compiled: compiledCss,
 				},
-			});
-		}, 1000);
+			}).then(() => setSavingState('saved'));
+		}, 750);
 		return () => clearTimeout(id);
 	}, [compiledCss, css]);
+
+	useEffect(() => {
+		if (savingState !== 'saved') return;
+		const id = setTimeout(() => setSavingState('idle'), 1500);
+		return () => clearTimeout(id);
+	}, [savingState]);
 
 	return (
 		<div className="relative flex-grow" ref={editorWrapperRef}>
@@ -164,6 +173,25 @@ const TheEditor = ({
 					classes: ['line-error'],
 				}))}
 			/>
+			{savingState === 'saving' && (
+				<div className="absolute bottom-px right-1 z-10 flex items-center justify-center bg-white/50">
+					<span className="text-sm text-gray-700 dark:text-gray-400">
+						{__('Saving...', 'pattern-css')}
+					</span>
+				</div>
+			)}
+			{savingState === 'saved' && (
+				<div className="absolute bottom-px right-1 z-10 flex items-center justify-center bg-white/50">
+					<Icon
+						icon={check}
+						className="stroke-gray-700"
+						color="currentColor"
+					/>
+					<span className="text-sm text-gray-700 dark:text-gray-400">
+						{__('Saved!', 'pattern-css')}
+					</span>
+				</div>
+			)}
 		</div>
 	);
 };
