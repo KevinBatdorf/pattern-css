@@ -5,3 +5,5 @@
 /assets
 /package-lock.json
 /cypress
+/composer.lock
+/vendor

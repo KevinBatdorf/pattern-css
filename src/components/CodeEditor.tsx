@@ -8,7 +8,7 @@ type CodeEditorProps = {
 	value: string;
 	onChange: (value: string) => void;
 	// eslint-disable-next-line
-	onFocus: (event: any) => void;
+	onFocus?: (event: any) => void;
 	// eslint-disable-next-line
 	onBlur?: (event: any) => void;
 	lineOptions: LineOption[];
@@ -32,7 +32,12 @@ export const CodeEditor = forwardRef((props: CodeEditorProps, ref) => {
 		lang: 'css',
 	});
 
-	if (loading) return null;
+	if (loading)
+		return (
+			<div className="lex h-full min-h-52 items-center justify-center border border-solid border-gray-600 bg-gray-100 p-4 text-gray-900">
+				{'Loading...'}
+			</div>
+		);
 	if (editorError) return <p>{editorError.message}</p>;
 
 	return (
@@ -42,7 +47,7 @@ export const CodeEditor = forwardRef((props: CodeEditorProps, ref) => {
 				// @ts-ignore-next-line
 				ref={ref}
 				value={decodeEntities(value)}
-				className="font-jetbrains-mono border border-solid border-gray-600 h-full"
+				className="h-full border border-solid border-gray-600 font-jetbrains-mono"
 				onValueChange={onChange}
 				{...remainingProps}
 				padding={{

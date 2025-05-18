@@ -2,25 +2,26 @@ import {
 	InspectorAdvancedControls,
 	InspectorControls,
 } from '@wordpress/block-editor';
+import { useStyleOverride } from '@wordpress/block-editor';
 import {
 	PanelBody,
 	BaseControl,
 	TextControl,
 	Button,
 } from '@wordpress/components';
-import { useEffect, useState, useCallback, useRef } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
+import { store as coreStore } from '@wordpress/editor';
+import { useEffect, useState, useCallback, useRef } from '@wordpress/element';
 import { sprintf, __ } from '@wordpress/i18n';
 import { Warning as CssWarning, Rule } from 'lightningcss-wasm';
-import { CodeEditor } from './CodeEditor';
-import { focusAtEndOfLine2 } from '../lib/dom';
-import { EditorControls } from './EditorControls';
-import { store as coreStore } from '@wordpress/editor';
 import { addToClassList } from '../lib/classes';
+import { focusAtEndOfLine2 } from '../lib/dom';
 import { escapeCSS } from '../lib/formatting';
-import { useStyleOverride } from '@wordpress/block-editor';
-import { PopoutWindow } from './PopoutWindow';
+import { useGlobalEditorStore } from '../state/global-editor';
 import { usePopoutStore } from '../state/popout';
+import { CodeEditor } from './CodeEditor';
+import { EditorControls } from './EditorControls';
+import { PopoutEditor } from './PopoutEditor';
 
 export const BlockControl = (
 	// eslint-disable-next-line
@@ -37,6 +38,8 @@ export const BlockControl = (
 		return isSavingPost() || isAutosavingPost();
 	}, []);
 	const { open: popoutOpen, setOpen: setPopoutOpen } = usePopoutStore();
+	const { open: globalEditorOpen, setOpen: setglobalEditorOpen } =
+		useGlobalEditorStore();
 	const { attributes, setAttributes, clientId: blockId } = props;
 	const {
 		pcssClassId,
@@ -177,10 +180,10 @@ export const BlockControl = (
 					title="Pattern CSS"
 					initialOpen={false}
 					className="pattern-css-editor">
-					<PopoutWindow>
+					<PopoutEditor>
 						<>
 							<div
-								className="flex-grow relative"
+								className="relative flex-grow"
 								ref={editorWrapperRef}>
 								<CodeEditor
 									value={css ?? defaultCssExample}
@@ -203,13 +206,15 @@ export const BlockControl = (
 									handleChange={handleChange}
 									popoutOpen={popoutOpen}
 									setPopoutOpen={setPopoutOpen}
+									globalEditorOpen={globalEditorOpen}
+									setGlobalEditorOpen={setglobalEditorOpen}
 									editorWrapperRef={editorWrapperRef}
 								/>
 							</div>
 						</>
-					</PopoutWindow>
+					</PopoutEditor>
 					<p
-						className="m-0 my-2 text-gray-700 text-xs"
+						className="m-0 my-2 text-xs text-gray-700"
 						dangerouslySetInnerHTML={{
 							__html: sprintf(
 								// translators: %1$s = opening <a> tag, %2$s = closing </a> tag.
@@ -233,7 +238,11 @@ export const BlockControl = (
 						autoComplete="off"
 						data-cy="class-id"
 						type="text"
-						label={__('Pattern CSS ID', 'pattern-css')}
+						// translators: %s = Pattern CSS and ID is an identifier
+						label={sprintf(
+							__('%s ID', 'pattern-css'),
+							'Pattern CSS',
+						)}
 						disabled
 						onChange={() => undefined}
 						value={pcssClassId}
@@ -262,7 +271,7 @@ export const BlockControl = (
 						}}>
 						{__('Generate New ID', 'pattern-css')}
 					</Button>
-					<p className="text-md text-gray-600 mt-2">
+					<p className="text-md mt-2 text-gray-600">
 						{__(
 							"If there's a styling conflict with another block you can generate a new ID.",
 							'pattern-css',

@@ -1,7 +1,9 @@
 import { addFilter } from '@wordpress/hooks';
-import { BlockControl } from './components/BlockControl';
-import './editor.css';
+import { registerPlugin } from '@wordpress/plugins';
 import init, { transform } from 'lightningcss-wasm';
+import { BlockControl } from './components/BlockControl';
+import { GlobalEditor } from './components/GlobalEditor';
+import './editor.css';
 
 init().then(() => {
 	// Add to global scope so it's not loaded multiple times
@@ -65,3 +67,5 @@ addFilter(
 	'kevinbatdorf/pcss-add-save-props',
 	addSaveProps,
 );
+
+registerPlugin('pcss-global-editor', { render: () => <GlobalEditor /> });
