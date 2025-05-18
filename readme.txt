@@ -2,7 +2,7 @@
 Contributors:      kbat82
 Tags:              css, styles, inline, margin, editor
 Tested up to:      6.8
-Stable tag:        1.5.0
+Stable tag:        1.5.1
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -140,6 +140,9 @@ Add this to functions.php:
 4. Works with reusable and synced patterns
 
 == Changelog ==
+
+= 1.5.1 - 2025-05-18 =
+- Retagging for release
 
 = 1.5.0 - 2025-05-18 =
 - Adds support for global styles via a new editor
