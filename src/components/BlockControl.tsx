@@ -183,7 +183,7 @@ export const BlockControl = (
 					<PopoutEditor>
 						<>
 							<div
-								className="relative flex-grow"
+								className="overfow-x-hidden relative flex-grow overflow-y-auto border border-solid border-gray-600"
 								ref={editorWrapperRef}>
 								<CodeEditor
 									value={css ?? defaultCssExample}

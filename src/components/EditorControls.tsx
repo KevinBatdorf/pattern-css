@@ -56,7 +56,7 @@ export const EditorControls = ({
 						className="lowercase hover:bg-gray-100 hover:text-gray-900">
 						{
 							// translators: Popout as in Popout the editor
-							__('Global Styles', 'pattern-css')
+							__('Global', 'pattern-css')
 						}
 					</Button>
 				</Tooltip>
@@ -77,7 +77,8 @@ export const EditorControls = ({
 					</Tooltip>
 				)}
 				{popoutOpen ? (
-					<Tooltip text={__('Toggle highlight', 'pattern-css')}>
+					<Tooltip
+						text={__('Highlight the current block', 'pattern-css')}>
 						<Button
 							size="small"
 							variant="tertiary"
@@ -90,7 +91,7 @@ export const EditorControls = ({
 							className={`lowercase hover:bg-gray-100 hover:text-gray-900 ${
 								isHighlighted ? 'bg-gray-100' : ''
 							}`}>
-							{__('Highlight Block', 'pattern-css')}
+							{__('Highlight', 'pattern-css')}
 						</Button>
 					</Tooltip>
 				) : null}
