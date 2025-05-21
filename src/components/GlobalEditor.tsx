@@ -164,30 +164,35 @@ const TheEditor = ({
 	}, [savingState]);
 
 	return (
-		<div className="relative flex-grow" ref={editorWrapperRef}>
-			<CodeEditor
-				value={css}
-				onChange={handleChange}
-				lineOptions={warnings.map(({ loc }) => ({
-					line: loc.line,
-					classes: ['line-error'],
-				}))}
-			/>
+		<div className="relative flex min-h-0 flex-grow flex-col">
+			<div
+				className="min-h-0 flex-grow overflow-y-auto overflow-x-hidden border border-solid border-gray-600"
+				ref={editorWrapperRef}>
+				<CodeEditor
+					value={css}
+					onChange={handleChange}
+					lineOptions={warnings.map(({ loc }) => ({
+						line: loc.line,
+						classes: ['line-error'],
+					}))}
+				/>
+			</div>
 			{savingState === 'saving' && (
-				<div className="absolute bottom-px right-1 z-10 flex items-center justify-center bg-white/50">
-					<span className="text-sm text-gray-700 dark:text-gray-400">
+				<div className="absolute bottom-px right-1 z-10 flex items-center justify-center bg-white p-1">
+					<span className="text-sm text-gray-700">
 						{__('Saving...', 'pattern-css')}
 					</span>
 				</div>
 			)}
 			{savingState === 'saved' && (
-				<div className="absolute bottom-px right-1 z-10 flex items-center justify-center bg-white/50">
+				<div className="absolute bottom-px right-1 z-10 flex items-center justify-center bg-white p-1">
 					<Icon
 						icon={check}
+						size={20}
 						className="stroke-gray-700"
 						color="currentColor"
 					/>
-					<span className="text-sm text-gray-700 dark:text-gray-400">
+					<span className="text-sm text-gray-700">
 						{__('Saved!', 'pattern-css')}
 					</span>
 				</div>

@@ -34,20 +34,20 @@ export const CodeEditor = forwardRef((props: CodeEditorProps, ref) => {
 
 	if (loading)
 		return (
-			<div className="lex h-full min-h-52 items-center justify-center border border-solid border-gray-600 bg-gray-100 p-4 text-gray-900">
+			<div className="flex h-full min-h-52 items-center justify-center p-4 text-gray-900">
 				{'Loading...'}
 			</div>
 		);
 	if (editorError) return <p>{editorError.message}</p>;
 
 	return (
-		<div ref={textAreaRef} className="h-full">
+		<div ref={textAreaRef} className="">
 			<Editor
 				// eslint-disable-next-line
 				// @ts-ignore-next-line
 				ref={ref}
 				value={decodeEntities(value)}
-				className="h-full border border-solid border-gray-600 font-jetbrains-mono"
+				className="h-full font-jetbrains-mono"
 				onValueChange={onChange}
 				{...remainingProps}
 				padding={{

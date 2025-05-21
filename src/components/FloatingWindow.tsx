@@ -55,7 +55,7 @@ export const FloatingWindow = forwardRef<HTMLDivElement, FloatingWindowProps>(
 					style={{ top, left, width, height }}
 					ref={ref}>
 					<>
-						<div className="flex items-center justify-between">
+						<div className="flex flex-shrink-0 items-center justify-between">
 							<div
 								data-pcss-handle
 								draggable
@@ -73,12 +73,12 @@ export const FloatingWindow = forwardRef<HTMLDivElement, FloatingWindowProps>(
 								showTooltip={false}
 							/>
 						</div>
-						<div className="relative z-50 flex h-full flex-col px-4 pb-4">
+						<div className="relative z-50 flex min-h-0 flex-grow flex-col px-4 pb-4">
 							{children}
 						</div>
 						<div
 							data-pcss-resize
-							className="absolute bottom-0 right-0 z-high h-6 w-6">
+							className="absolute -bottom-1 -right-1 z-high h-6 w-6">
 							<div className="h-6 w-6 cursor-se-resize border border-l-0 border-t-0 border-solid border-transparent transition-colors duration-300 hover:border-gray-600 active:border-gray-600" />
 						</div>
 					</>
