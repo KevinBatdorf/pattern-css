@@ -11,3 +11,34 @@ export const getHighestZIndex = () => {
 	);
 	return highestZIndex;
 };
+
+// Parse block attributes from a URL query string
+export const parseAttributes = (params: URLSearchParams) =>
+	Object.fromEntries(
+		Array.from(params.entries())
+			.filter(([key]) => key.startsWith('attributes['))
+			.map(([key, value]) => [
+				key.slice(11, -1), // removes 'attributes[' and ']'
+				value,
+			]),
+	);
+
+export const mergeAttributesToUrl = (
+	url: string,
+	attributes: Record<string, string>,
+) => {
+	const [base, query = ''] = url.split('?');
+	const params = new URLSearchParams(query);
+
+	// Remove all existing attributes[...] keys
+	Array.from(params.keys())
+		.filter((key) => key.startsWith('attributes['))
+		.forEach((key) => params.delete(key));
+
+	// Add new attributes
+	Object.entries(attributes).forEach(([key, value]) => {
+		params.set(`attributes[${key}]`, value);
+	});
+
+	return `${base}?${params.toString()}`;
+};
