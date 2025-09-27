@@ -1,13 +1,37 @@
+import apiFetch from '@wordpress/api-fetch';
 import { addFilter } from '@wordpress/hooks';
 import { registerPlugin } from '@wordpress/plugins';
 import init, { transform } from 'lightningcss-wasm';
 import { BlockControl } from './components/BlockControl';
 import { GlobalEditor } from './components/GlobalEditor';
 import './editor.css';
+import { parseAttributes, mergeAttributesToUrl } from './lib/util';
+
+const blockAttributes = {
+	pcssAdditionalCss: { type: 'string' },
+	pcssAdditionalCssCompiled: { type: 'string', default: '' },
+	pcssClassId: { type: 'string', default: '' },
+};
 
 init().then(() => {
 	// Add to global scope so it's not loaded multiple times
 	window.patternCss.transform = transform;
+});
+
+// Remove our attributes for server rendering
+apiFetch.use((options, next) => {
+	if (options.path?.includes('wp/v2/block-renderer')) {
+		const url = options.path.split('?');
+		const params = new URLSearchParams(url?.[1] || '');
+		const withoutPcss = Object.fromEntries(
+			Object.entries(parseAttributes(params)).filter(
+				([key]) => !Object.keys(blockAttributes).includes(key),
+			),
+		);
+		const path = mergeAttributesToUrl(options.path, withoutPcss);
+		return next({ ...options, path });
+	}
+	return next(options);
 });
 
 // Both are unexpected objects with any properties types
@@ -26,12 +50,6 @@ const addSaveProps = (props: any, _blockType: null, attributes: any) => {
 		...props,
 		className: [...classes].join(' '),
 	};
-};
-
-const blockAttributes = {
-	pcssAdditionalCss: { type: 'string' },
-	pcssAdditionalCssCompiled: { type: 'string', default: '' },
-	pcssClassId: { type: 'string', default: '' },
 };
 
 addFilter(

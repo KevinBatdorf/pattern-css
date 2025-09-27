@@ -2,7 +2,7 @@
 Contributors:      kbat82
 Tags:              block, css, styles, inline, editor
 Tested up to:      6.8
-Stable tag:        1.5.2
+Stable tag:        1.5.3
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -140,6 +140,9 @@ Add this to functions.php:
 4. Works with reusable and synced patterns
 
 == Changelog ==
+
+= 1.5.3 - 2025-09-27 =
+- Fixes an issue where filtered attributes sent wp/v2/block-renderer causes a block validation error
 
 = 1.5.2 - 2025-05-21 =
 - Fixes an overflow bug in the editor
