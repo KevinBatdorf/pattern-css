@@ -30,7 +30,7 @@
 		"@wordpress/scripts": "^30.24.0",
 		"@wordpress/url": "^4.31.0",
 		"autoprefixer": "^10.4.21",
-		"cypress": "^15.3.0",
+		"cypress": "^15.10.0",
 		"cypress-wait-until": "^3.0.2",
 		"eslint": "^8.57.1",
 		"eslint-config-prettier": "^9.1.0",
