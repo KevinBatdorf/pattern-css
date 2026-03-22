@@ -8,8 +8,8 @@ on:
         # At 08:00 daily
         - cron: '0 8 * * *'
 jobs:
-    build:
-        name: Build
+    lint:
+        name: Lint and Build
         runs-on: ubuntu-latest
         steps:
             - name: Clone repo
@@ -20,16 +20,8 @@ jobs:
                   npm ci
                   npx eslint --max-warnings 0 .
                   npm run build
-            - name: Upload build artifact
-              uses: actions/upload-artifact@v4
-              with:
-                  name: build
-                  path: |
-                      build/
-                      node_modules/
     test:
         name: WordPress ${{ matrix.wp-version }} (${{ matrix.spec }})
-        needs: build
         concurrency:
             group: cypress - ${{ github.event.pull_request.number || github.ref }} - ${{ matrix.wp-version }} - ${{ matrix.spec }}
             cancel-in-progress: true
@@ -52,11 +44,10 @@ jobs:
             - name: Clone repo
               uses: actions/checkout@v4
 
-            - name: Download build artifact
-              uses: actions/download-artifact@v4
-              with:
-                  name: build
-
+            - name: Install and Build
+              run: |
+                  npm ci
+                  npm run build
             - name: Get Latest WP Branch
               if: ${{ matrix.wp-version }}
               run: |
