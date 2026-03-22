@@ -26,16 +26,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                spec:
-                    - block-add-class
-                    - block-scope-inner
-                    - block-concat-styles
-                    - block-scope-self
-                    - block-invalid-css
-                    - block-custom-selector
-                    - block-escape-css
-                    - block-removes-rules
-                    - global
+                spec: ['block', 'global']
         steps:
             - name: Clone repo
               uses: actions/checkout@v4
