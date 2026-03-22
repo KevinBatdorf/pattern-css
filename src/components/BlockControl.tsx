@@ -13,7 +13,7 @@ import { useSelect } from '@wordpress/data';
 import { store as coreStore } from '@wordpress/editor';
 import { useEffect, useState, useCallback, useRef } from '@wordpress/element';
 import { sprintf, __ } from '@wordpress/i18n';
-import { Warning as CssWarning, Rule } from 'lightningcss-wasm';
+import { Warning as CssWarning } from 'lightningcss-wasm';
 import { addToClassList } from '../lib/classes';
 import { focusAtEndOfLine2 } from '../lib/dom';
 import { escapeCSS } from '../lib/formatting';
@@ -71,22 +71,29 @@ export const BlockControl = (
 				minify: true,
 				errorRecovery: true,
 				visitor: {
-					StyleSheetExit: (stylesheet) => {
-						// Filter out the globals
-						const ignored = [
-							'import',
-							'page',
-							'font-face',
-							'keyframes',
-							'counter-style',
-							'view-transition',
-							'charset',
-							'namespace',
-						];
-						stylesheet.rules = stylesheet.rules.filter(
-							(rule: Rule) => !ignored.includes(rule.type),
-						);
-						return stylesheet;
+					// Drop global at-rules that shouldn't be scoped to a block
+					Rule: {
+						import() {
+							return [];
+						},
+						'font-face'() {
+							return [];
+						},
+						keyframes() {
+							return [];
+						},
+						page() {
+							return [];
+						},
+						'counter-style'() {
+							return [];
+						},
+						'view-transition'() {
+							return [];
+						},
+						namespace() {
+							return [];
+						},
 					},
 					Selector(selector) {
 						const { name, type } = selector[0] as {

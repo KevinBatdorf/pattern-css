@@ -5,16 +5,9 @@ on:
             - main
     workflow_dispatch:
 jobs:
-    test:
-        name: WordPress (${{ matrix.spec }})
-        concurrency:
-            group: cypress - ${{ github.event.pull_request.number || github.ref }} - ${{ matrix.spec }}
-            cancel-in-progress: true
+    build:
+        name: Build
         runs-on: ubuntu-latest
-        strategy:
-            fail-fast: false
-            matrix:
-                spec: ['block', 'global']
         steps:
             - name: Clone repo
               uses: actions/checkout@v4
@@ -24,6 +17,42 @@ jobs:
                   npm ci
                   npx eslint --max-warnings 0 .
                   npm run build
+            - name: Upload build artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: build
+                  path: |
+                      build/
+                      node_modules/
+    test:
+        name: WordPress (${{ matrix.spec }})
+        needs: build
+        concurrency:
+            group: cypress - ${{ github.event.pull_request.number || github.ref }} - ${{ matrix.spec }}
+            cancel-in-progress: true
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                spec:
+                    - block-add-class
+                    - block-scope-inner
+                    - block-concat-styles
+                    - block-scope-self
+                    - block-invalid-css
+                    - block-custom-selector
+                    - block-escape-css
+                    - block-removes-rules
+                    - global
+        steps:
+            - name: Clone repo
+              uses: actions/checkout@v4
+
+            - name: Download build artifact
+              uses: actions/download-artifact@v4
+              with:
+                  name: build
+
             - name: Start server
               run: |
                   npm install -g @wordpress/env
@@ -33,16 +62,17 @@ jobs:
               uses: cypress-io/github-action@v6
               with:
                   browser: chrome
+                  install: false
                   spec: cypress/e2e/${{ matrix.spec }}.cy.js
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - uses: actions/upload-artifact@v4
               if: failure()
               with:
-                  name: cypress-screenshots
+                  name: cypress-screenshots-${{ matrix.spec }}
                   path: cypress/screenshots
             - uses: actions/upload-artifact@v4
               if: failure()
               with:
-                  name: cypress-videos
+                  name: cypress-videos-${{ matrix.spec }}
                   path: cypress/videos
