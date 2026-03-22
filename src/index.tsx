@@ -5,13 +5,13 @@ import init, { transform } from 'lightningcss-wasm';
 import { BlockControl } from './components/BlockControl';
 import { GlobalEditor } from './components/GlobalEditor';
 import './editor.css';
-import { parseAttributes, mergeAttributesToUrl } from './lib/util';
 
 const blockAttributes = {
 	pcssAdditionalCss: { type: 'string' },
 	pcssAdditionalCssCompiled: { type: 'string', default: '' },
 	pcssClassId: { type: 'string', default: '' },
 };
+const pcssAttributeKeys = Object.keys(blockAttributes);
 
 init().then(() => {
 	// Add to global scope so it's not loaded multiple times
@@ -21,15 +21,34 @@ init().then(() => {
 // Remove our attributes for server rendering
 apiFetch.use((options, next) => {
 	if (options.path?.includes('wp/v2/block-renderer')) {
-		const url = options.path.split('?');
-		const params = new URLSearchParams(url?.[1] || '');
-		const withoutPcss = Object.fromEntries(
-			Object.entries(parseAttributes(params)).filter(
-				([key]) => !Object.keys(blockAttributes).includes(key),
-			),
-		);
-		const path = mergeAttributesToUrl(options.path, withoutPcss);
-		return next({ ...options, path });
+		let { data, body } = options;
+
+		// Strip from query params (GET)
+		const [base, query = ''] = options.path.split('?');
+		const params = new URLSearchParams(query);
+		pcssAttributeKeys.forEach((key) => params.delete(`attributes[${key}]`));
+		const path = `${base}?${params.toString()}`;
+
+		// Strip from body attributes (POST)
+		if (data?.attributes) {
+			const { ...attrs } = data.attributes;
+			pcssAttributeKeys.forEach((key) => delete attrs[key]);
+			data = { ...data, attributes: attrs };
+		}
+
+		if (typeof body === 'string') {
+			try {
+				const parsed = JSON.parse(body);
+				if (parsed?.attributes) {
+					pcssAttributeKeys.forEach((key) => delete parsed.attributes[key]);
+					body = JSON.stringify(parsed);
+				}
+			} catch {
+				// not JSON, leave as-is
+			}
+		}
+
+		return next({ ...options, path, data, body });
 	}
 	return next(options);
 });

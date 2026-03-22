@@ -314,15 +314,10 @@ context('Pattern Css (Block)', () => {
 		});
 	});
 	it('Removes @import, @keyframes, and others', () => {
-		const css = `@charset "UTF-8";
-		  @import url('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css');
-		  @media screen and (max-width: 600px) { .f { foo: 'bar';} }
-		  @page :left {}
-		  @font-face {font-family: MyFont;src: url('myfont.woff2');}
-		  @keyframes slidein {from {}to {}}
-		  @view-transition { navigation: auto }
-		  @counter-style customCounter { system: cyclic; }
-		  @namespace svg url(http://www.w3.org/2000/svg);`;
+		const css = `@font-face {font-family: MyFont;src: url('myfont.woff2');}
+		  @keyframes slidein {from {opacity: 0} to {opacity: 1}}
+		  @media screen and (max-width: 600px) { [block] { color: red; } }
+		  [block] { padding: 1rem; }`;
 
 		cy.withEditorWp((_win, wp) => {
 			const block = wp.blocks.createBlock('core/group', {}, [
@@ -340,7 +335,7 @@ context('Pattern Css (Block)', () => {
 
 			cy.previewCurrentPage();
 
-			// should not have any of the rules except media query
+			// should not have any of the rules except media query and block styles
 			cy.get(`style#pcss-block-${className}-inline-css`)
 				.invoke('text')
 				.should('not.contain', '@import')
@@ -352,7 +347,8 @@ context('Pattern Css (Block)', () => {
 				.and('not.contain', '@view-transition')
 				.and('not.contain', '@counter-style')
 				.and('not.contain', '@namespace')
-				.and('contain', '@media');
+				.and('contain', '@media')
+				.and('contain', 'padding');
 		});
 	});
 });

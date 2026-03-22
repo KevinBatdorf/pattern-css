@@ -5,6 +5,18 @@ on:
             - main
     workflow_dispatch:
 jobs:
+    lint:
+        name: Lint and Build
+        runs-on: ubuntu-latest
+        steps:
+            - name: Clone repo
+              uses: actions/checkout@v4
+
+            - name: Install and build
+              run: |
+                  npm ci
+                  npx eslint --max-warnings 0 .
+                  npm run build
     test:
         name: WordPress (${{ matrix.spec }})
         concurrency:
@@ -22,7 +34,6 @@ jobs:
             - name: Install and build
               run: |
                   npm ci
-                  npx eslint --max-warnings 0 .
                   npm run build
             - name: Start server
               run: |
@@ -33,16 +44,17 @@ jobs:
               uses: cypress-io/github-action@v6
               with:
                   browser: chrome
+                  install: false
                   spec: cypress/e2e/${{ matrix.spec }}.cy.js
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - uses: actions/upload-artifact@v4
               if: failure()
               with:
-                  name: cypress-screenshots
+                  name: cypress-screenshots-${{ matrix.spec }}
                   path: cypress/screenshots
             - uses: actions/upload-artifact@v4
               if: failure()
               with:
-                  name: cypress-videos
+                  name: cypress-videos-${{ matrix.spec }}
                   path: cypress/videos

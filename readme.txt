@@ -1,8 +1,8 @@
 === Pattern CSS - The CSS Editor For Blocks ===
 Contributors:      kbat82
 Tags:              block, css, styles, inline, editor
-Tested up to:      6.8
-Stable tag:        1.5.3
+Tested up to:      7.0
+Stable tag:        1.5.4
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -140,6 +140,9 @@ Add this to functions.php:
 4. Works with reusable and synced patterns
 
 == Changelog ==
+
+= 1.5.4 - 2026-03-23 =
+- Fixed dynamic blocks with POST
 
 = 1.5.3 - 2025-09-27 =
 - Fixes an issue where filtered attributes sent wp/v2/block-renderer causes a block validation error
