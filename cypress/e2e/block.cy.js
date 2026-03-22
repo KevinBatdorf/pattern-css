@@ -335,12 +335,18 @@ context('Pattern Css (Block)', () => {
 
 			cy.previewCurrentPage();
 
-			// should not have any of the global rules except media query and block styles
+			// should not have any of the rules except media query and block styles
 			cy.get(`style#pcss-block-${className}-inline-css`)
 				.invoke('text')
-				.should('not.contain', '@keyframes')
+				.should('not.contain', '@import')
+				.and('not.contain', '@keyframes')
+				.and('not.contain', '@charset')
 				.and('not.contain', '@font-face')
+				.and('not.contain', '@page')
 				.and('not.contain', 'slidein')
+				.and('not.contain', '@view-transition')
+				.and('not.contain', '@counter-style')
+				.and('not.contain', '@namespace')
 				.and('contain', '@media')
 				.and('contain', 'padding');
 		});
