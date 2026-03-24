@@ -132,6 +132,14 @@ Add this to functions.php:
 
 `define('PATTERN_CSS_SELECTOR_OVERRIDE', ['name' => 'foo', 'type' => 'type']);`
 
+= Can I manually set the class ID? =
+
+By default, class IDs are auto-generated. If you need to manually set or change a block's class ID (e.g. to match an existing class), you can enable this by adding the following constant to wp-config.php or functions.php:
+
+`define('PATTERN_CSS_ALLOW_MANUAL_OVERRIDE', true);`
+
+Once enabled, the ID field in the Advanced panel becomes editable. Type your desired class name and press "Apply" to save it. The value will be slugified automatically.
+
 == Screenshots ==
 
 1. Add styles not available in the editor (supoprts nesting)
@@ -142,6 +150,7 @@ Add this to functions.php:
 == Changelog ==
 
 = 1.5.5 - 2026-03-24 =
+- Added manual class ID override (opt-in via constant)
 - Warns when duplicate class IDs are detected in the editor
 - Prevents duplicate inline styles on the frontend
 - Switched to Biome for linting and formatting

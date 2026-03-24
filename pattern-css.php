@@ -5,7 +5,7 @@
  * Description:       Lightening Fast, Safe, In-editor CSS Optimization and Minification Tool
  * Requires at least: 6.7
  * Requires PHP:      7.0
- * Version:           1.5.5
+ * Version:           1.5.4
  * Author:            Kevin Batdorf
  * Author URI:        https://twitter.com/kevinbatdorf
  * License:           GPL-2.0-or-later
@@ -42,6 +42,7 @@ add_action('enqueue_block_editor_assets', function () {
 				constant('PATTERN_CSS_SELECTOR_OVERRIDE') : null,
 			'globalCss' => get_option('pcss_global_css', ''),
 			'globalCssCompiled' => get_option('pcss_global_css_compiled', ''),
+			'allowManualOverride' => defined('PATTERN_CSS_ALLOW_MANUAL_OVERRIDE'),
 		]) . ';',
 		'before'
 	);
