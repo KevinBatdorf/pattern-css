@@ -70,6 +70,8 @@ add_filter('pre_render_block', function ($pre_render, $parsed_block) {
 	$pcss_block_id = $parsed_block['attrs']['pcssClassId'];
 
 	if (empty($pcss_block_id) || empty($pcss_additional_css)) return $pre_render;
+	// Skip if already registered (e.g. same block in a Query Loop)
+	if (wp_style_is("pcss-block-{$pcss_block_id}", 'registered')) return $pre_render;
 
 	wp_register_style("pcss-block-{$pcss_block_id}", false, [], null);
 	wp_enqueue_style("pcss-block-{$pcss_block_id}");
