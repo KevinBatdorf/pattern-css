@@ -8,16 +8,14 @@ jobs:
     name: Make release
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
+      - uses: actions/checkout@v6
 
       - uses: actions/setup-node@v6
         with:
           node-version: lts/*
           cache: 'npm'
 
-      - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit --no-fund
+      - run: npm ci --prefer-offline --no-audit --no-fund
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
