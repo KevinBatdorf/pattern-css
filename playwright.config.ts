@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 const PORT = 9400;
+const WP_VERSION = process.env.WP_VERSION || 'latest';
 export const BASE = `http://127.0.0.1:${PORT}`;
 
 export default defineConfig({
@@ -16,7 +17,7 @@ export default defineConfig({
 		screenshot: 'only-on-failure',
 	},
 	webServer: {
-		command: `wp-playground-cli server --auto-mount --blueprint=tests/blueprint.json --port=${PORT} --internal-cookie-store=true --login=false`,
+		command: `wp-playground-cli server --auto-mount --blueprint=tests/blueprint.json --wp=${WP_VERSION} --port=${PORT} --internal-cookie-store=true --login=false`,
 		url: BASE,
 		reuseExistingServer: false,
 	},
