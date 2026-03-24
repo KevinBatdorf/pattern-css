@@ -17,7 +17,8 @@
 			"!**/playwright-report",
 			"!**/test-results",
 			"!**/wordpress-org",
-			"!**/editor.css"
+			"!**/editor.css",
+			"!**/vendor"
 		]
 	},
 	"formatter": {
@@ -27,7 +28,12 @@
 	},
 	"assist": { "actions": { "source": { "organizeImports": "on" } } },
 	"linter": {
-		"enabled": true
+		"enabled": true,
+		"rules": {
+			"suspicious": {
+				"noExplicitAny": "error"
+			}
+		}
 	},
 	"javascript": {
 		"formatter": {

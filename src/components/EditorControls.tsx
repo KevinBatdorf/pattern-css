@@ -20,12 +20,11 @@ export const EditorControls = ({
 	editorWrapperRef: React.RefObject<HTMLDivElement>;
 }) => {
 	const [isHighlighted, setIsHighlighted] = useState(false);
-	// eslint-disable-next-line
-	// @ts-expect-error-next-line
 	const { getSelectedBlockClientId } = useSelect(
 		(select) => select(blockEditorStore),
 		[],
 	);
+	// @ts-expect-error -- outdated types
 	const { toggleBlockHighlight } = useDispatch(blockEditorStore);
 	const currentBlockId = getSelectedBlockClientId();
 	useEffect(() => {

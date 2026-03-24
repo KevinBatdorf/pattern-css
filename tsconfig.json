@@ -13,7 +13,12 @@
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"jsx": "preserve",
-		"incremental": true
+		"incremental": true,
+		"types": [
+			"wordpress__block-editor",
+			"wordpress__blocks",
+			"wordpress__edit-post"
+		]
 	},
 	"include": ["src/**/*.ts", "src/**/*.tsx"],
 	"exclude": ["node_modules"]

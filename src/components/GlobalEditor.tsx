@@ -1,4 +1,5 @@
 import apiFetch from '@wordpress/api-fetch';
+// @ts-expect-error -- outdated types
 import { useStyleOverride } from '@wordpress/block-editor';
 import { CheckboxControl } from '@wordpress/components';
 import { PluginMoreMenuItem } from '@wordpress/editor';
