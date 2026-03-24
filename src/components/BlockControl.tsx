@@ -1,19 +1,21 @@
 import {
+	store as blockEditorStore,
 	InspectorAdvancedControls,
 	InspectorControls,
+	useStyleOverride,
 } from '@wordpress/block-editor';
-import { useStyleOverride } from '@wordpress/block-editor';
 import {
-	PanelBody,
 	BaseControl,
-	TextControl,
 	Button,
+	Notice,
+	PanelBody,
+	TextControl,
 } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { store as coreStore } from '@wordpress/editor';
-import { useEffect, useState, useCallback, useRef } from '@wordpress/element';
-import { sprintf, __ } from '@wordpress/i18n';
-import { Warning as CssWarning } from 'lightningcss-wasm';
+import { useCallback, useEffect, useRef, useState } from '@wordpress/element';
+import { __, sprintf } from '@wordpress/i18n';
+import type { Warning as CssWarning } from 'lightningcss-wasm';
 import { addToClassList } from '../lib/classes';
 import { focusAtEndOfLine2 } from '../lib/dom';
 import { escapeCSS } from '../lib/formatting';
@@ -33,7 +35,7 @@ export const BlockControl = (
 	const [warnings, setWarnings] = useState<CssWarning[]>([]);
 	const isSaving = useSelect((select) => {
 		// eslint-disable-next-line
-		// @ts-ignore-next-line
+		// @ts-expect-error-next-line
 		const { isSavingPost, isAutosavingPost } = select(coreStore);
 		return isSavingPost() || isAutosavingPost();
 	}, []);
@@ -48,10 +50,38 @@ export const BlockControl = (
 		className: existingClasses,
 	} = attributes;
 
+	const isDuplicateId = useSelect(
+		(select) => {
+			if (!pcssClassId) return false;
+			const { getClientIdsWithDescendants, getBlockAttributes } =
+				select(blockEditorStore);
+			return getClientIdsWithDescendants().some(
+				(id: string) =>
+					id !== blockId &&
+					getBlockAttributes(id)?.pcssClassId === pcssClassId,
+			);
+		},
+		[pcssClassId, blockId],
+	);
+
+	const generateNewId = useCallback(() => {
+		const newId = `pcss-${Math.random().toString(36).substring(2, 10)}`;
+		const existing = existingClasses?.split(' ') || [];
+		const className = [
+			...new Set(
+				[
+					...existing.filter((c: string) => !c.startsWith('pcss-')),
+					newId,
+				].filter(Boolean),
+			),
+		].join(' ');
+		setAttributes({ pcssClassId: newId, className });
+	}, [existingClasses, setAttributes]);
+
 	const [css, setCss] = useState(initialCss);
 	const [transformed, setTransformed] = useState<Uint8Array>();
 	const [compiled, setCompiled] = useState(compiledCss || '');
-	useStyleOverride({ id: `pcss-styles-block-${pcssClassId}`, css: compiled });
+	useStyleOverride({ id: `pcss-styles-block-${blockId}`, css: compiled });
 	const defaultCssExample = '[block] {\n  \n}';
 
 	const handleChange = useCallback(
@@ -186,12 +216,38 @@ export const BlockControl = (
 				<PanelBody
 					title="Pattern CSS"
 					initialOpen={false}
-					className="pattern-css-editor">
+					className="pattern-css-editor"
+				>
+					{isDuplicateId && (
+						<Notice
+							status="warning"
+							isDismissible={false}
+							className="mb-4"
+						>
+							<p style={{ margin: '0 0 8px' }}>
+								{sprintf(
+									__(
+										'Another block on this page is using the same ID (%s). Styles may conflict or be duplicated on the frontend.',
+										'pattern-css',
+									),
+									pcssClassId,
+								)}
+							</p>
+							<Button
+								variant="secondary"
+								size="small"
+								onClick={generateNewId}
+							>
+								{__('Generate New ID', 'pattern-css')}
+							</Button>
+						</Notice>
+					)}
 					<PopoutEditor>
 						<>
 							<div
 								className="overfow-x-hidden relative flex-grow overflow-y-auto border border-solid border-gray-600"
-								ref={editorWrapperRef}>
+								ref={editorWrapperRef}
+							>
 								<CodeEditor
 									value={css ?? defaultCssExample}
 									data-cy="pcss-editor-block"
@@ -239,7 +295,8 @@ export const BlockControl = (
 			<InspectorAdvancedControls>
 				<BaseControl
 					id="pcss-css-id-setting"
-					className="pattern-css-editor">
+					className="pattern-css-editor"
+				>
 					<TextControl
 						spellCheck={false}
 						autoComplete="off"
@@ -257,25 +314,8 @@ export const BlockControl = (
 					<Button
 						variant="secondary"
 						className="-mt-2"
-						onClick={() => {
-							const pcssClassId = `pcss-${Math.random()
-								.toString(36)
-								.substring(2, 10)}`;
-							const existing = existingClasses?.split(' ') || [];
-							const className = [
-								...new Set(
-									[
-										// Remove any existing pcss- classes
-										...existing.filter(
-											(c: string) =>
-												!c.startsWith('pcss-'),
-										),
-										pcssClassId,
-									].filter(Boolean),
-								),
-							].join(' ');
-							setAttributes({ pcssClassId, className });
-						}}>
+						onClick={generateNewId}
+					>
 						{__('Generate New ID', 'pattern-css')}
 					</Button>
 					<p className="text-md mt-2 text-gray-600">

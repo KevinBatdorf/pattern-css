@@ -1,6 +1,4 @@
-import { transform } from 'lightningcss-wasm';
-
-export {};
+import type { transform } from 'lightningcss-wasm';
 
 declare global {
 	interface Window {

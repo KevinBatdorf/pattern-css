@@ -44,7 +44,7 @@ export const CodeEditor = forwardRef((props: CodeEditorProps, ref) => {
 		<div ref={textAreaRef} className="">
 			<Editor
 				// eslint-disable-next-line
-				// @ts-ignore-next-line
+				// @ts-expect-error-next-line
 				ref={ref}
 				value={decodeEntities(value)}
 				className="h-full font-jetbrains-mono"

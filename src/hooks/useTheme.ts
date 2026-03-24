@@ -1,5 +1,5 @@
 import { useEffect, useState } from '@wordpress/element';
-import { getHighlighter, Lang, setCDN, Theme, setWasm } from 'shiki';
+import { getHighlighter, type Lang, setCDN, setWasm, type Theme } from 'shiki';
 import useSWRImmutable from 'swr/immutable';
 
 type Params = { theme: Theme; lang: Lang; ready?: boolean };

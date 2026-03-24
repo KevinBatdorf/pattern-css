@@ -40,7 +40,9 @@ apiFetch.use((options, next) => {
 			try {
 				const parsed = JSON.parse(body);
 				if (parsed?.attributes) {
-					pcssAttributeKeys.forEach((key) => delete parsed.attributes[key]);
+					pcssAttributeKeys.forEach(
+						(key) => delete parsed.attributes[key],
+					);
 					body = JSON.stringify(parsed);
 				}
 			} catch {

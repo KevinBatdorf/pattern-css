@@ -21,7 +21,7 @@ export const EditorControls = ({
 }) => {
 	const [isHighlighted, setIsHighlighted] = useState(false);
 	// eslint-disable-next-line
-	// @ts-ignore-next-line
+	// @ts-expect-error-next-line
 	const { getSelectedBlockClientId } = useSelect(
 		(select) => select(blockEditorStore),
 		[],
@@ -53,7 +53,8 @@ export const EditorControls = ({
 						size="small"
 						variant="tertiary"
 						onClick={() => setGlobalEditorOpen(true)}
-						className="lowercase hover:bg-gray-100 hover:text-gray-900">
+						className="lowercase hover:bg-gray-100 hover:text-gray-900"
+					>
 						{
 							// translators: Popout as in Popout the editor
 							__('Global', 'pattern-css')
@@ -68,7 +69,8 @@ export const EditorControls = ({
 							size="small"
 							variant="tertiary"
 							onClick={() => setPopoutOpen(true)}
-							className="lowercase hover:bg-gray-100 hover:text-gray-900">
+							className="lowercase hover:bg-gray-100 hover:text-gray-900"
+						>
 							{
 								// translators: Popout as in Popout the editor
 								__('Popout', 'pattern-css')
@@ -78,7 +80,8 @@ export const EditorControls = ({
 				)}
 				{popoutOpen ? (
 					<Tooltip
-						text={__('Highlight the current block', 'pattern-css')}>
+						text={__('Highlight the current block', 'pattern-css')}
+					>
 						<Button
 							size="small"
 							variant="tertiary"
@@ -90,7 +93,8 @@ export const EditorControls = ({
 							}}
 							className={`lowercase hover:bg-gray-100 hover:text-gray-900 ${
 								isHighlighted ? 'bg-gray-100' : ''
-							}`}>
+							}`}
+						>
 							{__('Highlight', 'pattern-css')}
 						</Button>
 					</Tooltip>
@@ -106,7 +110,8 @@ export const EditorControls = ({
 								?.querySelector('textarea')
 								?.focus();
 						}}
-						className="lowercase hover:bg-gray-100 hover:text-gray-900">
+						className="lowercase hover:bg-gray-100 hover:text-gray-900"
+					>
 						{
 							// translators: Clear as in Clear the editor
 							__('Clear', 'pattern-css')

@@ -6,25 +6,25 @@ import {
 import {
 	addBlock,
 	addBlocks,
-	openBlockInserter,
 	closeBlockInserter,
-	openBlockSettingsSideBar,
-	openSideBarPanel,
-	saveDraft,
-	setPostContent,
-	wpDataSelect,
-	previewCurrentPage,
-	selectBlockById,
 	findBlock,
 	findBlockClass,
+	openBlockInserter,
+	openBlockSettingsSideBar,
+	openSideBarPanel,
+	previewCurrentPage,
+	saveDraft,
+	selectBlockById,
+	setPostContent,
+	wpDataSelect,
 } from './gutenberg';
 import { login, logout } from './login-logout';
 import {
-	visitPageEditor,
 	visitAdminPage,
+	visitPageEditor,
 	visitToLoginPage,
 } from './navigate-pages';
-import { installPlugin, uninstallPlugin, resetDatabase } from './wp-cli';
+import { installPlugin, resetDatabase, uninstallPlugin } from './wp-cli';
 
 // Port more commands from WP here:
 // https://github.com/WordPress/gutenberg/tree/trunk/packages/e2e-test-utils/src
