@@ -7,10 +7,8 @@ import type { LineOption } from '../types';
 type CodeEditorProps = {
 	value: string;
 	onChange: (value: string) => void;
-	// eslint-disable-next-line
-	onFocus?: (event: any) => void;
-	// eslint-disable-next-line
-	onBlur?: (event: any) => void;
+	onFocus?: (event: unknown) => void;
+	onBlur?: (event: unknown) => void;
 	lineOptions: LineOption[];
 };
 export const CodeEditor = forwardRef((props: CodeEditorProps, ref) => {
@@ -43,8 +41,7 @@ export const CodeEditor = forwardRef((props: CodeEditorProps, ref) => {
 	return (
 		<div ref={textAreaRef} className="">
 			<Editor
-				// eslint-disable-next-line
-				// @ts-ignore-next-line
+				// @ts-expect-error-next-line
 				ref={ref}
 				value={decodeEntities(value)}
 				className="h-full font-jetbrains-mono"
@@ -61,8 +58,7 @@ export const CodeEditor = forwardRef((props: CodeEditorProps, ref) => {
 					backgroundColor: 'none',
 					color: highlighter?.getForegroundColor() ?? '#000',
 				}}
-				// eslint-disable-next-line
-				onKeyDown={(e: any) =>
+				onKeyDown={(e: React.KeyboardEvent) =>
 					e.key === 'Tab' &&
 					// Tab lock here. Pressing Escape will unlock.
 					textAreaRef.current?.querySelector('textarea')?.focus()

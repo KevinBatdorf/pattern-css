@@ -24,7 +24,6 @@ Lightening Fast, Reusable, Safe, In-editor CSS Optimization and Minification Too
 
 ### Combines Rules
 
-<!-- prettier-ignore -->
 ```css
 [block] {
   color: red;
@@ -39,7 +38,6 @@ Lightening Fast, Reusable, Safe, In-editor CSS Optimization and Minification Too
 
 ### Fixes redundant properties
 
-<!-- prettier-ignore -->
 ```css
 [block] {
   padding-top: 5px;

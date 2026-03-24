@@ -2,7 +2,7 @@
 Contributors:      kbat82
 Tags:              block, css, styles, inline, editor
 Tested up to:      7.0
-Stable tag:        1.5.4
+Stable tag:        1.5.5
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -140,6 +140,12 @@ Add this to functions.php:
 4. Works with reusable and synced patterns
 
 == Changelog ==
+
+= 1.5.5 - 2026-03-24 =
+- Warns when duplicate class IDs are detected in the editor
+- Prevents duplicate inline styles on the frontend
+- Switched to Biome for linting and formatting
+- Switched to Playwright and WP Playground for testing
 
 = 1.5.4 - 2026-03-23 =
 - Fixed dynamic blocks with POST

@@ -1,34 +1,42 @@
 name: Build production zip file
 on:
-    push:
-    workflow_dispatch:
-jobs:
-    build:
-        name: Build zip file
-        concurrency:
-            group: production - ${{ github.event.pull_request.number || github.ref }}
-            cancel-in-progress: true
-        runs-on: ubuntu-latest
-        steps:
-            - name: Check out code
-              uses: actions/checkout@v4
-            - name: npm install and build
-              run: |
-                  npm ci
-                  npm run build
-              env:
-                  CI: true
+  push:
+  workflow_dispatch:
 
-            - name: Package
-              uses: actions/upload-artifact@v4
-              with:
-                  name: pattern-css
-                  retention-days: 5
-                  path: |
-                      ${{ github.workspace }}/
-                      !${{ github.workspace }}/node_modules/
-                      !${{ github.workspace }}/cypress/
-                      !${{ github.workspace }}/.git/
-                      !${{ github.workspace }}/.github/
-                      !${{ github.workspace }}/.wordpress-org/
-                      !${{ github.workspace }}/package-lock.json
+jobs:
+  build:
+    name: Build zip file
+    concurrency:
+      group: production - ${{ github.event.pull_request.number || github.ref }}
+      cancel-in-progress: true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+          cache: 'npm'
+
+      - run: npm ci --prefer-offline --no-audit --no-fund
+
+      - name: Build
+        run: npm run build
+        env:
+          CI: true
+
+      - name: Package
+        uses: actions/upload-artifact@v6
+        with:
+          name: pattern-css
+          retention-days: 5
+          path: |
+            ${{ github.workspace }}/
+            !${{ github.workspace }}/node_modules/
+            !${{ github.workspace }}/tests/
+            !${{ github.workspace }}/.git/
+            !${{ github.workspace }}/.github/
+            !${{ github.workspace }}/.wordpress-org/
+            !${{ github.workspace }}/playwright-report/
+            !${{ github.workspace }}/test-results/
+            !${{ github.workspace }}/package-lock.json

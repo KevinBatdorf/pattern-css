@@ -51,7 +51,8 @@ export const PopoutEditor = ({ children }: { children: React.ReactNode }) => {
 				height={height}
 				setOpen={setOpen}
 				mountNode={mountNode}
-				ref={ref}>
+				ref={ref}
+			>
 				{children}
 			</FloatingWindow>
 		</>
@@ -80,7 +81,8 @@ const PopoverPlaceholder = () => {
 					onClick={() => {
 						setPosition(20, 20);
 						setSize(250, 400);
-					}}>
+					}}
+				>
 					{__('Reset Position', 'pattern-css')}
 				</Button>
 			</BaseControl>

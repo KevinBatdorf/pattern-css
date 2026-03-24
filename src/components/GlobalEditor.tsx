@@ -1,11 +1,12 @@
 import apiFetch from '@wordpress/api-fetch';
+// @ts-expect-error -- outdated types
 import { useStyleOverride } from '@wordpress/block-editor';
 import { CheckboxControl } from '@wordpress/components';
 import { PluginMoreMenuItem } from '@wordpress/editor';
 import { useCallback, useEffect, useRef, useState } from '@wordpress/element';
 import { __, sprintf } from '@wordpress/i18n';
-import { Icon, check } from '@wordpress/icons';
-import { Warning as CssWarning } from 'lightningcss-wasm';
+import { check, Icon } from '@wordpress/icons';
+import type { Warning as CssWarning } from 'lightningcss-wasm';
 import { useDraggable } from '../hooks/useDraggable';
 import { usePortal } from '../hooks/usePortal';
 import { useResizable } from '../hooks/useResizable';
@@ -57,7 +58,8 @@ export const GlobalEditor = () => {
 			<PluginMoreMenuItem
 				data-cy="global-css-editor-btn"
 				icon="tool"
-				onClick={() => setOpen(true)}>
+				onClick={() => setOpen(true)}
+			>
 				{__('Add Global CSS (Pattern CSS)', 'pattern-css')}
 			</PluginMoreMenuItem>
 			{ready ? (
@@ -74,7 +76,8 @@ export const GlobalEditor = () => {
 					height={height}
 					setOpen={setOpen}
 					mountNode={mountNode}
-					ref={ref}>
+					ref={ref}
+				>
 					<TheEditor
 						initialCss={window.patternCss?.globalCss || ''}
 						compiledCss={compiled}
@@ -167,7 +170,8 @@ const TheEditor = ({
 		<div className="relative flex min-h-0 flex-grow flex-col">
 			<div
 				className="min-h-0 flex-grow overflow-y-auto overflow-x-hidden border border-solid border-gray-600"
-				ref={editorWrapperRef}>
+				ref={editorWrapperRef}
+			>
 				<CodeEditor
 					value={css}
 					onChange={handleChange}

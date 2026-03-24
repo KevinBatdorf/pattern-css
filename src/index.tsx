@@ -2,7 +2,10 @@ import apiFetch from '@wordpress/api-fetch';
 import { addFilter } from '@wordpress/hooks';
 import { registerPlugin } from '@wordpress/plugins';
 import init, { transform } from 'lightningcss-wasm';
-import { BlockControl } from './components/BlockControl';
+import {
+	BlockControl,
+	type BlockControlProps,
+} from './components/BlockControl';
 import { GlobalEditor } from './components/GlobalEditor';
 import './editor.css';
 
@@ -26,13 +29,14 @@ apiFetch.use((options, next) => {
 		// Strip from query params (GET)
 		const [base, query = ''] = options.path.split('?');
 		const params = new URLSearchParams(query);
-		pcssAttributeKeys.forEach((key) => params.delete(`attributes[${key}]`));
+		for (const key of pcssAttributeKeys)
+			params.delete(`attributes[${key}]`);
 		const path = `${base}?${params.toString()}`;
 
 		// Strip from body attributes (POST)
 		if (data?.attributes) {
 			const { ...attrs } = data.attributes;
-			pcssAttributeKeys.forEach((key) => delete attrs[key]);
+			for (const key of pcssAttributeKeys) delete attrs[key];
 			data = { ...data, attributes: attrs };
 		}
 
@@ -40,7 +44,8 @@ apiFetch.use((options, next) => {
 			try {
 				const parsed = JSON.parse(body);
 				if (parsed?.attributes) {
-					pcssAttributeKeys.forEach((key) => delete parsed.attributes[key]);
+					for (const key of pcssAttributeKeys)
+						delete parsed.attributes[key];
 					body = JSON.stringify(parsed);
 				}
 			} catch {
@@ -53,17 +58,26 @@ apiFetch.use((options, next) => {
 	return next(options);
 });
 
-// Both are unexpected objects with any properties types
-// eslint-disable-next-line
-const addSaveProps = (props: any, _blockType: null, attributes: any) => {
+const addSaveProps = (
+	props: Record<string, unknown>,
+	_blockType: null,
+	attributes: Record<string, unknown>,
+) => {
+	const propsClass =
+		typeof props.className === 'string' ? props.className : '';
+	const attrsClass =
+		typeof attributes.className === 'string' ? attributes.className : '';
 	const classes = new Set(
-		[props.className?.split(' '), attributes.className?.split(' ')]
-			.flat()
-			.filter(Boolean),
+		[...propsClass.split(' '), ...attrsClass.split(' ')].filter(Boolean),
 	);
-	const { pcssClassId } = attributes;
+	const pcssClassId = attributes.pcssClassId;
 
-	if (!pcssClassId || classes.has(pcssClassId)) return props;
+	if (
+		typeof pcssClassId !== 'string' ||
+		!pcssClassId ||
+		classes.has(pcssClassId)
+	)
+		return props;
 	classes.add(pcssClassId);
 	return {
 		...props,
@@ -77,9 +91,11 @@ addFilter(
 	(settings) => {
 		// This pattern is found in the Gutenberg source code
 		const existingGetEditWrapperProps = settings.getEditWrapperProps;
-		// eslint-disable-next-line
-		settings.getEditWrapperProps = (attributes: { [key: string]: any }) => {
-			const props = existingGetEditWrapperProps?.(attributes) ?? {};
+		settings.getEditWrapperProps = (
+			attributes: Record<string, unknown>,
+		) => {
+			const props = (existingGetEditWrapperProps?.(attributes) ??
+				{}) as Record<string, unknown>;
 			return addSaveProps(props, null, attributes);
 		};
 		return {
@@ -91,11 +107,8 @@ addFilter(
 addFilter(
 	'editor.BlockEdit',
 	'kevinbatdorf/pcss-block-control',
-	(CurrentMenuItems) =>
-		// Not sure how to type these incoming props
-		// eslint-disable-next-line
-		(props: any) =>
-			BlockControl(CurrentMenuItems, props),
+	(CurrentMenuItems) => (props: BlockControlProps) =>
+		BlockControl(CurrentMenuItems, props),
 	// Force it at the very bottom
 	Number.MAX_SAFE_INTEGER,
 );
