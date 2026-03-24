@@ -42,6 +42,7 @@ add_action('enqueue_block_editor_assets', function () {
 				constant('PATTERN_CSS_SELECTOR_OVERRIDE') : null,
 			'globalCss' => get_option('pcss_global_css', ''),
 			'globalCssCompiled' => get_option('pcss_global_css_compiled', ''),
+			'allowManualOverride' => defined('PATTERN_CSS_ALLOW_MANUAL_OVERRIDE'),
 		]) . ';',
 		'before'
 	);

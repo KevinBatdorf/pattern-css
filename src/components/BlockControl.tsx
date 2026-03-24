@@ -16,6 +16,7 @@ import { useSelect } from '@wordpress/data';
 import { store as coreStore } from '@wordpress/editor';
 import { useCallback, useEffect, useRef, useState } from '@wordpress/element';
 import { __, sprintf } from '@wordpress/i18n';
+import { cleanForSlug } from '@wordpress/url';
 import type { Warning as CssWarning } from 'lightningcss-wasm';
 import { addToClassList } from '../lib/classes';
 import { focusAtEndOfLine2 } from '../lib/dom';
@@ -73,14 +74,16 @@ export const BlockControl = (
 		const className = [
 			...new Set(
 				[
-					...existing.filter((c: string) => !c.startsWith('pcss-')),
+					...existing.filter((c: string) => c !== pcssClassId && !c.startsWith('pcss-')),
 					newId,
 				].filter(Boolean),
 			),
 		].join(' ');
 		setAttributes({ pcssClassId: newId, className });
+		setManualClassId(newId);
 	}, [existingClasses, setAttributes]);
 
+	const [manualClassId, setManualClassId] = useState(pcssClassId ?? '');
 	const [css, setCss] = useState(initialCss);
 	const [transformed, setTransformed] = useState<Uint8Array>();
 	const [compiled, setCompiled] = useState(compiledCss || '');
@@ -312,17 +315,43 @@ export const BlockControl = (
 							__('%s ID', 'pattern-css'),
 							'Pattern CSS',
 						)}
-						disabled
-						onChange={() => undefined}
-						value={pcssClassId ?? ''}
+						disabled={!window.patternCss?.allowManualOverride}
+						onChange={(value: string) => {
+							setManualClassId(value);
+						}}
+						value={manualClassId}
 					/>
-					<Button
-						variant="secondary"
-						className="-mt-2"
-						onClick={generateNewId}
-					>
-						{__('Generate New ID', 'pattern-css')}
-					</Button>
+					<div className="-mt-2 flex gap-2">
+						{window.patternCss?.allowManualOverride && manualClassId !== pcssClassId && (
+							<Button
+								variant="primary"
+								size="small"
+								onClick={() => {
+									const slug = cleanForSlug(manualClassId);
+									setManualClassId(slug);
+									const existing = existingClasses?.split(' ') || [];
+									const className = [
+										...new Set(
+											[
+												...existing.filter((c: string) => c !== pcssClassId),
+												slug,
+											].filter(Boolean),
+										),
+									].join(' ');
+									setAttributes({ pcssClassId: slug, className });
+								}}
+							>
+								{__('Apply', 'pattern-css')}
+							</Button>
+						)}
+						<Button
+							variant="secondary"
+							size="small"
+							onClick={generateNewId}
+						>
+							{__('Generate New ID', 'pattern-css')}
+						</Button>
+					</div>
 					<p className="text-md mt-2 text-gray-600">
 						{__(
 							"If there's a styling conflict with another block you can generate a new ID.",

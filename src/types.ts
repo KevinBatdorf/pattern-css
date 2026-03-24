@@ -9,6 +9,7 @@ declare global {
 				type: string;
 				name: string;
 			};
+			allowManualOverride?: boolean;
 			globalCss: string;
 			globalCssCompiled: string;
 		};
