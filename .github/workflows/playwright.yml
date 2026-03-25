@@ -56,9 +56,13 @@ jobs:
     - name: Run Playwright tests
       run: RUN_PROJECT="${{ matrix.suite }}" npx playwright test --project="${{ matrix.suite }}"
 
+    - name: Set artifact name
+      id: artifact
+      run: echo "name=playwright-report-$(echo '${{ matrix.suite }}' | tr '/' '-')" >> "$GITHUB_OUTPUT"
+
     - uses: actions/upload-artifact@v6
       if: ${{ !cancelled() }}
       with:
-        name: playwright-report-${{ matrix.suite }}
+        name: ${{ steps.artifact.outputs.name }}
         path: playwright-report/
         retention-days: 30

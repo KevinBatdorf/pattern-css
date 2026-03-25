@@ -59,9 +59,13 @@ jobs:
       env:
         WP_VERSION: nightly
 
+    - name: Set artifact name
+      id: artifact
+      run: echo "name=playwright-report-nightly-$(echo '${{ matrix.suite }}' | tr '/' '-')" >> "$GITHUB_OUTPUT"
+
     - uses: actions/upload-artifact@v6
       if: ${{ !cancelled() }}
       with:
-        name: playwright-report-nightly-${{ matrix.suite }}
+        name: ${{ steps.artifact.outputs.name }}
         path: playwright-report/
         retention-days: 30
