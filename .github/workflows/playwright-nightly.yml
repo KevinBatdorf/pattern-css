@@ -8,13 +8,33 @@ on:
     - cron: '0 8 * * *'
 
 jobs:
-  playwright:
-    timeout-minutes: 60
-    name: Run Playwright tests (WP nightly)
+  discover:
+    name: Discover test suites
+    runs-on: ubuntu-latest
+    outputs:
+      suites: ${{ steps.find.outputs.suites }}
+    steps:
+    - uses: actions/checkout@v6
+    - id: find
+      run: |
+        suites=$(find tests -name '*.spec.ts' -execdir test -f blueprint.json \; -print | sed 's|\.spec\.ts$||' | sed 's|^\./||' | while read spec; do
+          dir=$(dirname "tests/$spec")
+          name="$(basename "$dir")/$(basename "$spec")"
+          echo "$name"
+        done | jq -R -s -c 'split("\n") | map(select(length > 0))')
+        echo "suites=$suites" >> "$GITHUB_OUTPUT"
+
+  test:
+    name: ${{ matrix.suite }}
+    needs: discover
     concurrency:
-      group: ${{ github.workflow }} - ${{ github.ref }}
+      group: ${{ github.workflow }} - ${{ matrix.suite }} - ${{ github.ref }}
       cancel-in-progress: true
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        suite: ${{ fromJson(needs.discover.outputs.suites) }}
 
     steps:
     - uses: actions/checkout@v6
@@ -35,13 +55,13 @@ jobs:
         CI: true
 
     - name: Run Playwright tests
-      run: npx playwright test
+      run: RUN_PROJECT="${{ matrix.suite }}" npx playwright test --project="${{ matrix.suite }}"
       env:
         WP_VERSION: nightly
 
     - uses: actions/upload-artifact@v6
       if: ${{ !cancelled() }}
       with:
-        name: playwright-report-nightly
+        name: playwright-report-nightly-${{ matrix.suite }}
         path: playwright-report/
         retention-days: 30

@@ -1,0 +1,31 @@
+#!/usr/bin/env node
+import { execSync } from 'node:child_process';
+import { existsSync, readdirSync } from 'node:fs';
+import { basename, dirname, join } from 'node:path';
+import { globSync } from 'node:fs';
+
+const args = process.argv.slice(2).join(' ');
+
+// Find all spec files that have a blueprint.json in the same directory
+const projects = globSync('tests/**/*.spec.ts')
+	.filter((spec) => existsSync(join(dirname(spec), 'blueprint.json')))
+	.map((spec) => `${basename(dirname(spec))}/${basename(spec, '.spec.ts')}`);
+
+console.log(
+	`Found ${projects.length} test suites:\n${projects.map((p) => `  - ${p}`).join('\n')}\n`,
+);
+
+let failed = false;
+for (const project of projects) {
+	console.log(`\n▶ Running: ${project}`);
+	try {
+		execSync(
+			`RUN_PROJECT="${project}" npx playwright test --project="${project}" ${args}`,
+			{ stdio: 'inherit' },
+		);
+	} catch {
+		failed = true;
+	}
+}
+
+process.exit(failed ? 1 : 0);

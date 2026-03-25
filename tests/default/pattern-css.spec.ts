@@ -262,6 +262,7 @@ test.describe('Pattern CSS (Block)', () => {
 		await expect(editorCanvas.locator(`.${className}`)).toHaveCSS(
 			'color',
 			'rgb(155, 200, 130)',
+			{ timeout: 10000 },
 		);
 
 		// Add invalid CSS
@@ -313,19 +314,145 @@ test.describe('Pattern CSS (Block)', () => {
 		);
 		await cssEditor.fill(css);
 
-		// Check compiled CSS attribute directly — the PHP filter strips
-		// @keyframes/@font-face at render time, and the editor transform
-		// also strips them before saving the compiled attribute.
-		const compiled = await page.evaluate(() => {
+		// Wait for WASM compilation to finish and update the attribute
+		await expect(async () => {
+			const compiled = await page.evaluate(() => {
+				const blocks = window.wp.data
+					.select('core/block-editor')
+					.getBlocks();
+				return blocks[0]?.attributes?.pcssAdditionalCssCompiled ?? '';
+			});
+			expect(compiled).not.toContain('@keyframes');
+			expect(compiled).not.toContain('@font-face');
+			expect(compiled).toContain('@media');
+			expect(compiled).toContain('padding');
+		}).toPass({ timeout: 10000 });
+	});
+
+	test('Warns when duplicate class IDs are detected', async ({
+		admin,
+		page,
+		editor,
+	}) => {
+		await admin.createNewPost({ title: 'Test post' });
+
+		const editorCanvas = page
+			.locator('iframe[name="editor-canvas"]')
+			.contentFrame();
+
+		// Insert first block with CSS
+		await editor.insertBlock({
+			name: 'core/paragraph',
+			attributes: { content: 'Block A' },
+		});
+		await editor.selectBlocks(
+			editorCanvas.locator('p[role=document]').first(),
+		);
+		await page.getByRole('button', { name: 'Pattern CSS' }).click();
+		const cssEditor = page.locator(
+			'[data-cy="pcss-editor-block"] textarea',
+		);
+		await cssEditor.fill('[block] { color: red; }');
+
+		// Get the class ID from the first block
+		const classId = await page.evaluate(() => {
 			const blocks = window.wp.data
 				.select('core/block-editor')
 				.getBlocks();
-			return blocks[0]?.attributes?.pcssAdditionalCssCompiled ?? '';
+			return blocks[0]?.attributes?.pcssClassId;
 		});
 
-		expect(compiled).not.toContain('@keyframes');
-		expect(compiled).not.toContain('@font-face');
-		expect(compiled).toContain('@media');
-		expect(compiled).toContain('padding');
+		// Insert second block with the same class ID
+		await editor.insertBlock({
+			name: 'core/paragraph',
+			attributes: {
+				content: 'Block B',
+				pcssClassId: classId,
+				pcssAdditionalCss: '[block] { color: blue; }',
+				pcssAdditionalCssCompiled: `.${classId}{color:#00f}`,
+				className: classId,
+			},
+		});
+
+		// Select the second block and open Pattern CSS
+		await editor.selectBlocks(
+			editorCanvas.locator('p[role=document]').nth(1),
+		);
+		await page.getByRole('button', { name: 'Pattern CSS' }).click();
+
+		// Should see the duplicate warning
+		await expect(
+			page.getByLabel('Editor settings').getByText('Another block on this page is using the same ID'),
+		).toBeVisible();
+	});
+
+	test('Generate New ID resolves duplicate warning', async ({
+		admin,
+		page,
+		editor,
+	}) => {
+		await admin.createNewPost({ title: 'Test post' });
+
+		const editorCanvas = page
+			.locator('iframe[name="editor-canvas"]')
+			.contentFrame();
+
+		// Insert first block with CSS
+		await editor.insertBlock({
+			name: 'core/paragraph',
+			attributes: { content: 'Block A' },
+		});
+		await editor.selectBlocks(
+			editorCanvas.locator('p[role=document]').first(),
+		);
+		await page.getByRole('button', { name: 'Pattern CSS' }).click();
+		const cssEditor = page.locator(
+			'[data-cy="pcss-editor-block"] textarea',
+		);
+		await cssEditor.fill('[block] { color: red; }');
+
+		const classId = await page.evaluate(() => {
+			const blocks = window.wp.data
+				.select('core/block-editor')
+				.getBlocks();
+			return blocks[0]?.attributes?.pcssClassId;
+		});
+
+		// Insert duplicate
+		await editor.insertBlock({
+			name: 'core/paragraph',
+			attributes: {
+				content: 'Block B',
+				pcssClassId: classId,
+				pcssAdditionalCss: '[block] { color: blue; }',
+				pcssAdditionalCssCompiled: `.${classId}{color:#00f}`,
+				className: classId,
+			},
+		});
+
+		await editor.selectBlocks(
+			editorCanvas.locator('p[role=document]').nth(1),
+		);
+		await page.getByRole('button', { name: 'Pattern CSS' }).click();
+
+		// Click Generate New ID
+		await page.getByRole('button', { name: 'Generate New ID' }).first().click();
+
+		// Warning should disappear from the sidebar
+		await expect(
+			page.getByLabel('Editor settings').getByText('Another block on this page is using the same ID'),
+		).not.toBeVisible();
+
+		// Class IDs should now be different
+		const classIds = await page.evaluate(() => {
+			const blocks = window.wp.data
+				.select('core/block-editor')
+				.getBlocks();
+			return [
+				blocks[0]?.attributes?.pcssClassId,
+				blocks[1]?.attributes?.pcssClassId,
+			];
+		});
+		expect(classIds[0]).not.toEqual(classIds[1]);
 	});
 });

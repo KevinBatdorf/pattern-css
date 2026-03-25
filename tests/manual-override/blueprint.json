@@ -1,0 +1,21 @@
+{
+	"$schema": "https://playground.wordpress.net/blueprint-schema.json",
+	"login": false,
+	"steps": [
+		{
+			"step": "defineWpConfigConsts",
+			"consts": {
+				"WP_DEBUG": true,
+				"PATTERN_CSS_ALLOW_MANUAL_OVERRIDE": true
+			}
+		},
+		{
+			"step": "activatePlugin",
+			"pluginPath": "pattern-css/pattern-css.php"
+		},
+		{
+			"step": "runPHP",
+			"code": "<?php require '/wordpress/wp-content/plugins/pattern-css/tests/setup.php'; ?>"
+		}
+	]
+}
