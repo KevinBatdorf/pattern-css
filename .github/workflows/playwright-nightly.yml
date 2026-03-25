@@ -61,7 +61,7 @@ jobs:
 
     - name: Set artifact name
       id: artifact
-      run: echo "name=playwright-report-nightly-$(echo '${{ matrix.suite }}' | tr '/' '-')" >> "$GITHUB_OUTPUT"
+      run: echo "name=pw-nightly-$(echo '${{ matrix.suite }}' | tr '/' '-')" >> "$GITHUB_OUTPUT"
 
     - uses: actions/upload-artifact@v6
       if: ${{ !cancelled() }}
