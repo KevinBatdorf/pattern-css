@@ -60,6 +60,7 @@ jobs:
         WP_VERSION: nightly
 
     - name: Set artifact name
+      if: ${{ !cancelled() }}
       id: artifact
       run: |
         SAFE_NAME="pw-nightly-$(echo '${{ matrix.suite }}' | tr '/' '-')"

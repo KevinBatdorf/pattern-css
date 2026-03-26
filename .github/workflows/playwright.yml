@@ -57,6 +57,7 @@ jobs:
       run: RUN_PROJECT="${{ matrix.suite }}" npx playwright test --project="${{ matrix.suite }}"
 
     - name: Set artifact name
+      if: ${{ !cancelled() }}
       id: artifact
       run: |
         SAFE_NAME="pw-$(echo '${{ matrix.suite }}' | tr '/' '-')"
