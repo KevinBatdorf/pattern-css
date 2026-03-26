@@ -1,15 +1,14 @@
 #!/usr/bin/env node
 import { execSync } from 'node:child_process';
-import { existsSync, readdirSync } from 'node:fs';
+import { existsSync, globSync } from 'node:fs';
 import { basename, dirname, join } from 'node:path';
-import { globSync } from 'node:fs';
 
 const args = process.argv.slice(2).join(' ');
 
 // Find all spec files that have a blueprint.json in the same directory
-const projects = globSync('tests/**/*.spec.ts')
+const projects = globSync('**/*.spec.ts', { ignore: ['node_modules/**'] })
 	.filter((spec) => existsSync(join(dirname(spec), 'blueprint.json')))
-	.map((spec) => `${basename(dirname(spec))}/${basename(spec, '.spec.ts')}`);
+	.map((spec) => basename(spec, '.spec.ts'));
 
 console.log(
 	`Found ${projects.length} test suites:\n${projects.map((p) => `  - ${p}`).join('\n')}\n`,

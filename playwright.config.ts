@@ -7,13 +7,13 @@ const WP_VERSION = process.env.WP_VERSION || 'latest';
 const RUN_PROJECT = process.env.RUN_PROJECT;
 
 // Discover spec files that have a blueprint.json in the same directory
-const specs = globSync('tests/**/*.spec.ts')
+const specs = globSync('**/*.spec.ts', { ignore: ['node_modules/**'] })
 	.map((spec) => {
 		const dir = dirname(spec);
 		const blueprint = join(dir, 'blueprint.json');
 		if (!existsSync(blueprint)) return null;
 		return {
-			name: `${basename(dir)}/${basename(spec, '.spec.ts')}`,
+			name: basename(spec, '.spec.ts'),
 			dir,
 			spec: basename(spec),
 			blueprint,
