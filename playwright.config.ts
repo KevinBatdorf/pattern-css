@@ -1,30 +1,58 @@
+import { existsSync, globSync } from 'node:fs';
+import { basename, dirname, join } from 'node:path';
 import { defineConfig, devices } from '@playwright/test';
 
-const PORT = 9400;
+const BASE_PORT = 9400;
 const WP_VERSION = process.env.WP_VERSION || 'latest';
-export const BASE = `http://127.0.0.1:${PORT}`;
+const RUN_PROJECT = process.env.RUN_PROJECT;
+
+// Discover spec files that have a blueprint.json in the same directory
+const specs = globSync('tests/**/*.spec.ts')
+	.map((spec) => {
+		const dir = dirname(spec);
+		const blueprint = join(dir, 'blueprint.json');
+		if (!existsSync(blueprint)) return null;
+		return {
+			name: `${basename(dir)}/${basename(spec, '.spec.ts')}`,
+			dir,
+			spec: basename(spec),
+			blueprint,
+		};
+	})
+	.filter(Boolean);
+
+const active = RUN_PROJECT
+	? specs.filter((p) => p.name === RUN_PROJECT)
+	: specs;
+
+// Dedupe blueprints and assign ports
+const blueprints = [...new Set(active.map((s) => s.blueprint))];
+const portMap = Object.fromEntries(
+	blueprints.map((bp, i) => [bp, BASE_PORT + i]),
+);
 
 export default defineConfig({
-	testDir: './tests',
 	forbidOnly: !!process.env.CI,
 	retries: process.env.CI ? 2 : 0,
 	workers: 1,
 	reporter: 'html',
 	use: {
-		baseURL: BASE,
 		trace: 'on-first-retry',
 		video: 'retain-on-failure',
 		screenshot: 'only-on-failure',
 	},
-	webServer: {
-		command: `wp-playground-cli server --auto-mount --blueprint=tests/blueprint.json --wp=${WP_VERSION} --port=${PORT} --internal-cookie-store=true --login=false`,
-		url: BASE,
+	webServer: blueprints.map((bp) => ({
+		command: `wp-playground-cli server --auto-mount --blueprint=${bp} --wp=${WP_VERSION} --port=${portMap[bp]} --internal-cookie-store=true --login=false`,
+		url: `http://127.0.0.1:${portMap[bp]}`,
 		reuseExistingServer: false,
-	},
-	projects: [
-		{
-			name: 'chromium',
-			use: { ...devices['Desktop Chrome'] },
+	})),
+	projects: active.map((p) => ({
+		name: p.name,
+		testDir: p.dir,
+		testMatch: p.spec,
+		use: {
+			...devices['Desktop Chrome'],
+			baseURL: `http://127.0.0.1:${portMap[p.blueprint]}`,
 		},
-	],
+	})),
 });
