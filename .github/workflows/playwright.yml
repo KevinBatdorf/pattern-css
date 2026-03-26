@@ -58,7 +58,9 @@ jobs:
 
     - name: Set artifact name
       id: artifact
-      run: echo "name=pw-$(basename '${{ matrix.suite }}')" >> "$GITHUB_OUTPUT"
+      run: |
+        SAFE_NAME="pw-$(echo '${{ matrix.suite }}' | tr '/' '-')"
+        echo "name=${SAFE_NAME}" >> "$GITHUB_OUTPUT"
 
     - uses: actions/upload-artifact@v6
       if: ${{ !cancelled() }}
