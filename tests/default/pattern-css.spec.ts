@@ -108,6 +108,7 @@ test.describe('Pattern CSS (Block)', () => {
 		await expect(editorCanvas.locator(`.${className} > p`)).toHaveCSS(
 			'color',
 			'rgb(155, 200, 130)',
+			{ timeout: 10000 },
 		);
 
 		// Second block's paragraph should NOT have the color
@@ -143,6 +144,17 @@ test.describe('Pattern CSS (Block)', () => {
 		);
 		await cssEditor.fill('[block] { color: rgb(155, 200, 130); }');
 
+		// Wait for WASM compilation to finish
+		await expect(async () => {
+			const compiled = await page.evaluate(() => {
+				const blocks = window.wp.data
+					.select('core/block-editor')
+					.getBlocks();
+				return blocks[0]?.attributes?.pcssAdditionalCssCompiled ?? '';
+			});
+			expect(compiled).toContain('#9bc882');
+		}).toPass({ timeout: 10000 });
+
 		const className = await page.evaluate(() => {
 			const blocks = window.wp.data
 				.select('core/block-editor')
@@ -153,6 +165,7 @@ test.describe('Pattern CSS (Block)', () => {
 		await expect(editorCanvas.locator(`.${className}`)).toHaveCSS(
 			'color',
 			'rgb(155, 200, 130)',
+			{ timeout: 10000 },
 		);
 	});
 
@@ -214,12 +227,13 @@ test.describe('Pattern CSS (Block)', () => {
 		await expect(editorCanvas.locator(`.${classNames[0]} p`)).toHaveCSS(
 			'color',
 			'rgb(155, 200, 130)',
+			{ timeout: 10000 },
 		);
 
 		// Second block should be blue
 		await expect(
 			editorCanvas.locator(`.${classNames[1]} p`).first(),
-		).toHaveCSS('color', 'rgb(0, 0, 255)');
+		).toHaveCSS('color', 'rgb(0, 0, 255)', { timeout: 10000 });
 	});
 
 	test('Shows error on invalid CSS and does not persist it', async ({
