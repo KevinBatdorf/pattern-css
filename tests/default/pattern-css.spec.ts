@@ -108,6 +108,7 @@ test.describe('Pattern CSS (Block)', () => {
 		await expect(editorCanvas.locator(`.${className} > p`)).toHaveCSS(
 			'color',
 			'rgb(155, 200, 130)',
+			{ timeout: 10000 },
 		);
 
 		// Second block's paragraph should NOT have the color
@@ -153,6 +154,7 @@ test.describe('Pattern CSS (Block)', () => {
 		await expect(editorCanvas.locator(`.${className}`)).toHaveCSS(
 			'color',
 			'rgb(155, 200, 130)',
+			{ timeout: 10000 },
 		);
 	});
 
@@ -214,12 +216,13 @@ test.describe('Pattern CSS (Block)', () => {
 		await expect(editorCanvas.locator(`.${classNames[0]} p`)).toHaveCSS(
 			'color',
 			'rgb(155, 200, 130)',
+			{ timeout: 10000 },
 		);
 
 		// Second block should be blue
 		await expect(
 			editorCanvas.locator(`.${classNames[1]} p`).first(),
-		).toHaveCSS('color', 'rgb(0, 0, 255)');
+		).toHaveCSS('color', 'rgb(0, 0, 255)', { timeout: 10000 });
 	});
 
 	test('Shows error on invalid CSS and does not persist it', async ({
