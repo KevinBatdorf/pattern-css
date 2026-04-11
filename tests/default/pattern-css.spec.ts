@@ -144,6 +144,17 @@ test.describe('Pattern CSS (Block)', () => {
 		);
 		await cssEditor.fill('[block] { color: rgb(155, 200, 130); }');
 
+		// Wait for WASM compilation to finish
+		await expect(async () => {
+			const compiled = await page.evaluate(() => {
+				const blocks = window.wp.data
+					.select('core/block-editor')
+					.getBlocks();
+				return blocks[0]?.attributes?.pcssAdditionalCssCompiled ?? '';
+			});
+			expect(compiled).toContain('#9bc882');
+		}).toPass({ timeout: 10000 });
+
 		const className = await page.evaluate(() => {
 			const blocks = window.wp.data
 				.select('core/block-editor')
