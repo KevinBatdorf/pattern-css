@@ -192,7 +192,7 @@ export const BlockControl = (
 		if (!css?.trim()) {
 			const existing = existingClasses?.split(' ') || [];
 			const cleaned = existing
-				.filter((c: string) => !c.startsWith('pcss-'))
+				.filter((c: string) => c !== pcssClassId)
 				.join(' ');
 			setAttributes({
 				pcssAdditionalCss: '',
