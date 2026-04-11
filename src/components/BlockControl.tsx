@@ -188,7 +188,21 @@ export const BlockControl = (
 	}, [transformed]);
 
 	useEffect(() => {
-		if (css === undefined) return;
+		// If CSS is empty, remove the ID and class
+		if (!css?.trim()) {
+			const existing = existingClasses?.split(' ') || [];
+			const cleaned = existing
+				.filter((c: string) => !c.startsWith('pcss-'))
+				.join(' ');
+			setAttributes({
+				pcssAdditionalCss: '',
+				pcssAdditionalCssCompiled: '',
+				pcssClassId: '',
+				className: cleaned || undefined,
+			});
+			return;
+		}
+
 		setAttributes({
 			pcssAdditionalCss: css,
 			pcssClassId: pcssClassId || `pcss-${blockId?.split('-')[0]}`,

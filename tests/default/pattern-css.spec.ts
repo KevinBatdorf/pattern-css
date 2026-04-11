@@ -252,6 +252,17 @@ test.describe('Pattern CSS (Block)', () => {
 			page.locator('[data-cy="pcss-editor-block"] pre .line-error'),
 		).not.toBeVisible();
 
+		// Wait for the WASM transform to finish and the style to apply
+		await expect(async () => {
+			const compiled = await page.evaluate(() => {
+				const blocks = window.wp.data
+					.select('core/block-editor')
+					.getBlocks();
+				return blocks[0]?.attributes?.pcssAdditionalCssCompiled ?? '';
+			});
+			expect(compiled).toContain('#9bc882');
+		}).toPass({ timeout: 10000 });
+
 		const className = await page.evaluate(() => {
 			const blocks = window.wp.data
 				.select('core/block-editor')
@@ -271,7 +282,7 @@ test.describe('Pattern CSS (Block)', () => {
 		// Error line should appear
 		await expect(
 			page.locator('[data-cy="pcss-editor-block"] pre .line-error'),
-		).toBeVisible();
+		).toBeVisible({ timeout: 10000 });
 
 		// Color should still be the valid one, not changed
 		await expect(editorCanvas.locator(`.${className}`)).toHaveCSS(
@@ -384,6 +395,74 @@ test.describe('Pattern CSS (Block)', () => {
 		await expect(
 			page.getByLabel('Editor settings').getByText('Another block on this page is using the same ID'),
 		).toBeVisible();
+	});
+
+	test('Removes ID and class when CSS is cleared', async ({
+		admin,
+		page,
+		editor,
+	}) => {
+		await admin.createNewPost({ title: 'Test post' });
+		await editor.insertBlock({
+			name: 'core/group',
+			innerBlocks: [
+				{ name: 'core/paragraph', attributes: { content: 'Hello' } },
+			],
+		});
+
+		const editorCanvas = page
+			.locator('iframe[name="editor-canvas"]')
+			.contentFrame();
+
+		// 1. No pcss class should exist before adding CSS
+		const blockId = await page.evaluate(() => {
+			const blocks = window.wp.data
+				.select('core/block-editor')
+				.getBlocks();
+			return blocks[0]?.clientId;
+		});
+		const expectedClass = `pcss-${blockId?.split('-')[0]}`;
+
+		await expect(
+			editorCanvas.locator(`.wp-block-group.${expectedClass}`),
+		).not.toBeVisible();
+
+		// Select the block and open Pattern CSS panel
+		await editor.selectBlocks(
+			editorCanvas.locator('.wp-block-group').first(),
+		);
+		await page.getByRole('button', { name: 'Pattern CSS' }).click();
+
+		// 2. Type CSS and confirm the ID is added
+		const cssEditor = page.locator(
+			'[data-cy="pcss-editor-block"] textarea',
+		);
+		await cssEditor.fill('[block] { color: rgb(155, 200, 130); }');
+
+		await expect(async () => {
+			const attrs = await page.evaluate(() => {
+				const blocks = window.wp.data
+					.select('core/block-editor')
+					.getBlocks();
+				return blocks[0]?.attributes;
+			});
+			expect(attrs?.pcssClassId).toBeTruthy();
+			expect((attrs?.className as string) ?? '').toContain('pcss-');
+		}).toPass({ timeout: 10000 });
+
+		// 3. Clear the CSS and confirm the ID is removed
+		await cssEditor.fill('');
+
+		await expect(async () => {
+			const attrs = await page.evaluate(() => {
+				const blocks = window.wp.data
+					.select('core/block-editor')
+					.getBlocks();
+				return blocks[0]?.attributes;
+			});
+			expect(attrs?.pcssClassId).toBeFalsy();
+			expect((attrs?.className as string) ?? '').not.toContain('pcss-');
+		}).toPass({ timeout: 10000 });
 	});
 
 	test('Generate New ID resolves duplicate warning', async ({
