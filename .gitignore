@@ -9,4 +9,7 @@ test-results/
 /vendor/
 tsconfig.tsbuildinfo
 
-.claude
+# Claude Code — commit rules and settings, ignore user-specific files
+.claude/*
+!.claude/rules/
+!.claude/settings.json

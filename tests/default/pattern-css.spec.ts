@@ -260,8 +260,10 @@ test.describe('Pattern CSS (Block)', () => {
 	}) => {
 		await admin.createNewPost({ title: 'Test post' });
 		await editor.insertBlock({
-			name: 'core/paragraph',
-			attributes: { content: 'Hello' },
+			name: 'core/group',
+			innerBlocks: [
+				{ name: 'core/paragraph', attributes: { content: 'Hello' } },
+			],
 		});
 
 		const editorCanvas = page
@@ -269,7 +271,7 @@ test.describe('Pattern CSS (Block)', () => {
 			.contentFrame();
 
 		await editor.selectBlocks(
-			editorCanvas.locator('p[role=document]').first(),
+			editorCanvas.locator('.wp-block-group').first(),
 		);
 		await page.getByRole('button', { name: 'Pattern CSS' }).click();
 		await waitForWasm(page);
@@ -277,7 +279,7 @@ test.describe('Pattern CSS (Block)', () => {
 		const cssEditor = page.locator(
 			'[data-cy="pcss-editor-block"] textarea',
 		);
-		await cssEditor.fill('[block] { color: rgb(155, 200, 130); }');
+		await cssEditor.fill('p { color: rgb(155, 200, 130); }');
 
 		// No error line should exist
 		await expect(
@@ -302,14 +304,14 @@ test.describe('Pattern CSS (Block)', () => {
 			return blocks[0]?.attributes?.pcssClassId;
 		});
 
-		await expect(editorCanvas.locator(`.${className}`)).toHaveCSS(
+		await expect(editorCanvas.locator(`.${className} > p`)).toHaveCSS(
 			'color',
 			'rgb(155, 200, 130)',
 			{ timeout: 10000 },
 		);
 
 		// Add invalid CSS
-		await cssEditor.fill('[block] { color: rgb(155, 200, 130); } ??');
+		await cssEditor.fill('p { color: rgb(155, 200, 130); } ??');
 
 		// Error line should appear
 		await expect(
@@ -317,7 +319,7 @@ test.describe('Pattern CSS (Block)', () => {
 		).toBeVisible({ timeout: 10000 });
 
 		// Color should still be the valid one, not changed
-		await expect(editorCanvas.locator(`.${className}`)).toHaveCSS(
+		await expect(editorCanvas.locator(`.${className} > p`)).toHaveCSS(
 			'color',
 			'rgb(155, 200, 130)',
 		);
