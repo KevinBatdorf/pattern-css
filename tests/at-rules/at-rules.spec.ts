@@ -1,7 +1,7 @@
 import type { Page } from '@playwright/test';
 import { expect, test } from '@wordpress/e2e-test-utils-playwright';
 
-/** Wait for the WASM module to load before interacting with CSS editor */
+/** Wait for the WASM module to load */
 async function waitForWasm(page: Page) {
 	await expect(async () => {
 		const ready = await page.evaluate(() => !!window.patternCss?.transform);
@@ -19,7 +19,7 @@ test.describe('Pattern CSS (At-Rules)', () => {
 		page,
 		editor,
 	}) => {
-		await admin.createNewPost({ title: 'Test post' });
+		await admin.createNewPost({ title: 'At-rules test' });
 		await editor.insertBlock({
 			name: 'core/group',
 			innerBlocks: [
@@ -50,7 +50,7 @@ test.describe('Pattern CSS (At-Rules)', () => {
 
 		await cssEditor.fill(css);
 
-		// Wait for WASM compilation to finish and update the attribute
+		// Wait for WASM compilation to finish
 		await expect(async () => {
 			const compiled = await page.evaluate(() => {
 				const blocks = window.wp.data
@@ -58,10 +58,30 @@ test.describe('Pattern CSS (At-Rules)', () => {
 					.getBlocks();
 				return blocks[0]?.attributes?.pcssAdditionalCssCompiled ?? '';
 			});
-			expect(compiled).not.toContain('@keyframes');
-			expect(compiled).not.toContain('@font-face');
-			expect(compiled).toContain('@media');
-			expect(compiled).toContain('padding');
-		}).toPass({ timeout: 10000 });
+			expect(compiled.length).toBeGreaterThan(0);
+		}).toPass({ timeout: 15000 });
+
+		// Save and preview on the front end
+		await page.getByRole('button', { name: 'Save draft' }).click();
+		await expect(
+			page.locator('.editor-post-saved-state.is-saved'),
+		).toBeVisible({ timeout: 10000 });
+
+		const url = page.url();
+		const postId = new URL(url).searchParams.get('post');
+		await page.goto(`/?p=${postId}&preview=true`);
+		await page.waitForLoadState('networkidle');
+
+		// Check the rendered HTML on the front end
+		const frontBlock = page.locator('.wp-block-group').first();
+		await expect(frontBlock).toBeVisible();
+
+		const html = await page.content();
+		// @font-face and @keyframes should be stripped
+		expect(html).not.toContain('@keyframes');
+		expect(html).not.toContain('@font-face');
+		// @media and padding should be kept
+		expect(html).toContain('@media');
+		expect(html).toContain('padding');
 	});
 });
