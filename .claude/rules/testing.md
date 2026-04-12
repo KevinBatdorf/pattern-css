@@ -7,8 +7,9 @@ path: tests/**
 ## Architecture
 
 - Each test subdirectory has its own `blueprint.json` + `setup.php` and gets a fresh WP Playground instance.
-- `playwright.config.ts` auto-discovers specs by finding `*.spec.ts` files with a `blueprint.json` in the same directory.
-- Each spec = one Playwright project = one CI matrix job = one WP Playground instance.
+- `playwright.config.ts` auto-discovers specs by finding `*.spec.ts` files with a `blueprint.json` in the same directory. A spec uses the `blueprint.json` in its own directory (or one level up if shared).
+- Each spec = one Playwright project = one CI matrix job = one separate GitHub Actions runner = one fresh WP Playground instance. They do NOT share state across specs.
+- Tests within the same spec DO share a single Playground instance and run sequentially.
 
 ## Editor Canvas vs Page
 
