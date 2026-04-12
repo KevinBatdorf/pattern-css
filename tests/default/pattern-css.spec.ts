@@ -142,7 +142,7 @@ test.describe('Pattern CSS (Block)', () => {
 		const cssEditor = page.locator(
 			'[data-cy="pcss-editor-block"] textarea',
 		);
-		await cssEditor.fill('[block] { color: rgb(155, 200, 130); }');
+		await cssEditor.fill('[block] { background-color: rgb(155, 200, 130); }');
 
 		// Wait for WASM compilation to finish
 		await expect(async () => {
@@ -163,7 +163,7 @@ test.describe('Pattern CSS (Block)', () => {
 		});
 
 		await expect(editorCanvas.locator(`.${className}`)).toHaveCSS(
-			'color',
+			'background-color',
 			'rgb(155, 200, 130)',
 			{ timeout: 10000 },
 		);
