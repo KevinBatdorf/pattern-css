@@ -1,4 +1,13 @@
+import type { Page } from '@playwright/test';
 import { expect, test } from '@wordpress/e2e-test-utils-playwright';
+
+/** Wait for the WASM module to load before interacting with CSS editor */
+async function waitForWasm(page: Page) {
+	await expect(async () => {
+		const ready = await page.evaluate(() => !!window.patternCss?.transform);
+		expect(ready).toBe(true);
+	}).toPass({ timeout: 15000 });
+}
 
 test.beforeEach(async ({ requestUtils }) => {
 	await requestUtils.login();
@@ -9,6 +18,7 @@ test.describe('Pattern CSS (Block)', () => {
 		await admin.createNewPost({ title: 'Test post' });
 		await editor.insertBlock({ name: 'core/paragraph' });
 		await page.getByRole('button', { name: 'Pattern CSS' }).click();
+		await waitForWasm(page);
 		await expect(page.locator('.pattern-css-editor')).toBeVisible();
 	});
 
@@ -47,6 +57,7 @@ test.describe('Pattern CSS (Block)', () => {
 			editorCanvas.locator('.wp-block-group').first(),
 		);
 		await page.getByRole('button', { name: 'Pattern CSS' }).click();
+		await waitForWasm(page);
 
 		// Type CSS into the editor
 		const cssEditor = page.locator(
@@ -90,6 +101,7 @@ test.describe('Pattern CSS (Block)', () => {
 			editorCanvas.locator('.wp-block-group').first(),
 		);
 		await page.getByRole('button', { name: 'Pattern CSS' }).click();
+		await waitForWasm(page);
 
 		const cssEditor = page.locator(
 			'[data-cy="pcss-editor-block"] textarea',
@@ -126,8 +138,10 @@ test.describe('Pattern CSS (Block)', () => {
 	}) => {
 		await admin.createNewPost({ title: 'Test post' });
 		await editor.insertBlock({
-			name: 'core/paragraph',
-			attributes: { content: 'Hello' },
+			name: 'core/group',
+			innerBlocks: [
+				{ name: 'core/paragraph', attributes: { content: 'Hello' } },
+			],
 		});
 
 		const editorCanvas = page
@@ -135,9 +149,10 @@ test.describe('Pattern CSS (Block)', () => {
 			.contentFrame();
 
 		await editor.selectBlocks(
-			editorCanvas.locator('p[role=document]').first(),
+			editorCanvas.locator('.wp-block-group').first(),
 		);
 		await page.getByRole('button', { name: 'Pattern CSS' }).click();
+		await waitForWasm(page);
 
 		const cssEditor = page.locator(
 			'[data-cy="pcss-editor-block"] textarea',
@@ -198,6 +213,7 @@ test.describe('Pattern CSS (Block)', () => {
 			editorCanvas.locator('.wp-block-group').first(),
 		);
 		await page.getByRole('button', { name: 'Pattern CSS' }).click();
+		await waitForWasm(page);
 		const cssEditor = page.locator(
 			'[data-cy="pcss-editor-block"] textarea',
 		);
@@ -208,6 +224,7 @@ test.describe('Pattern CSS (Block)', () => {
 			editorCanvas.locator('.wp-block-group').nth(1),
 		);
 		await page.getByRole('button', { name: 'Pattern CSS' }).click();
+		await waitForWasm(page);
 		const cssEditor2 = page.locator(
 			'[data-cy="pcss-editor-block"] textarea',
 		);
@@ -255,6 +272,7 @@ test.describe('Pattern CSS (Block)', () => {
 			editorCanvas.locator('p[role=document]').first(),
 		);
 		await page.getByRole('button', { name: 'Pattern CSS' }).click();
+		await waitForWasm(page);
 
 		const cssEditor = page.locator(
 			'[data-cy="pcss-editor-block"] textarea',
@@ -326,6 +344,11 @@ test.describe('Pattern CSS (Block)', () => {
 			editorCanvas.locator('.wp-block-group').first(),
 		);
 		await page.getByRole('button', { name: 'Pattern CSS' }).click();
+		await waitForWasm(page);
+
+		const cssEditor = page.locator(
+			'[data-cy="pcss-editor-block"] textarea',
+		);
 
 		const css = [
 			"@font-face { font-family: MyFont; src: url('myfont.woff2'); }",
@@ -334,9 +357,6 @@ test.describe('Pattern CSS (Block)', () => {
 			'[block] { padding: 1rem; }',
 		].join('\n');
 
-		const cssEditor = page.locator(
-			'[data-cy="pcss-editor-block"] textarea',
-		);
 		await cssEditor.fill(css);
 
 		// Wait for WASM compilation to finish and update the attribute
@@ -374,6 +394,7 @@ test.describe('Pattern CSS (Block)', () => {
 			editorCanvas.locator('p[role=document]').first(),
 		);
 		await page.getByRole('button', { name: 'Pattern CSS' }).click();
+		await waitForWasm(page);
 		const cssEditor = page.locator(
 			'[data-cy="pcss-editor-block"] textarea',
 		);
@@ -404,6 +425,7 @@ test.describe('Pattern CSS (Block)', () => {
 			editorCanvas.locator('p[role=document]').nth(1),
 		);
 		await page.getByRole('button', { name: 'Pattern CSS' }).click();
+		await waitForWasm(page);
 
 		// Should see the duplicate warning
 		await expect(
@@ -446,6 +468,7 @@ test.describe('Pattern CSS (Block)', () => {
 			editorCanvas.locator('.wp-block-group').first(),
 		);
 		await page.getByRole('button', { name: 'Pattern CSS' }).click();
+		await waitForWasm(page);
 
 		// 2. Type CSS and confirm the ID is added
 		const cssEditor = page.locator(
@@ -499,6 +522,7 @@ test.describe('Pattern CSS (Block)', () => {
 			editorCanvas.locator('p[role=document]').first(),
 		);
 		await page.getByRole('button', { name: 'Pattern CSS' }).click();
+		await waitForWasm(page);
 		const cssEditor = page.locator(
 			'[data-cy="pcss-editor-block"] textarea',
 		);
@@ -527,6 +551,7 @@ test.describe('Pattern CSS (Block)', () => {
 			editorCanvas.locator('p[role=document]').nth(1),
 		);
 		await page.getByRole('button', { name: 'Pattern CSS' }).click();
+		await waitForWasm(page);
 
 		// Click Generate New ID
 		await page.getByRole('button', { name: 'Generate New ID' }).first().click();
