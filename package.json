@@ -28,7 +28,7 @@
 		"@wordpress/block-editor": "^15.16.0",
 		"@playwright/test": "^1.59.1",
 		"@wordpress/e2e-test-utils-playwright": "^1.43.0",
-		"@wordpress/scripts": "^31.8.0",
+		"@wordpress/scripts": "^33.0.0",
 		"@wordpress/url": "^4.43.0",
 		"@wp-playground/cli": "^3.1.18",
 		"autoprefixer": "^10.4.27",
