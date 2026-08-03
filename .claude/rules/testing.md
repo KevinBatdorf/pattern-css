@@ -19,7 +19,7 @@ path: tests/**
 ## Things That Break
 
 - **Never use `page.goBack()`.** WP Playground crashes. Split into separate tests instead.
-- **No `retries` in playwright config.** Retries mask real failures. Use `retries: 0`.
+- **Retries are CI-only.** `retries: process.env.CI ? 1 : 0`. One CI retry absorbs WP Playground flakes (random 500s, crashes); local runs stay at 0 so real failures surface.
 - **Tests share state within a spec.** Settings persist between tests in the same spec file. Explicitly reset anything a previous test might have changed.
 - **Isolate heavy tests.** Complex tests (WASM compilation, multi-step workflows) should get their own directory with a `blueprint.json` so they run in a fresh Playground instance.
 
