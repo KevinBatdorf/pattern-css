@@ -6,9 +6,18 @@ import { basename, dirname, join } from 'node:path';
 const args = process.argv.slice(2).join(' ');
 const MAX_ATTEMPTS = 2;
 
-// Find all spec files that have a blueprint.json in the same directory
+// Same-dir-only checks silently drop specs using the shared tests/blueprint.json
+function hasBlueprint(dir) {
+	let current = dir;
+	while (current !== '.' && current !== '/') {
+		if (existsSync(join(current, 'blueprint.json'))) return true;
+		current = dirname(current);
+	}
+	return false;
+}
+
 const projects = globSync('**/*.spec.ts', { ignore: ['node_modules/**'] })
-	.filter((spec) => existsSync(join(dirname(spec), 'blueprint.json')))
+	.filter((spec) => hasBlueprint(dirname(spec)))
 	.map((spec) => basename(spec, '.spec.ts'));
 
 console.log(
