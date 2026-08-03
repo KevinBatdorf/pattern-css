@@ -9,16 +9,12 @@
 		"noEmit": true,
 		"esModuleInterop": true,
 		"module": "esnext",
-		"moduleResolution": "node",
+		"moduleResolution": "bundler",
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"jsx": "preserve",
 		"incremental": true,
-		"types": [
-			"wordpress__block-editor",
-			"wordpress__blocks",
-			"wordpress__edit-post"
-		]
+		"types": ["wordpress__block-editor", "wordpress__edit-post"]
 	},
 	"include": ["src/**/*.ts", "src/**/*.tsx"],
 	"exclude": ["node_modules"]

@@ -73,7 +73,10 @@ test.describe('Pattern CSS (Manual Override)', () => {
 		await idInput.fill('My Custom Class!');
 
 		// Apply button should appear
-		const applyButton = page.getByRole('button', { name: 'Apply', exact: true });
+		const applyButton = page.getByRole('button', {
+			name: 'Apply',
+			exact: true,
+		});
 		await expect(applyButton).toBeVisible();
 
 		// Click Apply

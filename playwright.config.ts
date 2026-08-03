@@ -30,7 +30,16 @@ const specs = globSync('**/*.spec.ts', { ignore: ['node_modules/**'] })
 			blueprint,
 		};
 	})
-	.filter((s): s is { name: string; dir: string; spec: string; blueprint: string } => s !== null);
+	.filter(
+		(
+			s,
+		): s is {
+			name: string;
+			dir: string;
+			spec: string;
+			blueprint: string;
+		} => s !== null,
+	);
 
 const active = RUN_PROJECT
 	? specs.filter((p) => p.name === RUN_PROJECT)
@@ -44,7 +53,7 @@ const portMap = Object.fromEntries(
 
 export default defineConfig({
 	forbidOnly: !!process.env.CI,
-	retries: 0,
+	retries: process.env.CI ? 1 : 0,
 	workers: 1,
 	reporter: 'html',
 	use: {

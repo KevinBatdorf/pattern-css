@@ -17,11 +17,16 @@ jobs:
     - uses: actions/checkout@v6
     - id: find
       run: |
+        # Same-dir-only checks silently drop specs using the shared tests/blueprint.json
         suites=$(find . -name '*.spec.ts' -not -path '*/node_modules/*' | while read spec; do
           dir=$(dirname "$spec")
-          if [ -f "$dir/blueprint.json" ]; then
-            basename "$spec" .spec.ts
-          fi
+          while [ "$dir" != "." ] && [ "$dir" != "/" ]; do
+            if [ -f "$dir/blueprint.json" ]; then
+              basename "$spec" .spec.ts
+              break
+            fi
+            dir=$(dirname "$dir")
+          done
         done | jq -R -s -c 'split("\n") | map(select(length > 0))')
         echo "suites=$suites" >> "$GITHUB_OUTPUT"
 
@@ -52,7 +57,7 @@ jobs:
       run: echo "version=$(npx playwright --version | awk '{print $2}')" >> "$GITHUB_OUTPUT"
 
     - name: Cache Playwright browsers
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       id: pw-cache
       with:
         path: ~/.cache/ms-playwright
