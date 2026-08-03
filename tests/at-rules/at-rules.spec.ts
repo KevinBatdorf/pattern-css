@@ -72,16 +72,17 @@ test.describe('Pattern CSS (At-Rules)', () => {
 		await page.goto(`/?p=${postId}&preview=true`);
 		await page.waitForLoadState('networkidle');
 
-		// Check the rendered HTML on the front end
 		const frontBlock = page.locator('.wp-block-group').first();
 		await expect(frontBlock).toBeVisible();
 
-		const html = await page.content();
-		// @font-face and @keyframes should be stripped
-		expect(html).not.toContain('@keyframes');
-		expect(html).not.toContain('@font-face');
-		// @media and padding should be kept
-		expect(html).toContain('@media');
-		expect(html).toContain('padding');
+		// The theme inlines its own @font-face/@media, so page-wide checks fail
+		const pluginCss = await page
+			.locator('style[id^="pcss-block-"]')
+			.first()
+			.textContent();
+		expect(pluginCss).not.toContain('@keyframes');
+		expect(pluginCss).not.toContain('@font-face');
+		expect(pluginCss).toContain('@media');
+		expect(pluginCss).toContain('padding');
 	});
 });
