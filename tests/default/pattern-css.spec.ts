@@ -157,7 +157,9 @@ test.describe('Pattern CSS (Block)', () => {
 		const cssEditor = page.locator(
 			'[data-cy="pcss-editor-block"] textarea',
 		);
-		await cssEditor.fill('[block] { background-color: rgb(155, 200, 130); }');
+		await cssEditor.fill(
+			'[block] { background-color: rgb(155, 200, 130); }',
+		);
 
 		// Wait for WASM compilation to finish
 		await expect(async () => {
@@ -380,7 +382,9 @@ test.describe('Pattern CSS (Block)', () => {
 
 		// Should see the duplicate warning
 		await expect(
-			page.getByLabel('Editor settings').getByText('Another block on this page is using the same ID'),
+			page
+				.getByLabel('Editor settings')
+				.getByText('Another block on this page is using the same ID'),
 		).toBeVisible();
 	});
 
@@ -505,11 +509,16 @@ test.describe('Pattern CSS (Block)', () => {
 		await waitForWasm(page);
 
 		// Click Generate New ID
-		await page.getByRole('button', { name: 'Generate New ID' }).first().click();
+		await page
+			.getByRole('button', { name: 'Generate New ID' })
+			.first()
+			.click();
 
 		// Warning should disappear from the sidebar
 		await expect(
-			page.getByLabel('Editor settings').getByText('Another block on this page is using the same ID'),
+			page
+				.getByLabel('Editor settings')
+				.getByText('Another block on this page is using the same ID'),
 		).not.toBeVisible();
 
 		// Class IDs should now be different

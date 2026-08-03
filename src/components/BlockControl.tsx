@@ -74,7 +74,10 @@ export const BlockControl = (
 		const className = [
 			...new Set(
 				[
-					...existing.filter((c: string) => c !== pcssClassId && !c.startsWith('pcss-')),
+					...existing.filter(
+						(c: string) =>
+							c !== pcssClassId && !c.startsWith('pcss-'),
+					),
 					newId,
 				].filter(Boolean),
 			),
@@ -336,28 +339,37 @@ export const BlockControl = (
 						value={manualClassId}
 					/>
 					<div className="-mt-2 flex gap-2">
-						{window.patternCss?.allowManualOverride && manualClassId !== pcssClassId && (
-							<Button
-								variant="primary"
-								size="small"
-								onClick={() => {
-									const slug = cleanForSlug(manualClassId);
-									setManualClassId(slug);
-									const existing = existingClasses?.split(' ') || [];
-									const className = [
-										...new Set(
-											[
-												...existing.filter((c: string) => c !== pcssClassId),
-												slug,
-											].filter(Boolean),
-										),
-									].join(' ');
-									setAttributes({ pcssClassId: slug, className });
-								}}
-							>
-								{__('Apply', 'pattern-css')}
-							</Button>
-						)}
+						{window.patternCss?.allowManualOverride &&
+							manualClassId !== pcssClassId && (
+								<Button
+									variant="primary"
+									size="small"
+									onClick={() => {
+										const slug =
+											cleanForSlug(manualClassId);
+										setManualClassId(slug);
+										const existing =
+											existingClasses?.split(' ') || [];
+										const className = [
+											...new Set(
+												[
+													...existing.filter(
+														(c: string) =>
+															c !== pcssClassId,
+													),
+													slug,
+												].filter(Boolean),
+											),
+										].join(' ');
+										setAttributes({
+											pcssClassId: slug,
+											className,
+										});
+									}}
+								>
+									{__('Apply', 'pattern-css')}
+								</Button>
+							)}
 						<Button
 							variant="secondary"
 							size="small"
