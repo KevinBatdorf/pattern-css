@@ -30,7 +30,16 @@ const specs = globSync('**/*.spec.ts', { ignore: ['node_modules/**'] })
 			blueprint,
 		};
 	})
-	.filter((s): s is { name: string; dir: string; spec: string; blueprint: string } => s !== null);
+	.filter(
+		(
+			s,
+		): s is {
+			name: string;
+			dir: string;
+			spec: string;
+			blueprint: string;
+		} => s !== null,
+	);
 
 const active = RUN_PROJECT
 	? specs.filter((p) => p.name === RUN_PROJECT)
