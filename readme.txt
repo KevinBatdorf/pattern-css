@@ -2,7 +2,7 @@
 Contributors:      kbat82
 Tags:              block, css, styles, inline, editor
 Tested up to:      7.1
-Stable tag:        1.5.6
+Stable tag:        1.5.7
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -148,6 +148,10 @@ Once enabled, the ID field in the Advanced panel becomes editable. Type your des
 4. Works with reusable and synced patterns
 
 == Changelog ==
+
+= 1.5.7 - 2026-08-15 =
+- Tested up to WordPress 7.1
+- Chore: Update GitHub Actions off the deprecated Node 20 runtime
 
 = 1.5.6 - 2026-04-11 =
 - Removes class ID from block when CSS is cleared

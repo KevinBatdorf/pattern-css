@@ -13,7 +13,7 @@ jobs:
     outputs:
       suites: ${{ steps.find.outputs.suites }}
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
     - id: find
       run: |
         suites=$(find . -name '*.spec.ts' -not -path '*/node_modules/*' | while read spec; do
@@ -37,9 +37,9 @@ jobs:
         suite: ${{ fromJson(needs.discover.outputs.suites) }}
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
 
-    - uses: actions/setup-node@v6
+    - uses: actions/setup-node@v7
       with:
         node-version: lts/*
         cache: 'npm'
@@ -51,7 +51,7 @@ jobs:
       run: echo "version=$(npx playwright --version | awk '{print $2}')" >> "$GITHUB_OUTPUT"
 
     - name: Cache Playwright browsers
-      uses: actions/cache@v4
+      uses: actions/cache@v6
       id: pw-cache
       with:
         path: ~/.cache/ms-playwright
@@ -79,7 +79,7 @@ jobs:
       run: |
         echo "name=pw-${{ matrix.suite }}" >> "$GITHUB_OUTPUT"
 
-    - uses: actions/upload-artifact@v6
+    - uses: actions/upload-artifact@v7
       if: ${{ !cancelled() }}
       with:
         name: ${{ steps.artifact.outputs.name }}
