@@ -76,12 +76,16 @@ test.describe('Pattern CSS (At-Rules)', () => {
 		const frontBlock = page.locator('.wp-block-group').first();
 		await expect(frontBlock).toBeVisible();
 
-		const html = await page.content();
+		// The theme ships its own at-rules, so the whole page is too broad.
+		const emitted = await page
+			.locator('style[id^="pcss-block-"]')
+			.first()
+			.innerText();
 		// @font-face and @keyframes should be stripped
-		expect(html).not.toContain('@keyframes');
-		expect(html).not.toContain('@font-face');
+		expect(emitted).not.toContain('@keyframes');
+		expect(emitted).not.toContain('@font-face');
 		// @media and padding should be kept
-		expect(html).toContain('@media');
-		expect(html).toContain('padding');
+		expect(emitted).toContain('@media');
+		expect(emitted).toContain('padding');
 	});
 });
