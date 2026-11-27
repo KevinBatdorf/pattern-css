@@ -1,7 +1,7 @@
 === Pattern CSS - The CSS Editor For Blocks ===
 Contributors:      kbat82
 Tags:              block, css, styles, inline, editor
-Tested up to:      7.1
+Tested up to:      7.2
 Stable tag:        1.5.7
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
